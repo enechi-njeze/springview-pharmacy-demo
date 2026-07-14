@@ -198,6 +198,20 @@ tr:last-child td{border-bottom:none}
 .li-del:hover{border-color:var(--red);color:var(--red)}
 .send-note{margin-top:12px;padding:10px 13px;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent);border-radius:10px;font-size:12.5px;color:var(--ink);display:none}
 .send-note.on{display:block}
+/* Pass B: pipeline chips, leaderboard, roster actions */
+.stage-row{display:flex;gap:8px;flex-wrap:wrap}
+.stage{flex:1;min-width:96px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 13px;text-align:center}
+.stage .st-n{font-family:var(--font-display);font-weight:700;font-size:24px}
+.stage .st-l{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);font-family:var(--font-display);margin-top:2px}
+.rank{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px}
+.rank.r1{background:#B8963E}.rank.r2{background:#8a8a8a}.rank.r3{background:#C0844A}
+.act-btn{font-family:var(--font-display);font-weight:600;letter-spacing:.3px;text-transform:uppercase;font-size:10.5px;padding:5px 10px;border-radius:8px;border:1px solid var(--line);cursor:pointer;transition:.14s;background:var(--panel);color:var(--ink)}
+.act-btn:hover{border-color:var(--red);color:var(--red)}
+.act-btn.danger:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.act-btn:disabled{opacity:.45;cursor:default;pointer-events:none}
+.news-mail .nm-sub{font-family:var(--font-display);font-weight:700;font-size:15px;color:#C8102E;margin-bottom:4px}
+.news-mail .nm-from{font-size:11px;color:#777;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:8px}
+.news-mail .nm-body{font-size:13px;line-height:1.5;white-space:pre-wrap}
 @media(max-width:820px){.chart-wrap{grid-template-columns:1fr}}
 </style>
 </head>
@@ -237,6 +251,11 @@ tr:last-child td{border-bottom:none}
   <button class="tab" data-view="inquiries">Inquiries</button>
   <button class="tab" data-view="vouchers">Vouchers</button>
   <button class="tab" data-view="marketing">Marketing</button>
+  <button class="tab" data-view="leads">Leads</button>
+  <button class="tab" data-view="bookings">Bookings</button>
+  <button class="tab" data-view="customers">Customers</button>
+  <button class="tab" data-view="newsletter">Newsletter</button>
+  <button class="tab" data-view="referral">Referral</button>
 </div>
 
 <main>
@@ -441,6 +460,150 @@ tr:last-child td{border-bottom:none}
       <p class="note">In Phase 2 these feed the "This week at Springview" deals row and the homepage banner via the Google Sheet backend.</p>
     </div>
   </div>
+
+  <!-- LEADS INBOX -->
+  <div class="view" id="view-leads">
+    <div class="section-title"><h2>Leads Inbox</h2><span class="pill-sim"><span class="dotp"></span>Simulated, Phase 2 wires to the site forms + Google Sheet</span>
+      <span id="leadExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="leadStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Leads by source <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Where each inquiry originated</div>
+        <div id="leadSource"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Pipeline stage</h3>
+        <div class="csub">New to won, demo figures</div>
+        <div id="leadStage"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Open leads <span class="pill-sim"><span class="dotp"></span>Synthetic demo data</span></h3>
+      <table id="leadTable"></table>
+      <p class="note">Live in Phase 2: refill, transfer, DME, and vaccine forms plus Galaxy intake hand-offs land here, tagged by source, then move through the pipeline. No real personal data is stored in this demo. Owner action: confirm where leads should deliver (secure Google Sheet or pharmacy email) and HIPAA handling before any real patient inquiry flows.</p>
+    </div>
+  </div>
+
+  <!-- BOOKINGS -->
+  <div class="view" id="view-bookings">
+    <div class="section-title"><h2>Bookings</h2><span class="pill-live"><span class="dotp"></span>Live booking via Cal.com; roster below is simulated</span>
+      <span id="bookExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="bookStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Bookings by clinic <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Booked vs remaining capacity per upcoming clinic</div>
+        <div id="bookChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Booking channel</h3>
+        <div class="csub">How the appointment was made</div>
+        <div id="bookChannel"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Language of patient</h3>
+        <div class="csub">Reflects Irvington's multilingual community</div>
+        <div id="bookLang"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Upcoming appointments <span class="pill-sim"><span class="dotp"></span>Demo roster</span></h3>
+      <table id="bookTable"></table>
+      <p class="note">Booking itself is LIVE on the customer site via Cal.com; this roster is synthetic demo data. Reminder ladder (Phase 2): confirmation at booking, reminder 48 hours out, final reminder 2 hours out, via SMS/email once a provider is wired. Owner action: swap CAL_URL to the pharmacy's own Cal handle; choose the reminder provider.</p>
+    </div>
+  </div>
+
+  <!-- CUSTOMERS ROSTER -->
+  <div class="view" id="view-customers">
+    <div class="section-title"><h2>Customers</h2><span class="pill-sim"><span class="dotp"></span>Synthetic roster, not real patient records</span>
+      <span id="custExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="custStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Customer status <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Active, suspended, terminated</div>
+        <div id="custStatus"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Preferred language</h3>
+        <div class="csub">For outreach and labeling</div>
+        <div id="custLang"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Roster <span class="pill-sim"><span class="dotp"></span>Demo accounts only</span></h3>
+      <table id="custTable"></table>
+      <p class="note"><b>Important:</b> this is a synthetic demo roster with made-up names, not real patient records, and it is NOT a HIPAA-safe system. Suspend and Terminate are demo-only buttons that change a row's status in this browser; nothing is transmitted. A real customer or patient roster requires HIPAA-compliant storage, access controls, and a signed provider agreement before Phase 2. Owner action: HIPAA handling decision before any real data.</p>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="view" id="view-newsletter">
+    <div class="section-title"><h2>Newsletter</h2><span class="pill-sim"><span class="dotp"></span>Composer + send are simulated; Phase 2 wires to Brevo</span>
+      <span id="newsExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="newsStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Engagement <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Opened, clicked, unopened for the last send</div>
+        <div id="newsEngage"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Subscribers by language</h3>
+        <div class="csub">Send in the reader's language</div>
+        <div id="newsLang"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="doc-grid">
+        <div>
+          <h3>Compose <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+          <div class="field"><label>Audience</label>
+            <select id="newsAud"><option>All subscribers</option><option>English</option><option>Espanol</option><option>Kreyol</option><option>Francais</option></select></div>
+          <div class="field"><label>Subject line</label><input type="text" id="newsSubj" value="August at Springview: flu shots and free delivery days"></div>
+          <div class="field"><label>Body</label><textarea id="newsBody" rows="5" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink);resize:vertical">Neighbors, flu shot season is here. Walk in any day, no appointment needed, and ask about our free delivery days on Monday, Wednesday, and Friday.</textarea></div>
+          <div class="btn-row" style="margin-top:6px">
+            <button class="btn btn-primary" id="newsSend">Send newsletter</button>
+          </div>
+          <div class="send-note" id="newsSendNote"></div>
+        </div>
+        <div>
+          <h3>Preview</h3>
+          <div class="inv-paper" id="newsPaper"></div>
+        </div>
+      </div>
+      <p class="note">Compose and preview run in your browser. "Send newsletter" is SIMULATED and labeled; nothing is emailed. Phase 2 wires sending and real open/click tracking to Brevo (or another ESP). All four languages should be reviewed by native HT and FR speakers before a real send. Owner action: choose the newsletter provider and confirm the sending domain (support@springviewpharmacy.com).</p>
+    </div>
+    <div class="panel">
+      <h3>Recent sends <span class="pill-sim"><span class="dotp"></span>Demo log</span></h3>
+      <table id="newsTableLog"></table>
+    </div>
+  </div>
+
+  <!-- REFERRAL -->
+  <div class="view" id="view-referral">
+    <div class="section-title"><h2>Referral program</h2><span class="pill-sim"><span class="dotp"></span>Simulated program data</span>
+      <span id="refExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="refStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Top referrers <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Successful referrals by neighbor, demo figures</div>
+        <div id="refChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Referral status</h3>
+        <div class="csub">Invited, joined, rewarded</div>
+        <div id="refStatus"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Leaderboard <span class="pill-sim"><span class="dotp"></span>Demo accounts only</span></h3>
+      <table id="refTable"></table>
+      <p class="note">Synthetic demo data. Phase 2 issues a unique referral code per customer, tracks joins, and auto-credits a voucher on a successful referral (ties into the Vouchers tab). Owner action: decide the referral reward (for example a house-brand discount) and confirm program terms.</p>
+    </div>
+  </div>
 </main>
 </div>
 
@@ -499,6 +662,11 @@ document.getElementById('tabs').addEventListener('click',function(e){
   if(v==='payments') buildPayments();
   if(v==='invoices') buildInvoices();
   if(v==='vouchers') buildVoucherStats();
+  if(v==='leads') buildLeads();
+  if(v==='bookings') buildBookings();
+  if(v==='customers') buildCustomers();
+  if(v==='newsletter') buildNewsletter();
+  if(v==='referral') buildReferral();
 });
 
 /* ============ GALAXY INQUIRIES (demo intake hand-offs) ============ */
@@ -911,6 +1079,227 @@ function buildVoucherStats(){
 }
 
 /* =====================================================================
+   PASS B. Leads / Customers group. Leads, Bookings, Customers,
+   Newsletter, Referral. All synthetic demo data. No real personal
+   data. Nothing sends. Phase 2 production APIs named per tab.
+   ===================================================================== */
+
+/* ---------- LEADS INBOX ---------- */
+var LEADS = {
+  source:[{label:'Refill form',value:34},{label:'Transfer form',value:21},{label:'Galaxy intake',value:28},{label:'DME inquiry',value:12},{label:'Vaccine booking',value:19}],
+  stage:[{k:'New',n:23},{k:'Contacted',n:31},{k:'Qualified',n:18},{k:'Won',n:42}],
+  rows:[
+    {name:'Neighbor A.',src:'Refill form',topic:'Metformin refill',lang:'ES',stage:'New',age:'2h'},
+    {name:'Neighbor B.',src:'Galaxy intake',topic:'Transfer 3 Rx from chain',lang:'HT',stage:'Contacted',age:'5h'},
+    {name:'Neighbor C.',src:'DME inquiry',topic:'Walker fitting, Medicare',lang:'EN',stage:'Qualified',age:'1d'},
+    {name:'Neighbor D.',src:'Vaccine booking',topic:'Flu shot, family of 4',lang:'FR',stage:'New',age:'1d'},
+    {name:'Neighbor E.',src:'Transfer form',topic:'Move Rx from mail order',lang:'EN',stage:'Contacted',age:'2d'},
+    {name:'Neighbor F.',src:'Galaxy intake',topic:'Blood pressure cuff question',lang:'ES',stage:'Qualified',age:'2d'}
+  ]
+};
+function leadStageBadge(s){ var b=s==='Won'?'b-ok':s==='New'?'b-low':'b-out'; if(s==='Contacted'||s==='Qualified')b='b-low'; return '<span class="badge '+b+'">'+s+'</span>'; }
+function buildLeads(){
+  var total=LEADS.source.reduce(function(a,d){return a+d.value;},0);
+  var won=LEADS.stage.find(function(s){return s.k==='Won';}).n;
+  var newCount=LEADS.stage.find(function(s){return s.k==='New';}).n;
+  document.getElementById('leadStats').innerHTML=[
+    {lbl:'Total leads',val:total,sub:'this period'},
+    {lbl:'New / unhandled',val:newCount,sub:'need first contact',down:newCount>0},
+    {lbl:'Won',val:won,sub:'converted',up:true},
+    {lbl:'Conversion',val:Math.round(won/total*100)+'%',sub:'leads to won'}
+  ].map(statTile).join('');
+  svBar('leadSource', LEADS.source, {unit:'leads'});
+  svDonut('leadStage', LEADS.stage.map(function(s){return {label:s.k,value:s.n};}), {centerTop:LEADS.stage.reduce(function(a,s){return a+s.n;},0),centerSub:'in pipeline'});
+  var html='<tr><th>Lead</th><th>Source</th><th>Topic</th><th>Lang</th><th>Stage</th><th>Age</th></tr>';
+  html+=LEADS.rows.map(function(r){ return '<tr><td>'+r.name+'</td><td>'+r.src+'</td><td>'+r.topic+'</td><td>'+r.lang+'</td><td>'+leadStageBadge(r.stage)+'</td><td>'+r.age+'</td></tr>'; }).join('');
+  document.getElementById('leadTable').innerHTML=html;
+  exportBar('leadExport','springview-leads','Leads inbox (simulated)',
+    ['Lead','Source','Topic','Language','Stage','Age'],
+    function(){ return LEADS.rows.map(function(r){ return [r.name,r.src,r.topic,r.lang,r.stage,r.age]; }); });
+}
+
+/* ---------- BOOKINGS ---------- */
+var BOOK = {
+  clinics:[
+    {name:'Flu shot clinic',date:'Aug 6',booked:38,cap:60},
+    {name:'Diabetes A1C day',date:'Aug 13',booked:22,cap:40},
+    {name:'Blood pressure check',date:'Aug 20',booked:15,cap:50},
+    {name:'Medicare DME fitting',date:'Aug 27',booked:9,cap:24}
+  ],
+  channel:[{label:'Cal.com site',value:61},{label:'Phone',value:22},{label:'Walk-in',value:17}],
+  lang:[{label:'English',value:34},{label:'Espanol',value:28},{label:'Kreyol',value:15},{label:'Francais',value:7}],
+  appts:[
+    {name:'Neighbor A.',clinic:'Flu shot clinic',date:'Aug 6',time:'9:20 AM',lang:'ES',status:'Confirmed'},
+    {name:'Neighbor B.',clinic:'Diabetes A1C day',date:'Aug 13',time:'10:00 AM',lang:'HT',status:'Confirmed'},
+    {name:'Neighbor C.',clinic:'Flu shot clinic',date:'Aug 6',time:'11:15 AM',lang:'EN',status:'Reminded'},
+    {name:'Neighbor D.',clinic:'Blood pressure check',date:'Aug 20',time:'2:30 PM',lang:'FR',status:'Confirmed'},
+    {name:'Neighbor E.',clinic:'Medicare DME fitting',date:'Aug 27',time:'1:00 PM',lang:'EN',status:'Pending'}
+  ]
+};
+function buildBookings(){
+  var booked=BOOK.clinics.reduce(function(a,c){return a+c.booked;},0);
+  var cap=BOOK.clinics.reduce(function(a,c){return a+c.cap;},0);
+  document.getElementById('bookStats').innerHTML=[
+    {lbl:'Booked (upcoming)',val:booked,sub:'across '+BOOK.clinics.length+' clinics'},
+    {lbl:'Capacity',val:cap,sub:Math.round(booked/cap*100)+'% filled'},
+    {lbl:'Next clinic',val:BOOK.clinics[0].date,sub:BOOK.clinics[0].name},
+    {lbl:'Open seats',val:cap-booked,sub:'still available',up:true}
+  ].map(statTile).join('');
+  var chart=BOOK.clinics.map(function(c){ return {label:c.name.split(' ')[0],value:c.booked,tip:'<b>'+c.name+'</b> ('+c.date+')<br>'+c.booked+' booked of '+c.cap+' seats'}; });
+  svBar('bookChart', chart, {unit:'booked'});
+  svDonut('bookChannel', BOOK.channel, {centerTop:'100%',centerSub:'channel'});
+  svBar('bookLang', BOOK.lang, {unit:'patients'});
+  var html='<tr><th>Patient</th><th>Clinic</th><th>Date</th><th>Time</th><th>Lang</th><th>Status</th></tr>';
+  html+=BOOK.appts.map(function(a){ var b=a.status==='Confirmed'?'b-ok':a.status==='Pending'?'b-out':'b-low';
+    return '<tr><td>'+a.name+'</td><td>'+a.clinic+'</td><td>'+a.date+'</td><td>'+a.time+'</td><td>'+a.lang+'</td><td><span class="badge '+b+'">'+a.status+'</span></td></tr>'; }).join('');
+  document.getElementById('bookTable').innerHTML=html;
+  exportBar('bookExport','springview-bookings','Bookings (simulated roster)',
+    ['Patient','Clinic','Date','Time','Language','Status'],
+    function(){ return BOOK.appts.map(function(a){ return [a.name,a.clinic,a.date,a.time,a.lang,a.status]; }); });
+}
+
+/* ---------- CUSTOMERS ROSTER (synthetic; Suspend/Terminate demo) ---------- */
+var CUST = {
+  rows:[
+    {id:'C-1001',name:'Neighbor A.',lang:'ES',since:'2019',orders:42,status:'Active'},
+    {id:'C-1002',name:'Neighbor B.',lang:'HT',since:'2021',orders:18,status:'Active'},
+    {id:'C-1003',name:'Neighbor C.',lang:'EN',since:'2016',orders:97,status:'Active'},
+    {id:'C-1004',name:'Neighbor D.',lang:'FR',since:'2022',orders:7,status:'Suspended'},
+    {id:'C-1005',name:'Neighbor E.',lang:'EN',since:'2018',orders:55,status:'Active'},
+    {id:'C-1006',name:'Neighbor F.',lang:'ES',since:'2023',orders:3,status:'Terminated'}
+  ]
+};
+function custCharts(){
+  var byStatus={};CUST.rows.forEach(function(r){byStatus[r.status]=(byStatus[r.status]||0)+1;});
+  svDonut('custStatus', Object.keys(byStatus).map(function(k){return {label:k,value:byStatus[k]};}), {centerTop:CUST.rows.length,centerSub:'customers'});
+  var byLang={};CUST.rows.forEach(function(r){byLang[r.lang]=(byLang[r.lang]||0)+1;});
+  svBar('custLang', Object.keys(byLang).map(function(k){return {label:k,value:byLang[k]};}), {unit:'customers'});
+}
+function custStatusBadge(s){ var b=s==='Active'?'b-ok':s==='Suspended'?'b-low':'b-out'; return '<span class="badge '+b+'">'+s+'</span>'; }
+function custRenderTable(){
+  var html='<tr><th>ID</th><th>Customer</th><th>Lang</th><th>Since</th><th>Orders</th><th>Status</th><th>Actions</th></tr>';
+  html+=CUST.rows.map(function(r,i){
+    var canSusp=r.status==='Active', canTerm=r.status!=='Terminated', canRe=r.status!=='Active';
+    return '<tr><td>'+r.id+'</td><td>'+r.name+'</td><td>'+r.lang+'</td><td>'+r.since+'</td><td>'+r.orders+'</td><td>'+custStatusBadge(r.status)+'</td>'+
+      '<td><button class="act-btn" data-act="reactivate" data-i="'+i+'"'+(canRe?'':' disabled')+'>Reactivate</button> '+
+      '<button class="act-btn" data-act="suspend" data-i="'+i+'"'+(canSusp?'':' disabled')+'>Suspend</button> '+
+      '<button class="act-btn danger" data-act="terminate" data-i="'+i+'"'+(canTerm?'':' disabled')+'>Terminate</button></td></tr>';
+  }).join('');
+  document.getElementById('custTable').innerHTML=html;
+}
+function custStats(){
+  var active=CUST.rows.filter(function(r){return r.status==='Active';}).length;
+  document.getElementById('custStats').innerHTML=[
+    {lbl:'Customers',val:CUST.rows.length,sub:'demo roster'},
+    {lbl:'Active',val:active,sub:'in good standing',up:true},
+    {lbl:'Suspended',val:CUST.rows.filter(function(r){return r.status==='Suspended';}).length,sub:'on hold'},
+    {lbl:'Terminated',val:CUST.rows.filter(function(r){return r.status==='Terminated';}).length,sub:'closed',down:true}
+  ].map(statTile).join('');
+}
+var custWired=false;
+function buildCustomers(){
+  custStats(); custCharts(); custRenderTable();
+  exportBar('custExport','springview-customers','Customers (synthetic roster)',
+    ['ID','Customer','Language','Since','Orders','Status'],
+    function(){ return CUST.rows.map(function(r){ return [r.id,r.name,r.lang,r.since,r.orders,r.status]; }); });
+  if(custWired) return; custWired=true;
+  document.getElementById('custTable').addEventListener('click',function(e){
+    var b=e.target.closest('.act-btn'); if(!b) return;
+    var i=parseInt(b.getAttribute('data-i'),10), act=b.getAttribute('data-act');
+    if(act==='suspend') CUST.rows[i].status='Suspended';
+    else if(act==='terminate') CUST.rows[i].status='Terminated';
+    else if(act==='reactivate') CUST.rows[i].status='Active';
+    custStats(); custCharts(); custRenderTable();
+  });
+}
+
+/* ---------- NEWSLETTER (composer + simulated send + engagement) ---------- */
+var NEWS = {
+  subs:{total:1284},
+  engage:[{label:'Opened',value:512},{label:'Clicked',value:188},{label:'Unopened',value:584}],
+  lang:[{label:'English',value:498},{label:'Espanol',value:402},{label:'Kreyol',value:268},{label:'Francais',value:116}],
+  log:[
+    {subj:'July: back-to-school immunizations',aud:'All subscribers',sent:1240,open:'42%',date:'Jul 1'},
+    {subj:'Kreyol ak Espanol: byenveni',aud:'Kreyol',sent:268,open:'51%',date:'Jun 18'}
+  ]
+};
+function newsPreview(){
+  var subj=document.getElementById('newsSubj').value||'(no subject)';
+  var body=document.getElementById('newsBody').value||'';
+  var aud=document.getElementById('newsAud').value;
+  document.getElementById('newsPaper').innerHTML='<div class="news-mail"><div class="nm-sub">'+_esc(subj)+'</div>'+
+    '<div class="nm-from">From: Springview Pharmacy &amp; Surgical &lt;support@springviewpharmacy.com&gt; &middot; To: '+_esc(aud)+'</div>'+
+    '<div class="nm-body">'+_esc(body)+'</div>'+
+    '<div class="ip-watermark" style="margin-top:12px">Demo newsletter, not sent to anyone</div></div>';
+}
+function newsStats(){
+  var lastOpen=NEWS.engage[0].value, lastTotal=NEWS.engage.reduce(function(a,d){return a+d.value;},0);
+  document.getElementById('newsStats').innerHTML=[
+    {lbl:'Subscribers',val:NEWS.subs.total.toLocaleString(),sub:'across 4 languages'},
+    {lbl:'Last open rate',val:Math.round(lastOpen/lastTotal*100)+'%',sub:lastOpen.toLocaleString()+' opens',up:true},
+    {lbl:'Last click rate',val:Math.round(NEWS.engage[1].value/lastTotal*100)+'%',sub:NEWS.engage[1].value+' clicks'},
+    {lbl:'Sends logged',val:NEWS.log.length,sub:'this demo'}
+  ].map(statTile).join('');
+}
+function newsRenderLog(){
+  var html='<tr><th>Subject</th><th>Audience</th><th>Sent</th><th>Open rate</th><th>Date</th></tr>';
+  html+=NEWS.log.map(function(r){ return '<tr><td>'+_esc(r.subj)+'</td><td>'+r.aud+'</td><td>'+r.sent+'</td><td>'+r.open+'</td><td>'+r.date+'</td></tr>'; }).join('');
+  document.getElementById('newsTableLog').innerHTML=html;
+}
+var newsWired=false;
+function buildNewsletter(){
+  newsStats(); newsPreview(); newsRenderLog();
+  svDonut('newsEngage', NEWS.engage, {centerTop:NEWS.engage.reduce(function(a,d){return a+d.value;},0),centerSub:'recipients'});
+  svBar('newsLang', NEWS.lang, {unit:'subscribers'});
+  exportBar('newsExport','springview-newsletter','Newsletter sends (simulated)',
+    ['Subject','Audience','Sent','Open rate','Date'],
+    function(){ return NEWS.log.map(function(r){ return [r.subj,r.aud,r.sent,r.open,r.date]; }); });
+  if(newsWired) return; newsWired=true;
+  ['newsSubj','newsBody','newsAud'].forEach(function(id){ var el=document.getElementById(id); el.addEventListener('input',newsPreview); el.addEventListener('change',newsPreview); });
+  document.getElementById('newsSend').addEventListener('click',function(){
+    var subj=document.getElementById('newsSubj').value||'(no subject)';
+    var aud=document.getElementById('newsAud').value;
+    var recip=aud==='All subscribers'?NEWS.subs.total:(NEWS.lang.find(function(l){return l.label===aud||l.label.replace('ol','ol')===aud;})||{value:0}).value;
+    NEWS.log.unshift({subj:subj,aud:aud,sent:recip||NEWS.subs.total,open:'pending',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})});
+    newsStats(); newsRenderLog();
+    var note=document.getElementById('newsSendNote');
+    note.innerHTML='SIMULATED SEND. The newsletter "'+_esc(subj)+'" to '+_esc(aud)+' was logged, but nothing was actually emailed. Phase 2 delivers via Brevo with real open/click tracking. Owner action: confirm the sending domain and have HT/FR copy reviewed by native speakers first.';
+    note.classList.add('on');
+  });
+}
+
+/* ---------- REFERRAL PROGRAM ---------- */
+var REF = {
+  status:[{label:'Invited',value:64},{label:'Joined',value:38},{label:'Rewarded',value:29}],
+  leaders:[
+    {name:'Neighbor C.',refs:9,rewarded:8,code:'SV-FRND-C3'},
+    {name:'Neighbor A.',refs:6,rewarded:6,code:'SV-FRND-A1'},
+    {name:'Neighbor E.',refs:5,rewarded:4,code:'SV-FRND-E5'},
+    {name:'Neighbor B.',refs:3,rewarded:3,code:'SV-FRND-B2'},
+    {name:'Neighbor D.',refs:2,rewarded:1,code:'SV-FRND-D4'}
+  ]
+};
+function buildReferral(){
+  var totalRefs=REF.leaders.reduce(function(a,r){return a+r.refs;},0);
+  var rewarded=REF.status.find(function(s){return s.label==='Rewarded';}).value;
+  document.getElementById('refStats').innerHTML=[
+    {lbl:'Referrals',val:totalRefs,sub:'from top neighbors'},
+    {lbl:'Joined',val:REF.status.find(function(s){return s.label==='Joined';}).value,sub:'new customers',up:true},
+    {lbl:'Rewarded',val:rewarded,sub:'vouchers credited'},
+    {lbl:'Top referrer',val:REF.leaders[0].refs,sub:REF.leaders[0].name}
+  ].map(statTile).join('');
+  svBar('refChart', REF.leaders.map(function(r){return {label:r.name.split(' ')[1]||r.name,value:r.refs,tip:'<b>'+r.name+'</b><br>'+r.refs+' referrals, '+r.rewarded+' rewarded'};}), {unit:'referrals'});
+  svDonut('refStatus', REF.status, {centerTop:REF.status[0].value,centerSub:'invited'});
+  var html='<tr><th>#</th><th>Neighbor</th><th>Referrals</th><th>Rewarded</th><th>Code</th></tr>';
+  html+=REF.leaders.map(function(r,i){ var rc=i<3?('rank r'+(i+1)):'rank';
+    return '<tr><td><span class="'+rc+'">'+(i+1)+'</span></td><td>'+r.name+'</td><td>'+r.refs+'</td><td>'+r.rewarded+'</td><td>'+r.code+'</td></tr>'; }).join('');
+  document.getElementById('refTable').innerHTML=html;
+  exportBar('refExport','springview-referral','Referral leaderboard (simulated)',
+    ['Rank','Neighbor','Referrals','Rewarded','Code'],
+    function(){ return REF.leaders.map(function(r,i){ return [i+1,r.name,r.refs,r.rewarded,r.code]; }); });
+}
+
+/* =====================================================================
    CHART ENGINE, interactive SVG (bar / donut / line) with hover tooltips.
    All demo data. Palette pulls from the pharmacy design tokens.
    ===================================================================== */
@@ -1103,6 +1492,7 @@ function buildAll(){
   buildReorderTable(); setupReorderButtons();
   buildOrders(); setupVouchers(); buildMarketing();
   buildPayments(); buildInvoices(); buildVoucherStats();
+  buildLeads(); buildBookings(); buildCustomers(); buildNewsletter(); buildReferral();
   document.getElementById('exportCsv').addEventListener('click',exportCSV);
   document.getElementById('exportWord').addEventListener('click',exportWord);
 }
