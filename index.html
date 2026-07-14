@@ -55,9 +55,11 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+html{overflow-x:clip}
 body{
   font-family:var(--font-body); background:var(--paper); color:var(--ink);
-  line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
+  max-width:100%;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -142,9 +144,9 @@ nav.main{display:flex;gap:4px;margin-left:auto}
 nav.main a{font-family:var(--font-display);font-size:14px;font-weight:500;letter-spacing:.5px;padding:9px 14px;border-radius:9px;color:var(--ink-soft);transition:.15s;text-transform:uppercase}
 nav.main a:hover,nav.main a.active{color:var(--red);background:color-mix(in srgb,var(--red) 8%,transparent)}
 .header-tools{display:flex;gap:8px;align-items:center}
-.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:.15s;font-size:15px}
+.icon-btn{width:44px;height:44px;min-width:44px;min-height:44px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:.15s;font-size:15px}
 .icon-btn:hover{border-color:var(--red);color:var(--red)}
-.lang-mini{font-family:var(--font-display);font-size:13px;font-weight:600;padding:0 12px;height:38px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;gap:5px;transition:.15s}
+.lang-mini{font-family:var(--font-display);font-size:13px;font-weight:600;padding:0 12px;height:44px;min-height:44px;min-width:44px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:5px;transition:.15s}
 .lang-mini:hover{border-color:var(--red);color:var(--red)}
 .menu-toggle{display:none}
 
@@ -261,6 +263,37 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .cc-foot button:disabled{opacity:.5;cursor:not-allowed}
 .cc-disclaimer{font-size:10.5px;color:var(--ink-soft);text-align:center;padding:0 16px 10px;background:var(--paper)}
 
+/* ---- Galaxy in-chat intake forms (customized input form chat) ---- */
+.cc-form{align-self:stretch;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 14px;display:flex;flex-direction:column;gap:9px;animation:ccMsgIn .3s cubic-bezier(.22,.61,.36,1)}
+.cc-form .q{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.35}
+.cc-form .hint{font-size:11.5px;color:var(--ink-soft);margin-top:-4px}
+.cc-form input.cc-fi,.cc-form textarea.cc-fi{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink)}
+.cc-form input.cc-fi:focus,.cc-form textarea.cc-fi:focus{outline:none;border-color:var(--red)}
+.cc-form textarea.cc-fi{resize:vertical;min-height:56px}
+.cc-opts{display:flex;flex-wrap:wrap;gap:7px}
+.cc-opt{font-size:13px;border:1.5px solid var(--line);border-radius:16px;padding:7px 13px;background:var(--paper);color:var(--ink);transition:.14s;min-height:40px}
+.cc-opt:hover{border-color:var(--red);color:var(--red)}
+.cc-opt.sel{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red);font-weight:600}
+.cc-form-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cc-form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:2px}
+.cc-fbtn{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.4px;border-radius:10px;padding:9px 15px;min-height:40px;transition:.15s}
+.cc-fbtn.primary{background:var(--red);color:#fff}
+.cc-fbtn.primary:hover{filter:brightness(1.06)}
+.cc-fbtn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+.cc-fbtn.ghost:hover{border-color:var(--red);color:var(--red)}
+.cc-fbtn:disabled{opacity:.5;cursor:not-allowed}
+.cc-progress{font-size:11px;color:var(--ink-soft);letter-spacing:.5px;text-transform:uppercase;font-family:var(--font-display)}
+/* pharmacist handoff summary card */
+.cc-summary{align-self:stretch;background:var(--panel);border:1px solid var(--gold);border-radius:14px;overflow:hidden;animation:ccMsgIn .3s cubic-bezier(.22,.61,.36,1)}
+.cc-summary .sh{background:color-mix(in srgb,var(--gold) 16%,transparent);padding:11px 14px;font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:8px}
+.cc-summary .sb{padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.cc-sline{display:flex;gap:8px;font-size:13px;line-height:1.4}
+.cc-sline .k{color:var(--ink-soft);flex:0 0 40%;font-weight:600}
+.cc-sline .v{color:var(--ink);flex:1}
+.cc-summary .sf{padding:0 14px 13px;display:flex;gap:8px;flex-wrap:wrap}
+.cc-demo-tag{font-size:11px;color:var(--ink-soft);background:color-mix(in srgb,var(--ink) 6%,transparent);border:1px dashed var(--line);border-radius:8px;padding:7px 10px;line-height:1.4}
+.cc-quick.hide{display:none}
+
 /* ============ SHOP / PLP ============ */
 .shop-layout{display:grid;grid-template-columns:236px 1fr;gap:28px;align-items:start}
 .filter-rail{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:sticky;top:120px}
@@ -347,7 +380,7 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .cart-count.zero{display:none}
 .cart-overlay{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s}
 .cart-overlay.open{opacity:1;pointer-events:auto}
-.cart-drawer{position:fixed;top:0;right:0;bottom:0;z-index:151;width:min(420px,100vw);background:var(--panel);box-shadow:var(--shadow-lg);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.cart-drawer{position:fixed;top:0;right:0;bottom:0;z-index:151;width:min(420px,100vw);max-width:100vw;background:var(--panel);box-shadow:var(--shadow-lg);transform:translateX(101%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
 .cart-drawer.open{transform:translateX(0)}
 .cart-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .cart-head h3{font-size:19px}
@@ -650,6 +683,24 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   .wa-fab{width:44px;height:44px;bottom:74px}
   .tour-launch span{display:none} /* icon-only launcher to save room */
   .tour-launch{padding:11px 13px}
+}
+
+/* very small phones (e.g. 320px): tighten the header + gutters so nothing spills.
+   Tap targets stay at the 44px floor; we only trim padding, gaps, and the brand,
+   never the buttons. */
+@media(max-width:360px){
+  .header-in{padding:10px 12px;gap:8px}
+  .brand{min-width:0;flex:1 1 auto}
+  .brand .name{font-size:15px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand .amp{font-size:13px}
+  .brand .sub{font-size:9px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .header-tools{gap:6px;flex:0 0 auto}
+  /* keep 44px height for accessibility; only the language pill narrows a touch */
+  .lang-mini{padding:0 8px}
+  .quick-in{padding:12px 12px}
+  main{padding:0 14px}
+  .foot-in,.foot-bar{padding-left:14px;padding-right:14px}
+  .wrap,.section{padding-left:0;padding-right:0}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -1136,14 +1187,26 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   </div>
   <div class="cc-body" id="ccBody"></div>
   <div class="cc-quick" id="ccQuick">
-    <button data-q-en="How do I refill a prescription?" data-q-es="¿Cómo resurto una receta?" data-q-ht="Kijan pou m ranpli yon preskripsyon?" data-q-fr="Comment renouveler une ordonnance ?">
-      <span data-i18n="en">Refill a prescription</span><span data-i18n="es">Resurtir receta</span><span data-i18n="ht">Ranpli preskripsyon</span><span data-i18n="fr">Renouveler</span>
+    <button data-flow="refill">
+      <span data-i18n="en">I need a refill</span><span data-i18n="es">Necesito un resurtido</span><span data-i18n="ht">Mwen bezwen yon ranpli</span><span data-i18n="fr">J'ai besoin d'un renouvellement</span>
+    </button>
+    <button data-flow="transfer">
+      <span data-i18n="en">Transfer my prescription</span><span data-i18n="es">Transferir mi receta</span><span data-i18n="ht">Transfere preskripsyon mwen</span><span data-i18n="fr">Transférer mon ordonnance</span>
+    </button>
+    <button data-flow="vaccine">
+      <span data-i18n="en">Book a vaccine</span><span data-i18n="es">Reservar vacuna</span><span data-i18n="ht">Rezève yon vaksen</span><span data-i18n="fr">Réserver un vaccin</span>
+    </button>
+    <button data-flow="dme">
+      <span data-i18n="en">Surgical &amp; equipment (DME)</span><span data-i18n="es">Equipo médico (DME)</span><span data-i18n="ht">Ekipman medikal (DME)</span><span data-i18n="fr">Matériel médical (DME)</span>
+    </button>
+    <button data-flow="pharmacist">
+      <span data-i18n="en">Question for the pharmacist</span><span data-i18n="es">Pregunta para el farmacéutico</span><span data-i18n="ht">Kesyon pou famasyen an</span><span data-i18n="fr">Question pour le pharmacien</span>
     </button>
     <button data-q-en="What are your hours and address?" data-q-es="¿Cuál es su horario y dirección?" data-q-ht="Ki lè ak adrès nou?" data-q-fr="Quels sont vos horaires et adresse ?">
-      <span data-i18n="en">Hours &amp; address</span><span data-i18n="es">Horario y dirección</span><span data-i18n="ht">Lè ak adrès</span><span data-i18n="fr">Horaires et adresse</span>
+      <span data-i18n="en">Office hours</span><span data-i18n="es">Horario</span><span data-i18n="ht">Lè biwo</span><span data-i18n="fr">Horaires</span>
     </button>
-    <button data-q-en="Can I book a vaccine appointment?" data-q-es="¿Puedo reservar una vacuna?" data-q-ht="Èske m ka rezève yon vaksen?" data-q-fr="Puis-je réserver un vaccin ?">
-      <span data-i18n="en">Book a vaccine</span><span data-i18n="es">Reservar vacuna</span><span data-i18n="ht">Rezève vaksen</span><span data-i18n="fr">Réserver un vaccin</span>
+    <button data-q-en="Tell me about prescription savings and discount cards." data-q-es="Cuénteme sobre ahorros y tarjetas de descuento." data-q-ht="Pale m sou ekonomi ak kat rabè yo." data-q-fr="Parlez-moi des économies et cartes de réduction.">
+      <span data-i18n="en">Savings &amp; discounts</span><span data-i18n="es">Ahorros y descuentos</span><span data-i18n="ht">Ekonomi ak rabè</span><span data-i18n="fr">Économies et réductions</span>
     </button>
   </div>
   <div class="cc-foot">
@@ -1253,9 +1316,234 @@ document.getElementById('ccSend').addEventListener('click', function(){ ccSend(d
 document.getElementById('ccInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ ccSend(this.value); } });
 document.getElementById('ccQuick').addEventListener('click', function(e){
   var btn=e.target.closest('button'); if(!btn) return;
+  var flow=btn.getAttribute('data-flow');
+  if(flow){ ccStartIntake(flow); return; }
   var q=btn.getAttribute('data-q-'+ccLang()) || btn.getAttribute('data-q-en');
   ccSend(q);
 });
+
+/* ================= GALAXY GUIDED INTAKE ENGINE =================
+   Deterministic, offline-safe intake so Galaxy can qualify a visitor and
+   prepare a clear handoff brief for the pharmacist. It never gives medical
+   advice: clinical questions are captured verbatim and routed, not answered.
+   It never asks for DOB / SSN / full insurance IDs; the pharmacy verifies
+   identity directly. Real submission is a Phase 2 feature and is labeled. */
+var CC_INTAKE = null; // active session
+
+/* tiny i18n helper for intake strings */
+function ccT(o){ return o[ccLang()] || o.en; }
+
+/* field kinds: 'text', 'tel', 'textarea', 'choice' (options) */
+var CC_FLOWS = {
+  refill: {
+    title:{en:"Prescription refill",es:"Resurtido de receta",ht:"Ranpli preskripsyon",fr:"Renouvellement d'ordonnance"},
+    intro:{en:"Happy to get a refill started. A few quick questions so the pharmacist has what they need. This does not fill it, the team confirms everything with you.",
+           es:"Con gusto inicio el resurtido. Unas preguntas rápidas para que el farmacéutico tenga lo necesario. Esto no lo surte; el equipo confirma todo con usted.",
+           ht:"Avèk plezi m ap kòmanse ranpli a. Kèk kesyon rapid pou famasyen an gen sa li bezwen. Sa pa ranpli l; ekip la ap konfime tout bagay avèk ou.",
+           fr:"Avec plaisir, commençons le renouvellement. Quelques questions pour que le pharmacien ait le nécessaire. Ceci ne le délivre pas; l'équipe confirme tout avec vous."},
+    fields:[
+      {id:"name",kind:"text",q:{en:"What name is the prescription under?",es:"¿A nombre de quién está la receta?",ht:"Sou ki non preskripsyon an ye?",fr:"À quel nom est l'ordonnance ?"}},
+      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
+      {id:"rx",kind:"text",optional:true,q:{en:"Prescription number, if you have it? (Or the medication name.)",es:"¿Número de receta, si lo tiene? (O el nombre del medicamento.)",ht:"Nimewo preskripsyon an, si ou genyen l? (Oswa non medikaman an.)",fr:"Numéro d'ordonnance, si vous l'avez ? (Ou le nom du médicament.)"}},
+      {id:"fulfil",kind:"choice",q:{en:"Pickup or delivery?",es:"¿Recoger o entrega?",ht:"Ranmase oswa livrezon?",fr:"Retrait ou livraison ?"},
+        options:[{v:"Pickup",l:{en:"Pickup",es:"Recoger",ht:"Ranmase",fr:"Retrait"}},{v:"Delivery",l:{en:"Delivery",es:"Entrega",ht:"Livrezon",fr:"Livraison"}}]},
+      {id:"when",kind:"choice",optional:true,q:{en:"Best time for the team to reach you?",es:"¿Mejor hora para contactarle?",ht:"Ki pi bon lè pou ekip la rele ou?",fr:"Meilleur moment pour vous joindre ?"},
+        options:[{v:"Morning",l:{en:"Morning",es:"Mañana",ht:"Maten",fr:"Matin"}},{v:"Afternoon",l:{en:"Afternoon",es:"Tarde",ht:"Apremidi",fr:"Après-midi"}},{v:"Evening",l:{en:"Evening",es:"Noche",ht:"Aswè",fr:"Soir"}},{v:"Any time",l:{en:"Any time",es:"Cualquiera",ht:"Nenpòt lè",fr:"N'importe quand"}}]},
+      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else the pharmacist should know? (No medical advice given here.)",es:"¿Algo más que deba saber el farmacéutico? (Aquí no se da consejo médico.)",ht:"Gen lòt bagay famasyen an ta dwe konnen? (Pa gen konsèy medikal isit la.)",fr:"Autre chose à savoir pour le pharmacien ? (Aucun conseil médical ici.)"}}
+    ]
+  },
+  transfer: {
+    title:{en:"Prescription transfer",es:"Transferencia de receta",ht:"Transfè preskripsyon",fr:"Transfert d'ordonnance"},
+    intro:{en:"We can bring your prescription over from another pharmacy. A few details for the team.",
+           es:"Podemos traer su receta desde otra farmacia. Unos datos para el equipo.",
+           ht:"Nou ka pote preskripsyon ou soti nan yon lòt famasi. Kèk detay pou ekip la.",
+           fr:"Nous pouvons transférer votre ordonnance depuis une autre pharmacie. Quelques détails pour l'équipe."},
+    fields:[
+      {id:"name",kind:"text",q:{en:"Your full name?",es:"¿Su nombre completo?",ht:"Non konplè ou?",fr:"Votre nom complet ?"}},
+      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
+      {id:"frompharm",kind:"text",q:{en:"Which pharmacy is it coming from? (Name, and town or phone.)",es:"¿De qué farmacia viene? (Nombre, y ciudad o teléfono.)",ht:"Nan ki famasi l ap soti? (Non, ak vil oswa telefòn.)",fr:"De quelle pharmacie provient-elle ? (Nom, et ville ou téléphone.)"}},
+      {id:"meds",kind:"text",q:{en:"Which medication(s) should we transfer?",es:"¿Qué medicamento(s) transferimos?",ht:"Ki medikaman pou nou transfere?",fr:"Quel(s) médicament(s) transférer ?"}},
+      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else for the team?",es:"¿Algo más para el equipo?",ht:"Gen lòt bagay pou ekip la?",fr:"Autre chose pour l'équipe ?"}}
+    ]
+  },
+  vaccine: {
+    title:{en:"Vaccine appointment",es:"Cita de vacuna",ht:"Randevou vaksen",fr:"Rendez-vous vaccin"},
+    intro:{en:"Great. I can note your interest and point you to live booking. A few details first.",
+           es:"Perfecto. Anoto su interés y le muestro la reserva en vivo. Primero unos datos.",
+           ht:"Bon. M ap note enterè ou epi montre ou rezèvasyon an dirèk. Kèk detay anvan.",
+           fr:"Parfait. Je note votre intérêt et vous montre la réservation en direct. Quelques détails d'abord."},
+    fields:[
+      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
+      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
+      {id:"vtype",kind:"choice",q:{en:"Which vaccine are you interested in?",es:"¿Qué vacuna le interesa?",ht:"Ki vaksen ou enterese?",fr:"Quel vaccin vous intéresse ?"},
+        options:[{v:"Flu",l:{en:"Flu",es:"Gripe",ht:"Grip",fr:"Grippe"}},{v:"COVID-19",l:{en:"COVID-19",es:"COVID-19",ht:"COVID-19",fr:"COVID-19"}},{v:"Shingles",l:{en:"Shingles",es:"Herpes zóster",ht:"Zona",fr:"Zona"}},{v:"Pneumonia",l:{en:"Pneumonia",es:"Neumonía",ht:"Nemoni",fr:"Pneumonie"}},{v:"Not sure",l:{en:"Not sure yet",es:"Aún no sé",ht:"Poko sèten",fr:"Pas encore sûr"}}]},
+      {id:"notes",kind:"textarea",optional:true,q:{en:"Any scheduling notes? (The pharmacist reviews eligibility, this is not medical advice.)",es:"¿Notas de horario? (El farmacéutico revisa elegibilidad, esto no es consejo médico.)",ht:"Nòt sou orè? (Famasyen an tcheke kalifikasyon, sa se pa konsèy medikal.)",fr:"Notes d'horaire ? (Le pharmacien vérifie l'éligibilité, ceci n'est pas un avis médical.)"}}
+    ]
+  },
+  dme: {
+    title:{en:"Surgical & medical equipment",es:"Equipo médico",ht:"Ekipman medikal",fr:"Matériel médical"},
+    intro:{en:"The \"& Surgical\" side is our specialty. Tell me what you need and the team will help fit it right.",
+           es:"El lado \"& Surgical\" es nuestra especialidad. Dígame qué necesita y el equipo le ayudará.",
+           ht:"Bò \"& Surgical\" la se espesyalite nou. Di m sa ou bezwen epi ekip la ap ede ou.",
+           fr:"Le côté \"& Surgical\" est notre spécialité. Dites-moi ce qu'il vous faut et l'équipe vous aidera."},
+    fields:[
+      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
+      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
+      {id:"item",kind:"text",q:{en:"What item or need? (e.g. knee brace, walker, compression, wound care)",es:"¿Qué artículo o necesidad? (rodillera, andador, compresión, cuidado de heridas)",ht:"Ki atik oswa bezwen? (jenouyè, machwa, konpresyon, swen blesi)",fr:"Quel article ou besoin ? (genouillère, déambulateur, compression, soin des plaies)"}},
+      {id:"insurance",kind:"choice",optional:true,q:{en:"Might insurance or Medicare be involved?",es:"¿Podría intervenir seguro o Medicare?",ht:"Èske asirans oswa Medicare ka enplike?",fr:"Assurance ou Medicare concernés ?"},
+        options:[{v:"Yes",l:{en:"Yes",es:"Sí",ht:"Wi",fr:"Oui"}},{v:"No",l:{en:"No / paying out of pocket",es:"No / pago propio",ht:"Non / peye tèt mwen",fr:"Non / paiement direct"}},{v:"Not sure",l:{en:"Not sure",es:"No estoy seguro",ht:"Pa sèten",fr:"Pas sûr"}}]},
+      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else? (Do not include a diagnosis; the pharmacist will discuss specifics.)",es:"¿Algo más? (Sin diagnóstico; el farmacéutico verá los detalles.)",ht:"Lòt bagay? (Pa mete yon dyagnostik; famasyen an ap wè detay yo.)",fr:"Autre chose ? (Sans diagnostic; le pharmacien verra les détails.)"}}
+    ]
+  },
+  pharmacist: {
+    title:{en:"Question for the pharmacist",es:"Pregunta para el farmacéutico",ht:"Kesyon pou famasyen an",fr:"Question pour le pharmacien"},
+    intro:{en:"I am not a pharmacist, so I will not answer clinical questions, but I will capture yours exactly and make sure a pharmacist calls you prepared. For anything urgent, call (973) 372-1300.",
+           es:"No soy farmacéutico, así que no responderé preguntas clínicas, pero anotaré la suya tal cual y un farmacéutico le llamará preparado. Si es urgente, llame al (973) 372-1300.",
+           ht:"Mwen se pa yon famasyen, donk mwen p ap reponn kesyon klinik, men m ap kenbe pa ou a jan l ye epi yon famasyen ap rele ou pare. Pou ijans, rele (973) 372-1300.",
+           fr:"Je ne suis pas pharmacien, je ne répondrai donc pas aux questions cliniques, mais je noterai la vôtre telle quelle et un pharmacien vous rappellera préparé. En cas d'urgence, appelez le (973) 372-1300."},
+    fields:[
+      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
+      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
+      {id:"lang",kind:"choice",optional:true,q:{en:"Preferred language for the callback?",es:"¿Idioma preferido para la llamada?",ht:"Ki lang ou pi renmen pou apèl la?",fr:"Langue préférée pour le rappel ?"},
+        options:[{v:"English",l:{en:"English",es:"Inglés",ht:"Angle",fr:"Anglais"}},{v:"Spanish",l:{en:"Spanish",es:"Español",ht:"Panyòl",fr:"Espagnol"}},{v:"Haitian Creole",l:{en:"Haitian Creole",es:"Criollo haitiano",ht:"Kreyòl",fr:"Créole haïtien"}},{v:"French",l:{en:"French",es:"Francés",ht:"Franse",fr:"Français"}}]},
+      {id:"question",kind:"textarea",q:{en:"What is your question? I will pass it word for word to the pharmacist.",es:"¿Cuál es su pregunta? La paso palabra por palabra al farmacéutico.",ht:"Ki kesyon ou? M ap pase l mo pa mo bay famasyen an.",fr:"Quelle est votre question ? Je la transmets mot pour mot au pharmacien."}}
+    ]
+  }
+};
+
+var CC_UI = {
+  optional:{en:"Optional",es:"Opcional",ht:"Opsyonèl",fr:"Facultatif"},
+  skip:{en:"Skip",es:"Omitir",ht:"Sote",fr:"Passer"},
+  next:{en:"Next",es:"Siguiente",ht:"Kontinye",fr:"Suivant"},
+  send:{en:"Send to pharmacy",es:"Enviar a la farmacia",ht:"Voye bay famasi a",fr:"Envoyer à la pharmacie"},
+  cancel:{en:"Cancel",es:"Cancelar",ht:"Anile",fr:"Annuler"},
+  step:{en:"Step",es:"Paso",ht:"Etap",fr:"Étape"},
+  of:{en:"of",es:"de",ht:"nan",fr:"sur"},
+  summaryHead:{en:"For the pharmacy team",es:"Para el equipo de la farmacia",ht:"Pou ekip famasi a",fr:"Pour l'équipe de la pharmacie"},
+  notProvided:{en:"not provided",es:"no indicado",ht:"pa bay",fr:"non fourni"},
+  reqIntro:{en:"Request",es:"Solicitud",ht:"Demann",fr:"Demande"},
+  demoNote:{en:"Demo: this prepares the handoff but does not transmit yet. Live secure submission is a Phase 2 feature. For anything time sensitive, call (973) 372-1300.",
+            es:"Demo: prepara el traspaso pero aún no lo transmite. El envío seguro en vivo es una función de Fase 2. Si es urgente, llame al (973) 372-1300.",
+            ht:"Demo: sa prepare transfè a men li poko voye l. Voye an sekirite an dirèk se yon fonksyon Faz 2. Pou ijans, rele (973) 372-1300.",
+            fr:"Démo: ceci prépare le transfert mais ne l'envoie pas encore. L'envoi sécurisé en direct est une fonction de Phase 2. En cas d'urgence, appelez le (973) 372-1300."},
+  sentMsg:{en:"Thank you. Your details are ready for the pharmacy team, and a pharmacist will follow up. Anything else I can help with?",
+           es:"Gracias. Sus datos están listos para el equipo, y un farmacéutico le contactará. ¿Algo más en que pueda ayudar?",
+           ht:"Mèsi. Detay ou yo pare pou ekip la, epi yon famasyen ap swiv. Gen lòt bagay m ka ede?",
+           fr:"Merci. Vos informations sont prêtes pour l'équipe, et un pharmacien vous recontactera. Puis-je aider avec autre chose ?"},
+  fieldLabels:{name:{en:"Name",es:"Nombre",ht:"Non",fr:"Nom"},phone:{en:"Callback",es:"Teléfono",ht:"Telefòn",fr:"Rappel"},
+    rx:{en:"Rx # / medication",es:"Receta / medicamento",ht:"Rx / medikaman",fr:"Ordonnance / médicament"},
+    fulfil:{en:"Pickup / delivery",es:"Recoger / entrega",ht:"Ranmase / livrezon",fr:"Retrait / livraison"},
+    when:{en:"Best time",es:"Mejor hora",ht:"Pi bon lè",fr:"Meilleur moment"},
+    frompharm:{en:"Transfer from",es:"Transferir de",ht:"Transfere soti",fr:"Transfert depuis"},
+    meds:{en:"Medication(s)",es:"Medicamento(s)",ht:"Medikaman",fr:"Médicament(s)"},
+    vtype:{en:"Vaccine",es:"Vacuna",ht:"Vaksen",fr:"Vaccin"},
+    item:{en:"Item / need",es:"Artículo / necesidad",ht:"Atik / bezwen",fr:"Article / besoin"},
+    insurance:{en:"Insurance",es:"Seguro",ht:"Asirans",fr:"Assurance"},
+    lang:{en:"Callback language",es:"Idioma de llamada",ht:"Lang apèl",fr:"Langue du rappel"},
+    question:{en:"Question",es:"Pregunta",ht:"Kesyon",fr:"Question"},
+    notes:{en:"Notes",es:"Notas",ht:"Nòt",fr:"Notes"}}
+};
+
+function ccStartIntake(flowKey){
+  var flow=CC_FLOWS[flowKey]; if(!flow) return;
+  if(!CC.greeted){ CC.greeted=true; ccAddMsg(CC_GREET[ccLang()],'bot'); }
+  CC_INTAKE={key:flowKey,flow:flow,step:0,data:{}};
+  document.getElementById('ccQuick').classList.add('hide'); // hide chips during a flow
+  ccAddMsg(ccT(flow.title),'user');
+  ccAddMsg(ccT(flow.intro),'bot');
+  ccRenderStep();
+}
+
+function ccRenderStep(){
+  var s=CC_INTAKE, f=s.flow.fields[s.step];
+  if(!f){ ccRenderSummary(); return; }
+  var body=document.getElementById('ccBody');
+  var wrap=document.createElement('div'); wrap.className='cc-form'; wrap.id='ccForm';
+  var total=s.flow.fields.length;
+  var prog='<div class="cc-progress">'+ccT(CC_UI.step)+' '+(s.step+1)+' '+ccT(CC_UI.of)+' '+total+(f.optional?' \u00b7 '+ccT(CC_UI.optional):'')+'</div>';
+  var qhtml='<div class="q">'+ccT(f.q)+'</div>';
+  var control='';
+  if(f.kind==='choice'){
+    control='<div class="cc-opts" id="ccOpts">'+f.options.map(function(o){return '<button type="button" class="cc-opt" data-v="'+o.v.replace(/"/g,'&quot;')+'">'+ccT(o.l)+'</button>';}).join('')+'</div>';
+  } else if(f.kind==='textarea'){
+    control='<textarea class="cc-fi" id="ccFi" rows="2"></textarea>';
+  } else {
+    control='<input class="cc-fi" id="ccFi" type="'+(f.kind==='tel'?'tel':'text')+'" autocomplete="'+(f.kind==='tel'?'tel':(f.id==='name'?'name':'off'))+'">';
+  }
+  var actions='<div class="cc-form-actions">'+
+    (f.optional?'<button type="button" class="cc-fbtn ghost" id="ccSkip">'+ccT(CC_UI.skip)+'</button>':'')+
+    (f.kind!=='choice'?'<button type="button" class="cc-fbtn primary" id="ccNext">'+ccT(CC_UI.next)+'</button>':'')+
+    '</div>';
+  wrap.innerHTML=prog+qhtml+control+actions;
+  body.appendChild(wrap); body.scrollTop=body.scrollHeight;
+
+  var fi=document.getElementById('ccFi');
+  if(fi) setTimeout(function(){ fi.focus(); },60);
+  function advance(val){
+    s.data[f.id]=(val==null?'':val);
+    wrap.remove();
+    // echo the answer as a user bubble for a natural transcript (skip empty optional)
+    if(val!=null && String(val).trim()!=='') ccAddMsg(String(val),'user');
+    s.step++;
+    ccRenderStep();
+  }
+  var nextBtn=document.getElementById('ccNext');
+  if(nextBtn) nextBtn.addEventListener('click',function(){ var v=fi?fi.value.trim():''; if(!v && !f.optional){ fi.focus(); fi.style.borderColor='var(--red)'; return; } advance(v); });
+  var skipBtn=document.getElementById('ccSkip');
+  if(skipBtn) skipBtn.addEventListener('click',function(){ advance(''); });
+  if(fi) fi.addEventListener('keydown',function(e){ if(e.key==='Enter' && f.kind!=='textarea'){ e.preventDefault(); if(nextBtn) nextBtn.click(); } });
+  var opts=document.getElementById('ccOpts');
+  if(opts) opts.addEventListener('click',function(e){ var b=e.target.closest('.cc-opt'); if(!b) return; advance(b.getAttribute('data-v')); });
+}
+
+function ccRenderSummary(){
+  var s=CC_INTAKE, body=document.getElementById('ccBody');
+  var card=document.createElement('div'); card.className='cc-summary';
+  var lines='';
+  s.flow.fields.forEach(function(f){
+    var lbl=ccT(CC_UI.fieldLabels[f.id]||{en:f.id});
+    var val=s.data[f.id]; if(val==null||String(val).trim()==='') val='('+ccT(CC_UI.notProvided)+')';
+    lines+='<div class="cc-sline"><span class="k">'+lbl+'</span><span class="v">'+String(val).replace(/</g,'&lt;')+'</span></div>';
+  });
+  var reqLine='<div class="cc-sline"><span class="k">'+ccT(CC_UI.reqIntro)+'</span><span class="v">'+ccT(s.flow.title)+'</span></div>';
+  card.innerHTML=
+    '<div class="sh">\u2605 '+ccT(CC_UI.summaryHead)+'</div>'+
+    '<div class="sb">'+reqLine+lines+'</div>'+
+    '<div class="sf">'+
+      '<button type="button" class="cc-fbtn primary" id="ccIntakeSend">'+ccT(CC_UI.send)+'</button>'+
+      (s.key==='vaccine'?'<a href="#book" class="cc-fbtn ghost" id="ccGoBook">'+({en:"Open live booking",es:"Abrir reserva",ht:"Ouvri rezèvasyon",fr:"Ouvrir la réservation"}[ccLang()]||"Open live booking")+'</a>':'')+
+    '</div>'+
+    '<div class="sf"><div class="cc-demo-tag">'+ccT(CC_UI.demoNote)+'</div></div>';
+  body.appendChild(card); body.scrollTop=body.scrollHeight;
+
+  document.getElementById('ccIntakeSend').addEventListener('click',function(){
+    this.disabled=true; this.textContent='\u2713';
+    // Demo: build the brief and log it (no transmission). Phase 2 wires this to the backend.
+    var brief=ccBuildBrief(s);
+    try{ console.log('[Springview intake demo, not transmitted]\n'+brief); }catch(e){}
+    // stash the last brief so an admin/demo view could read it (session only)
+    try{ sessionStorage.setItem('sv-last-intake', brief); }catch(e){}
+    ccAddMsg(ccT(CC_UI.sentMsg),'bot');
+    document.getElementById('ccQuick').classList.remove('hide');
+    CC_INTAKE=null;
+  });
+  var book=document.getElementById('ccGoBook');
+  if(book) book.addEventListener('click',function(){ ccClose(); });
+}
+
+function ccBuildBrief(s){
+  var out='SPRINGVIEW INTAKE, '+ccT(s.flow.title)+'\n';
+  out+='Site language: '+ccLang().toUpperCase()+'\n';
+  out+=new Date().toLocaleString()+'\n---\n';
+  s.flow.fields.forEach(function(f){
+    var lbl=ccT(CC_UI.fieldLabels[f.id]||{en:f.id});
+    var val=s.data[f.id]; if(val==null||String(val).trim()==='') val=ccT(CC_UI.notProvided);
+    out+=lbl+': '+val+'\n';
+  });
+  return out;
+}
+
+
 
 /* localized placeholder for concierge input */
 function ccSyncLang(){
