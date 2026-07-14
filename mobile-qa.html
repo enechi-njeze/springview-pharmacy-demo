@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Springview: Mobile QA Harness</title>
+<style>
+  body{font-family:system-ui,sans-serif;margin:0;background:#111;color:#eee;padding:16px}
+  h1{font-size:18px;margin:0 0 4px}
+  p.sub{color:#aaa;font-size:13px;margin:0 0 14px}
+  .row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .device{background:#000;border-radius:14px;padding:8px;box-shadow:0 8px 30px rgba(0,0,0,.6)}
+  .device h2{font-size:12px;color:#9ad;margin:2px 0 6px;text-align:center;font-weight:600}
+  iframe{border:0;border-radius:8px;background:#fff;display:block}
+  .panel{flex:1;min-width:280px}
+  .check{background:#1b1b1b;border:1px solid #333;border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:13px;line-height:1.5}
+  .check b{color:#fff}
+  .pass{color:#6f6}.fail{color:#f77}.warn{color:#fd6}
+  button{background:#C8102E;color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:14px;cursor:pointer;margin-bottom:12px}
+  code{background:#000;padding:1px 5px;border-radius:4px;color:#9ad}
+  ul{margin:6px 0;padding-left:18px}li{margin:3px 0}
+</style></head>
+<body>
+<h1>Springview Mobile QA Harness</h1>
+<p class="sub">Loads the real site at phone widths and runs automated layout checks against the true rendered pixels. Open this from the deployed site (e.g. <code>your-site.netlify.app/mobile-qa.html</code>) or locally next to index.html.</p>
+<button onclick="runChecks()">Re-run automated checks</button>
+<div class="row">
+  <div class="panel">
+    <div id="results"></div>
+    <div class="check">
+      <b>Manual eyeball pass (do these by hand on the 390px frame):</b>
+      <ul>
+        <li>Language gate fills the screen; the 4 language buttons are each easily tappable.</li>
+        <li>Skip the intro; header is sticky; the quick-action pills scroll sideways without breaking the layout.</li>
+        <li>Bottom-right: WhatsApp (green) sits <i>above</i> Galaxy (cosmic). They do not overlap.</li>
+        <li>Open Galaxy: the panel fills nearly the width with margins; WhatsApp bubble disappears while it is open.</li>
+        <li>Start the tour (bottom-left button): each card is fully readable, never covers the highlighted item, and the progress bar advances.</li>
+        <li>Shop: filter controls sit at the top; product grid is 1-2 columns; tapping a card opens the product page.</li>
+        <li>Rotate through EN / ES / HT / FR: nothing clips or overflows; longer French/Creole strings still fit.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="device"><h2>iPhone SE (375x667)</h2><iframe id="f375" src="index.html" width="375" height="667"></iframe></div>
+  <div class="device"><h2>iPhone 12/13/14 (390x844)</h2><iframe id="f390" src="index.html" width="390" height="844"></iframe></div>
+  <div class="device"><h2>Pixel-ish (412x915)</h2><iframe id="f412" src="index.html" width="412" height="915"></iframe></div>
+  <div class="device"><h2>Small (320x568)</h2><iframe id="f320" src="index.html" width="320" height="568"></iframe></div>
+</div>
+
+<script>
+function rect(doc,sel){var el=doc.querySelector(sel);return el?el.getBoundingClientRect():null;}
+function add(html){document.getElementById('results').insertAdjacentHTML('beforeend','<div class="check">'+html+'</div>');}
+
+function checkFrame(id,w,h){
+  var f=document.getElementById(id);
+  var doc=f.contentDocument;
+  if(!doc){add('<span class="fail">FAIL</span> '+id+': cannot read frame (serve over http, not file://).');return;}
+  // dismiss gate + intro so widgets are visible
+  try{
+    var win=f.contentWindow;
+    if(win.setLang) win.setLang('en');
+    if(win.sessionStorage) win.sessionStorage.setItem('sv-intro','1');
+    var gate=doc.getElementById('gate'); if(gate) gate.style.display='none';
+    var intro=doc.getElementById('intro'); if(intro) intro.style.display='none';
+  }catch(e){}
+  var out=[], pass=true;
+
+  // 1. no horizontal overflow
+  var sw=doc.documentElement.scrollWidth, cw=doc.documentElement.clientWidth;
+  var ovf = sw <= cw+1;
+  out.push((ovf?'<span class="pass">OK</span>':'<span class="fail">FAIL</span>')+' no horizontal overflow ('+sw+' vs '+cw+')');
+  if(!ovf)pass=false;
+
+  // 2. galaxy + whatsapp fabs present and not overlapping
+  var g=rect(doc,'#ccFab'), wa=rect(doc,'#waFab');
+  if(g&&wa){
+    var noOverlap = wa.bottom<=g.top+1 || wa.top>=g.bottom-1 || wa.right<=g.left+1 || wa.left>=g.right-1;
+    // they're stacked vertically: whatsapp should be above galaxy
+    var stacked = wa.bottom<=g.top+2;
+    out.push((noOverlap?'<span class="pass">OK</span>':'<span class="fail">FAIL</span>')+' Galaxy & WhatsApp FABs do not overlap');
+    out.push((stacked?'<span class="pass">OK</span>':'<span class="warn">CHECK</span>')+' WhatsApp sits above Galaxy');
+    // both within viewport
+    var inV = g.right<=w+1 && g.bottom<=h+1 && wa.right<=w+1 && wa.bottom<=h+1;
+    out.push((inV?'<span class="pass">OK</span>':'<span class="fail">FAIL</span>')+' both FABs inside viewport');
+    if(!noOverlap||!inV)pass=false;
+  } else out.push('<span class="fail">FAIL</span> FAB(s) missing');
+
+  // 3. tour launcher present, opposite side from galaxy
+  var tl=rect(doc,'#tourLaunch');
+  if(tl&&g){ var opposite = tl.left < g.left; out.push((opposite?'<span class="pass">OK</span>':'<span class="warn">CHECK</span>')+' tour launcher on opposite side'); }
+
+  // 4. tap targets >=40px on key controls
+  var tapc=['#langMini','#themeBtn','#ccFab','#waFab'];
+  tapc.forEach(function(s){var r=rect(doc,s);if(r){var big=r.width>=40&&r.height>=40;out.push((big?'<span class="pass">OK</span>':'<span class="warn">CHECK</span>')+' tap target '+s+' '+Math.round(r.width)+'x'+Math.round(r.height));if(!big)pass=false;}});
+
+  // 5. header within width
+  var hd=rect(doc,'.header-in')||rect(doc,'header');
+  if(hd){var fit=hd.right<=w+1;out.push((fit?'<span class="pass">OK</span>':'<span class="fail">FAIL</span>')+' header fits width');if(!fit)pass=false;}
+
+  add('<b>'+id.replace('f','')+'px wide ('+w+'x'+h+'): '+(pass?'<span class="pass">PASS</span>':'<span class="fail">NEEDS ATTENTION</span>')+'</b><br>'+out.join('<br>'));
+}
+
+function runChecks(){
+  document.getElementById('results').innerHTML='';
+  setTimeout(function(){
+    checkFrame('f320',320,568);
+    checkFrame('f375',375,667);
+    checkFrame('f390',390,844);
+    checkFrame('f412',412,915);
+  },900);
+}
+window.addEventListener('load',function(){ setTimeout(runChecks,1400); });
+</script>
+</body></html>

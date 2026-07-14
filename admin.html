@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springview Admin Console</title>
+<meta name="robots" content="noindex,nofollow">
+<script>
+(function(){try{var t=localStorage.getItem('sv-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F6F2;--panel:#FFFFFF;--ink:#1D1B17;--ink-soft:#4A463E;
+  --red:#C8102E;--gold:#B8963E;--stone:#E4E1DA;--line:#E4E1DA;
+  --green:#2E7D32;--shadow:0 6px 24px rgba(29,27,23,.10);--shadow-lg:0 18px 50px rgba(29,27,23,.16);
+  --radius:18px;--radius-sm:12px;--glow:none;
+  --font-display:'Oswald',sans-serif;--font-body:'Inter',sans-serif;--font-script:'Kaushan Script',cursive;--maxw:1240px;
+}
+[data-theme="dark"]{
+  --paper:#0E0F12;--panel:#17191E;--ink:#F4F2ED;--ink-soft:#B9B5AC;
+  --red:#FF4D5E;--gold:#D4AF6A;--stone:#282B32;--line:#282B32;--green:#66BB6A;
+  --shadow:0 6px 24px rgba(0,0,0,.5);--shadow-lg:0 18px 50px rgba(0,0,0,.6);--glow:0 0 18px rgba(255,77,94,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;letter-spacing:.4px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+table{border-collapse:collapse;width:100%}
+
+/* login gate */
+.gate{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;align-items:center;justify-content:center;padding:24px}
+.gate.hidden{display:none}
+.gate-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:44px 40px;max-width:400px;width:100%;text-align:center}
+.gate-card .logo{font-family:var(--font-display);font-weight:700;letter-spacing:3px;color:var(--red);text-transform:uppercase;font-size:14px}
+.gate-card .logo .amp{font-family:var(--font-script);text-transform:none;font-size:20px}
+.gate-card h1{font-size:24px;margin:12px 0 4px}
+.gate-card p{color:var(--ink-soft);font-size:14px;margin-bottom:22px}
+.gate-card input{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-family:inherit;font-size:15px;background:var(--paper);color:var(--ink);margin-bottom:12px}
+.gate-card input:focus{outline:none;border-color:var(--red)}
+.gate-card button{width:100%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:13px;border-radius:11px;font-size:14px;box-shadow:var(--glow)}
+.gate-err{color:var(--red);font-size:13px;margin-top:8px;min-height:18px}
+.gate-hint{font-size:11.5px;color:var(--ink-soft);margin-top:14px}
+
+/* shell */
+header{position:sticky;top:0;z-index:40;background:var(--panel);border-bottom:1px solid var(--line)}
+.head-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px}
+.brand{font-family:var(--font-display);font-weight:700;letter-spacing:1.5px;color:var(--red);text-transform:uppercase;font-size:17px}
+.brand .amp{font-family:var(--font-script);color:var(--gold);text-transform:none;font-size:15px}
+.brand .tag{font-size:10px;letter-spacing:2px;color:var(--ink-soft);display:block;text-transform:uppercase;margin-top:2px;font-weight:400}
+.head-tools{margin-left:auto;display:flex;gap:10px;align-items:center}
+.pill-live{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--green) 12%,transparent);border:1px solid var(--green);color:var(--green);border-radius:20px;padding:5px 12px;font-family:var(--font-display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.pill-sim{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);color:var(--gold);border-radius:20px;padding:5px 12px;font-family:var(--font-display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.dotp{width:7px;height:7px;border-radius:50%;background:currentColor}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s}
+.icon-btn:hover{border-color:var(--red);color:var(--red)}
+
+.tabs{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--panel)}
+.tab{font-family:var(--font-display);font-size:14px;font-weight:500;letter-spacing:.4px;padding:14px 16px;color:var(--ink-soft);text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
+.tab:hover{color:var(--red)}
+.tab.active{color:var(--red);border-bottom-color:var(--red)}
+
+main{max-width:var(--maxw);margin:0 auto;padding:26px 24px 60px}
+.view{display:none}.view.active{display:block}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.section-title h2{font-size:24px}
+
+/* KPI cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:26px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.kpi .k-lbl{font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft)}
+.kpi .k-val{font-family:var(--font-display);font-weight:700;font-size:30px;margin:6px 0 2px}
+.kpi .k-sub{font-size:12.5px;color:var(--green)}
+.kpi .k-sub.down{color:var(--red)}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:22px}
+.panel h3{font-size:18px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* dept subtabs */
+.subtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.subtab{font-family:var(--font-display);font-size:12px;letter-spacing:.4px;text-transform:uppercase;border:1px solid var(--line);border-radius:20px;padding:7px 13px;transition:.15s}
+.subtab:hover{border-color:var(--red);color:var(--red)}
+.subtab.active{background:var(--red);color:#fff;border-color:var(--red)}
+
+th{font-family:var(--font-display);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:11px 12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.stock-bar{width:120px;height:8px;border-radius:5px;background:var(--stone);overflow:hidden;display:inline-block;vertical-align:middle;margin-right:8px}
+.stock-fill{height:100%;border-radius:5px}
+.badge{font-family:var(--font-display);font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:12px;font-weight:600}
+.b-ok{background:color-mix(in srgb,var(--green) 14%,var(--panel));color:var(--green);border:1px solid var(--green)}
+.b-low{background:color-mix(in srgb,var(--gold) 16%,var(--panel));color:var(--gold);border:1px solid var(--gold)}
+.b-out{background:color-mix(in srgb,var(--red) 12%,var(--panel));color:var(--red);border:1px solid var(--red)}
+.mini-btn{font-family:var(--font-display);font-size:11px;letter-spacing:.4px;text-transform:uppercase;border:1px solid var(--line);border-radius:8px;padding:6px 11px;transition:.15s}
+.mini-btn:hover{border-color:var(--red);color:var(--red)}
+.mini-btn.primary{background:var(--red);color:#fff;border-color:var(--red)}
+
+.alert-row{background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.log{background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:14px;font-family:Consolas,monospace;font-size:12.5px;color:var(--ink-soft);max-height:200px;overflow-y:auto}
+.log div{padding:2px 0}
+
+.btn{font-family:var(--font-display);font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:11px 20px;border-radius:11px;font-size:13px;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--red);color:#fff;box-shadow:var(--glow)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.btn-ghost{border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* chart */
+.chart-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:22px}
+.bars{display:flex;align-items:flex-end;gap:14px;height:200px;padding-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.bar{width:100%;max-width:44px;background:linear-gradient(180deg,var(--red),color-mix(in srgb,var(--red) 60%,var(--panel)));border-radius:7px 7px 0 0;box-shadow:var(--glow);transition:height .5s;align-self:flex-end;margin-top:auto}
+.bar-lbl{font-family:var(--font-display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft)}
+
+/* voucher */
+.voucher-preview{background:linear-gradient(135deg,var(--red),color-mix(in srgb,var(--red) 70%,#000));color:#fff;border-radius:var(--radius);padding:26px;text-align:center;margin-top:16px;position:relative;overflow:hidden}
+.voucher-preview .vp-amt{font-family:var(--font-display);font-weight:700;font-size:48px;line-height:1}
+.voucher-preview .vp-lbl{font-family:var(--font-display);letter-spacing:2px;text-transform:uppercase;font-size:13px;opacity:.9}
+.voucher-preview .vp-code{font-family:Consolas,monospace;letter-spacing:3px;font-size:18px;margin-top:12px;background:rgba(255,255,255,.18);border-radius:8px;padding:8px 14px;display:inline-block}
+.voucher-preview .vp-foot{font-size:11px;opacity:.8;margin-top:12px}
+.range-row{display:flex;align-items:center;gap:16px;margin:14px 0}
+.range-row input[type=range]{flex:1;accent-color:var(--red)}
+.range-row .rv{font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--red);min-width:56px}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-family:var(--font-display);font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.field input,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink)}
+
+.note{font-size:12.5px;color:var(--ink-soft);margin-top:8px}
+@media(max-width:820px){.chart-wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="logo">Springview <span class="amp">&amp;</span> Surgical</div>
+    <h1>Admin Console</h1>
+    <p>Staff sign-in</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password">
+    <button id="loginBtn">Sign in</button>
+    <div class="gate-err" id="gateErr"></div>
+    <div class="gate-hint">Demo console. Password hashed in source; ask Ben.</div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+<header>
+  <div class="head-in">
+    <div class="brand">Springview <span class="amp">&amp;</span> Surgical<span class="tag">Admin Console</span></div>
+    <div class="head-tools">
+      <span class="pill-sim"><span class="dotp"></span>Demo data</span>
+      <button class="icon-btn" id="themeBtn" title="Theme">🌙</button>
+      <button class="icon-btn" id="logoutBtn" title="Sign out">⎋</button>
+    </div>
+  </div>
+</header>
+<div class="tabs" id="tabs">
+  <button class="tab active" data-view="dash">Dashboard</button>
+  <button class="tab" data-view="inv">Inventory</button>
+  <button class="tab" data-view="reorder">Reorder</button>
+  <button class="tab" data-view="orders">Orders</button>
+  <button class="tab" data-view="vouchers">Vouchers</button>
+  <button class="tab" data-view="marketing">Marketing</button>
+</div>
+
+<main>
+  <!-- DASHBOARD -->
+  <div class="view active" id="view-dash">
+    <div class="section-title"><h2>Dashboard</h2><span class="pill-sim"><span class="dotp"></span>Simulated analytics</span></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="panel">
+      <h3>Revenue, last 7 days <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+      <div class="chart-wrap">
+        <div class="bars" id="revBars"></div>
+        <div>
+          <div style="font-family:var(--font-display);font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px">Top departments</div>
+          <table id="topDepts"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="view" id="view-inv">
+    <div class="section-title"><h2>Inventory</h2><span class="pill-live"><span class="dotp"></span>Live in Phase 2 via Google Sheet</span></div>
+    <div class="panel">
+      <h3>Low-stock alerts <span class="pill-sim"><span class="dotp"></span>Simulated email/SMS</span></h3>
+      <div class="log" id="alertLog"></div>
+    </div>
+    <div class="panel">
+      <div class="subtabs" id="invSubtabs"></div>
+      <table id="invTable"></table>
+    </div>
+  </div>
+
+  <!-- REORDER -->
+  <div class="view" id="view-reorder">
+    <div class="section-title"><h2>Reorder queue</h2><span class="pill-sim"><span class="dotp"></span>Simulated purchasing</span></div>
+    <div class="panel">
+      <h3>Items at or below 50% threshold</h3>
+      <div class="btn-row" style="margin-bottom:14px">
+        <button class="btn btn-primary" id="approveAll">Approve all</button>
+        <button class="btn btn-ghost" id="addManual">Add item manually</button>
+      </div>
+      <table id="reorderTable"></table>
+    </div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="view" id="view-orders">
+    <div class="section-title"><h2>Online orders</h2><span class="pill-sim"><span class="dotp"></span>Demo order data</span></div>
+    <div class="panel">
+      <div class="btn-row" style="margin-bottom:14px">
+        <button class="btn btn-ghost" id="exportCsv">Export CSV</button>
+        <button class="btn btn-ghost" id="exportWord">Export Word</button>
+      </div>
+      <table id="ordersTable"></table>
+      <p class="note">Payments are Phase 2 (Square Web Payments SDK). Demo orders are reserved-for-pickup requests only.</p>
+    </div>
+  </div>
+
+  <!-- VOUCHERS -->
+  <div class="view" id="view-vouchers">
+    <div class="section-title"><h2>Voucher generator</h2><span class="pill-sim"><span class="dotp"></span>Simulated</span></div>
+    <div class="panel" style="max-width:520px">
+      <div class="range-row">
+        <span style="font-family:var(--font-display);text-transform:uppercase;font-size:12px;letter-spacing:1px;color:var(--ink-soft)">Discount</span>
+        <input type="range" id="vRange" min="5" max="50" step="5" value="15">
+        <span class="rv" id="vVal">15%</span>
+      </div>
+      <div class="field"><label>Campaign label</label><input type="text" id="vLabel" value="Neighbor appreciation"></div>
+      <button class="btn btn-primary" id="vGen">Generate voucher</button>
+      <div class="voucher-preview" id="vPreview">
+        <div class="vp-lbl">Springview Pharmacy &amp; Surgical</div>
+        <div class="vp-amt" id="vpAmt">15%</div>
+        <div class="vp-lbl">Off your next visit</div>
+        <div class="vp-code" id="vpCode">SV-XXXX-XXXX</div>
+        <div class="vp-foot">Present at 4 Elmwood Avenue. Demo voucher, not redeemable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKETING -->
+  <div class="view" id="view-marketing">
+    <div class="section-title"><h2>Marketing campaigns</h2><span class="pill-sim"><span class="dotp"></span>Concept sync to site banners</span></div>
+    <div class="panel">
+      <table id="mktTable"></table>
+      <p class="note">In Phase 2 these feed the "This week at Springview" deals row and the homepage banner via the Google Sheet backend.</p>
+    </div>
+  </div>
+</main>
+</div>
+
+<script src="shop.js"></script>
+<script>
+/* ============ THEME ============ */
+var THEME=document.documentElement.getAttribute('data-theme')||'light';
+function setThemeIcon(){ document.getElementById('themeBtn').textContent=THEME==='dark'?'☀️':'🌙'; }
+document.getElementById('themeBtn').addEventListener('click',function(){
+  THEME=THEME==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',THEME);
+  try{localStorage.setItem('sv-theme',THEME);}catch(e){}
+  setThemeIcon();
+});
+
+/* ============ LOGIN (SHA-256, hash only in source) ============ */
+/* Demo password hash. Password known to Ben. Rotate before real data. */
+var PW_HASH='fdfe6cfd6dfb022d0c82948a2d122bb807803f692a408ff4ea959b77ce3e28f3'; /* demo hash; rotate before real data */
+async function sha256(s){
+  var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+}
+async function tryLogin(){
+  var pw=document.getElementById('pw').value;
+  var h=await sha256(pw);
+  if(h===PW_HASH){
+    try{sessionStorage.setItem('sv-admin','1');}catch(e){}
+    showApp();
+  } else {
+    document.getElementById('gateErr').textContent='Incorrect password.';
+  }
+}
+document.getElementById('loginBtn').addEventListener('click',tryLogin);
+document.getElementById('pw').addEventListener('keydown',function(e){ if(e.key==='Enter') tryLogin(); });
+document.getElementById('logoutBtn').addEventListener('click',function(){ try{sessionStorage.removeItem('sv-admin');}catch(e){} location.reload(); });
+function showApp(){
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('app').style.display='block';
+  setThemeIcon();
+  buildAll();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var ok=false; try{ok=sessionStorage.getItem('sv-admin')==='1';}catch(e){}
+  if(ok) showApp(); else document.getElementById('pw').focus();
+});
+
+/* ============ TABS ============ */
+document.getElementById('tabs').addEventListener('click',function(e){
+  var t=e.target.closest('.tab'); if(!t) return;
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
+  t.classList.add('active');
+  document.getElementById('view-'+t.getAttribute('data-view')).classList.add('active');
+});
+
+/* ============ INVENTORY MODEL (built from shared CATALOG) ============ */
+/* deterministic pseudo-stock levels so the demo is stable */
+function stockLevel(p,i){
+  if(p.stock==='out') return {on:0,par:40};
+  if(p.stock==='low') return {on:8+(i%6),par:40};
+  return {on:22+(i%20),par:40};
+}
+var INV=CATALOG.map(function(p,i){ var s=stockLevel(p,i); return {p:p,on:s.on,par:s.par}; });
+var activeDept=SV_DEPTS[0].id;
+
+function pctColor(pct){ return pct<=25?'var(--red)':pct<=50?'var(--gold)':'var(--green)'; }
+function stateBadge(pct){
+  if(pct<=0) return '<span class="badge b-out">Out</span>';
+  if(pct<=50) return '<span class="badge b-low">Low</span>';
+  return '<span class="badge b-ok">OK</span>';
+}
+
+function buildAlertLog(){
+  var low=INV.filter(function(r){return (r.on/r.par*100)<=50;});
+  var log=document.getElementById('alertLog');
+  if(!low.length){ log.innerHTML='<div>No alerts. All departments above threshold.</div>'; return; }
+  var now=new Date();
+  log.innerHTML=low.slice(0,12).map(function(r,i){
+    var t=new Date(now-i*1080000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    var pct=Math.round(r.on/r.par*100);
+    return '<div>['+t+'] ALERT '+r.p.id.toUpperCase()+' "'+r.p.name.en+'" at '+pct+'% ('+r.on+'/'+r.par+') → email + SMS queued to purchasing</div>';
+  }).join('');
+}
+
+function buildInvSubtabs(){
+  var wrap=document.getElementById('invSubtabs');
+  wrap.innerHTML=SV_DEPTS.map(function(d){
+    return '<button class="subtab'+(d.id===activeDept?' active':'')+'" data-dept="'+d.id+'">'+d.ic+' '+d.en+'</button>';
+  }).join('');
+  wrap.querySelectorAll('.subtab').forEach(function(b){
+    b.addEventListener('click',function(){ activeDept=b.getAttribute('data-dept'); buildInvSubtabs(); buildInvTable(); });
+  });
+}
+function buildInvTable(){
+  var rows=INV.filter(function(r){return r.p.dept===activeDept;});
+  var html='<tr><th>SKU</th><th>Product</th><th>On hand</th><th>Level</th><th>Status</th><th>Price</th><th></th></tr>';
+  html+=rows.map(function(r){
+    var pct=Math.round(r.on/r.par*100);
+    var alert=pct<=50?' class="alert-row"':'';
+    return '<tr'+alert+'><td>'+r.p.id.toUpperCase()+'</td><td>'+r.p.name.en+'</td>'
+      +'<td>'+r.on+' / '+r.par+'</td>'
+      +'<td><span class="stock-bar"><span class="stock-fill" style="width:'+Math.max(pct,2)+'%;background:'+pctColor(pct)+'"></span></span>'+pct+'%</td>'
+      +'<td>'+stateBadge(pct)+'</td><td>$'+r.p.price.toFixed(2)+'</td>'
+      +'<td><button class="mini-btn" data-restock="'+r.p.id+'">Restock</button></td></tr>';
+  }).join('');
+  var t=document.getElementById('invTable'); t.innerHTML=html;
+  t.querySelectorAll('[data-restock]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.getAttribute('data-restock');
+      var row=INV.filter(function(r){return r.p.id===id;})[0];
+      if(row){ row.on=row.par; buildInvTable(); buildAlertLog(); buildReorderTable(); }
+    });
+  });
+}
+
+/* ============ REORDER ============ */
+var manualRows=[];
+function reorderRows(){
+  var auto=INV.filter(function(r){return (r.on/r.par*100)<=50;}).map(function(r){
+    return {sku:r.p.id.toUpperCase(),name:r.p.name.en,qty:r.par-r.on,src:'Auto'};
+  });
+  return auto.concat(manualRows);
+}
+function buildReorderTable(){
+  var rows=reorderRows();
+  var html='<tr><th>SKU</th><th>Product</th><th>Suggested qty</th><th>Source</th><th></th></tr>';
+  if(!rows.length){ html+='<tr><td colspan="5" style="color:var(--ink-soft)">Queue is empty. Nothing below threshold.</td></tr>'; }
+  html+=rows.map(function(r,i){
+    return '<tr><td>'+r.sku+'</td><td>'+r.name+'</td>'
+      +'<td><input type="number" value="'+r.qty+'" min="1" style="width:70px;border:1px solid var(--line);border-radius:8px;padding:6px;background:var(--paper);color:var(--ink)"></td>'
+      +'<td>'+r.src+'</td>'
+      +'<td><button class="mini-btn primary" data-approve="'+i+'">Approve</button></td></tr>';
+  }).join('');
+  var t=document.getElementById('reorderTable'); t.innerHTML=html;
+  t.querySelectorAll('[data-approve]').forEach(function(b){
+    b.addEventListener('click',function(){ b.textContent='Ordered ✓'; b.disabled=true; b.classList.remove('primary'); });
+  });
+}
+function setupReorderButtons(){
+  document.getElementById('approveAll').addEventListener('click',function(){
+    document.querySelectorAll('#reorderTable [data-approve]').forEach(function(b){ if(!b.disabled){ b.textContent='Ordered ✓'; b.disabled=true; b.classList.remove('primary'); } });
+  });
+  document.getElementById('addManual').addEventListener('click',function(){
+    var pick=CATALOG[Math.floor(Math.random()*CATALOG.length)];
+    manualRows.push({sku:pick.id.toUpperCase(),name:pick.name.en,qty:20,src:'Manual'});
+    buildReorderTable();
+  });
+}
+
+/* ============ ORDERS (demo data) ============ */
+var ORDERS=(function(){
+  var names=['M. Pierre','A. Rodriguez','J. Charles','T. Jean-Baptiste','L. Gomez','R. Alexandre','S. Louis','D. Fernandez'];
+  var stat=['Ready for pickup','Preparing','Delivered','Preparing'];
+  var out=[]; for(var i=0;i<8;i++){
+    var p1=CATALOG[(i*7)%CATALOG.length], p2=CATALOG[(i*13+3)%CATALOG.length];
+    var total=p1.price+p2.price;
+    out.push({id:'SV'+(10240+i),name:names[i%names.length],items:p1.name.en+', '+p2.name.en,total:total,status:stat[i%stat.length]});
+  }
+  return out;
+})();
+function buildOrders(){
+  var html='<tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>';
+  html+=ORDERS.map(function(o){
+    var b=o.status==='Ready for pickup'?'b-ok':o.status==='Delivered'?'b-ok':'b-low';
+    return '<tr><td>'+o.id+'</td><td>'+o.name+'</td><td style="max-width:280px">'+o.items+'</td><td>$'+o.total.toFixed(2)+'</td><td><span class="badge '+b+'">'+o.status+'</span></td></tr>';
+  }).join('');
+  document.getElementById('ordersTable').innerHTML=html;
+}
+function exportCSV(){
+  var rows=[['Order','Customer','Items','Total','Status']].concat(ORDERS.map(function(o){return [o.id,o.name,'"'+o.items+'"',o.total.toFixed(2),o.status];}));
+  var csv=rows.map(function(r){return r.join(',');}).join('\n');
+  dl(new Blob([csv],{type:'text/csv'}),'springview-orders.csv');
+}
+function exportWord(){
+  var body=ORDERS.map(function(o){return '<tr><td>'+o.id+'</td><td>'+o.name+'</td><td>'+o.items+'</td><td>$'+o.total.toFixed(2)+'</td><td>'+o.status+'</td></tr>';}).join('');
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>'
+    +'<h2>Springview Pharmacy &amp; Surgical, Online Orders</h2>'
+    +'<table border="1" cellspacing="0" cellpadding="6"><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>'+body+'</table></body></html>';
+  dl(new Blob(['\ufeff'+html],{type:'application/msword'}),'springview-orders.doc');
+}
+function dl(blob,fn){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fn; a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);},1000); }
+
+/* ============ DASHBOARD ============ */
+function buildKPIs(){
+  var totalSkus=CATALOG.length;
+  var lowCount=INV.filter(function(r){return (r.on/r.par*100)<=50;}).length;
+  var revenue=ORDERS.reduce(function(a,o){return a+o.total;},0)*18.3;
+  var kpis=[
+    {lbl:'Weekly revenue',val:'$'+revenue.toFixed(0),sub:'▲ 12% vs last week'},
+    {lbl:'Online orders',val:ORDERS.length*9,sub:'▲ 7 new today'},
+    {lbl:'SKUs tracked',val:totalSkus,sub:'9 departments'},
+    {lbl:'Low-stock items',val:lowCount,sub:lowCount+' need reorder',down:true}
+  ];
+  document.getElementById('kpiGrid').innerHTML=kpis.map(function(k){
+    return '<div class="kpi"><div class="k-lbl">'+k.lbl+'</div><div class="k-val">'+k.val+'</div><div class="k-sub'+(k.down?' down':'')+'">'+k.sub+'</div></div>';
+  }).join('');
+}
+function buildBars(){
+  var days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var vals=[62,58,71,66,84,90,40];
+  var max=Math.max.apply(null,vals);
+  document.getElementById('revBars').innerHTML=days.map(function(d,i){
+    var h=Math.round(vals[i]/max*100);
+    return '<div class="bar-col"><div class="bar" style="height:'+h+'%"></div><div class="bar-lbl">'+d+'</div></div>';
+  }).join('');
+}
+function buildTopDepts(){
+  var pct=[28,19,16,12,9];
+  var top=SV_DEPTS.slice(0,5);
+  var html='<tr><th>Department</th><th>Share</th></tr>';
+  html+=top.map(function(d,i){ return '<tr><td>'+d.ic+' '+d.en+'</td><td>'+pct[i]+'%</td></tr>'; }).join('');
+  document.getElementById('topDepts').innerHTML=html;
+}
+
+/* ============ VOUCHERS ============ */
+function randCode(){ var s='SV-'; for(var i=0;i<8;i++){ if(i===4)s+='-'; s+='ABCDEFGHJKMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*31)]; } return s; }
+function setupVouchers(){
+  var range=document.getElementById('vRange');
+  function sync(){ document.getElementById('vVal').textContent=range.value+'%'; document.getElementById('vpAmt').textContent=range.value+'%'; }
+  range.addEventListener('input',sync); sync();
+  document.getElementById('vGen').addEventListener('click',function(){
+    document.getElementById('vpCode').textContent=randCode();
+  });
+}
+
+/* ============ MARKETING ============ */
+function buildMarketing(){
+  var camps=[
+    {name:'Flu shot season',ch:'Facebook + Instagram',status:'Active',reach:'~1,240'},
+    {name:'Free delivery days',ch:'Site banner',status:'Active',reach:'Site-wide'},
+    {name:'Diabetes care month',ch:'In-store + deals row',status:'Scheduled',reach:'—'},
+    {name:'Kreyòl & Español welcome',ch:'Instagram Reels',status:'Draft',reach:'—'}
+  ];
+  var html='<tr><th>Campaign</th><th>Channel</th><th>Status</th><th>Reach</th></tr>';
+  html+=camps.map(function(c){
+    var b=c.status==='Active'?'b-ok':c.status==='Scheduled'?'b-low':'b-out';
+    return '<tr><td>'+c.name+'</td><td>'+c.ch+'</td><td><span class="badge '+b+'">'+c.status+'</span></td><td>'+c.reach+'</td></tr>';
+  }).join('');
+  document.getElementById('mktTable').innerHTML=html;
+}
+
+/* ============ BUILD ALL ============ */
+function buildAll(){
+  buildKPIs(); buildBars(); buildTopDepts();
+  buildAlertLog(); buildInvSubtabs(); buildInvTable();
+  buildReorderTable(); setupReorderButtons();
+  buildOrders(); setupVouchers(); buildMarketing();
+  document.getElementById('exportCsv').addEventListener('click',exportCSV);
+  document.getElementById('exportWord').addEventListener('click',exportWord);
+}
+</script>
+</body>
+</html>
