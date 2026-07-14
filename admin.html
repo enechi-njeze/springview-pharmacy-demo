@@ -169,6 +169,35 @@ tr:last-child td{border-bottom:none}
 .inq-b .k{color:var(--ink-soft);font-weight:600;white-space:nowrap}
 .inq-b .v{color:var(--ink)}
 .inq-empty{text-align:center;color:var(--ink-soft);padding:30px 16px;font-size:14px}
+/* Pass A: stat tiles */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
+.stat .s-lbl{font-family:var(--font-display);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft)}
+.stat .s-val{font-family:var(--font-display);font-weight:700;font-size:25px;margin:5px 0 1px}
+.stat .s-sub{font-size:12px;color:var(--ink-soft)}
+.stat .s-sub.up{color:var(--green)}.stat .s-sub.down{color:var(--red)}
+/* Pass A: invoice / receipt preview */
+.doc-grid{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.doc-grid{grid-template-columns:1fr}}
+.inv-paper{background:#fff;color:#1D1B17;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:var(--shadow-lg);font-size:13px}
+[data-theme="dark"] .inv-paper{background:#f7f6f2}
+.inv-paper .ip-top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #C8102E;padding-bottom:12px;margin-bottom:14px}
+.inv-paper .ip-name{font-family:var(--font-display);font-weight:700;font-size:18px;color:#C8102E;line-height:1.1}
+.inv-paper .ip-name small{display:block;font-family:'Kaushan Script',cursive;color:#B8963E;font-size:15px;font-weight:400}
+.inv-paper .ip-meta{text-align:right;font-size:11px;color:#555}
+.inv-paper table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+.inv-paper th{text-align:left;border-bottom:1px solid #ddd;padding:6px 4px;font-family:var(--font-display);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#777}
+.inv-paper td{padding:6px 4px;border-bottom:1px solid #f0f0f0}
+.inv-paper td.r,.inv-paper th.r{text-align:right}
+.inv-paper .ip-tot{display:flex;justify-content:space-between;padding:5px 4px;font-size:13px}
+.inv-paper .ip-tot.grand{font-family:var(--font-display);font-weight:700;font-size:16px;border-top:2px solid #1D1B17;margin-top:6px;padding-top:9px}
+.inv-paper .ip-watermark{margin-top:14px;text-align:center;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#B8963E;border:1px dashed #B8963E;border-radius:8px;padding:6px}
+.li-row{display:grid;grid-template-columns:1fr 70px 90px 34px;gap:8px;align-items:center;margin-bottom:8px}
+.li-row input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;background:var(--paper);color:var(--ink);width:100%}
+.li-del{border:1px solid var(--line);border-radius:8px;padding:8px 0;color:var(--ink-soft);cursor:pointer}
+.li-del:hover{border-color:var(--red);color:var(--red)}
+.send-note{margin-top:12px;padding:10px 13px;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent);border-radius:10px;font-size:12.5px;color:var(--ink);display:none}
+.send-note.on{display:block}
 @media(max-width:820px){.chart-wrap{grid-template-columns:1fr}}
 </style>
 </head>
@@ -203,6 +232,8 @@ tr:last-child td{border-bottom:none}
   <button class="tab" data-view="inv">Inventory</button>
   <button class="tab" data-view="reorder">Reorder</button>
   <button class="tab" data-view="orders">Orders</button>
+  <button class="tab" data-view="payments">Payments</button>
+  <button class="tab" data-view="invoices">Invoices &amp; Receipts</button>
   <button class="tab" data-view="inquiries">Inquiries</button>
   <button class="tab" data-view="vouchers">Vouchers</button>
   <button class="tab" data-view="marketing">Marketing</button>
@@ -279,6 +310,70 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
 
+  <!-- PAYMENTS -->
+  <div class="view" id="view-payments">
+    <div class="section-title"><h2>Payments</h2><span class="pill-sim"><span class="dotp"></span>Simulated, Phase 2 wires to Square</span>
+      <span id="payExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="payStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Payments collected, last 7 days <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Card, cash, and insurance co-pay, demo figures</div>
+        <div id="payChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>By method</h3>
+        <div class="csub">Share of collected payments</div>
+        <div id="payMethod"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Settlement status</h3>
+        <div class="csub">Where each transaction sits</div>
+        <div id="payStatus"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Recent transactions <span class="pill-sim"><span class="dotp"></span>Demo data, not real card data</span></h3>
+      <table id="payTable"></table>
+      <p class="note">Live in Phase 2 via the Square Web Payments SDK and Square Payments API. No real card numbers are ever stored here; this table is synthetic demo data only. Owner action: open a Square merchant account before any real payment can be taken.</p>
+    </div>
+  </div>
+
+  <!-- INVOICES & RECEIPTS -->
+  <div class="view" id="view-invoices">
+    <div class="section-title"><h2>Invoices &amp; Receipts</h2><span class="pill-sim"><span class="dotp"></span>Generate + send are simulated</span>
+      <span id="invExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="invStats"></div>
+    <div class="panel">
+      <div class="doc-grid">
+        <div>
+          <h3>Build a document <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+          <div class="field"><label>Document type</label>
+            <select id="invKind"><option value="invoice">Invoice (amount due)</option><option value="receipt">Receipt (paid)</option></select></div>
+          <div class="field"><label>Bill to (customer name)</label><input type="text" id="invTo" value="Neighbor Customer"></div>
+          <div class="field"><label>Line items</label><div id="invLines"></div>
+            <button class="btn-xs" id="invAddLine" style="margin-top:2px">+ Add line</button></div>
+          <div class="field" style="max-width:180px"><label>Tax rate (NJ demo %)</label><input type="text" id="invTax" value="6.625"></div>
+          <div class="btn-row" style="margin-top:6px">
+            <button class="btn btn-primary" id="invGen">Generate document</button>
+            <button class="btn btn-ghost" id="invSend">Send to customer</button>
+          </div>
+          <div class="send-note" id="invSendNote"></div>
+        </div>
+        <div>
+          <h3>Preview</h3>
+          <div class="inv-paper" id="invPaper"></div>
+          <div class="exp-row" id="invDocExport" style="margin-top:14px"></div>
+        </div>
+      </div>
+      <p class="note">Generate and preview run in your browser. "Send to customer" is SIMULATED and labeled; nothing is emailed or texted. Phase 2 wires sending to Square Invoices (or Brevo for email delivery) and stamps a real invoice number. Owner action: choose the invoicing provider and confirm where receipts should deliver.</p>
+    </div>
+    <div class="panel">
+      <h3>Recent documents <span class="pill-sim"><span class="dotp"></span>Demo log</span></h3>
+      <table id="invTableLog"></table>
+    </div>
+  </div>
+
   <!-- INQUIRIES (Galaxy intake handoffs) -->
   <div class="view" id="view-inquiries">
     <div class="section-title"><h2>Galaxy inquiries</h2><span class="pill-sim"><span class="dotp"></span>Demo, local to this browser</span></div>
@@ -295,8 +390,32 @@ tr:last-child td{border-bottom:none}
 
   <!-- VOUCHERS -->
   <div class="view" id="view-vouchers">
-    <div class="section-title"><h2>Voucher generator</h2><span class="pill-sim"><span class="dotp"></span>Simulated</span></div>
+    <div class="section-title"><h2>Vouchers</h2><span class="pill-sim"><span class="dotp"></span>Simulated redemption data</span>
+      <span id="vouExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="vouStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Redemptions by campaign <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Issued vs redeemed per campaign, demo figures</div>
+        <div id="vouChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Discount tier mix</h3>
+        <div class="csub">Share of redemptions by percentage off</div>
+        <div id="vouTier"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Redemption channel</h3>
+        <div class="csub">Where the code was presented</div>
+        <div id="vouChannel"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Campaign performance <span class="pill-sim"><span class="dotp"></span>Demo log</span></h3>
+      <table id="vouTable"></table>
+    </div>
     <div class="panel" style="max-width:520px">
+      <h3>Generate a voucher <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
       <div class="range-row">
         <span style="font-family:var(--font-display);text-transform:uppercase;font-size:12px;letter-spacing:1px;color:var(--ink-soft)">Discount</span>
         <input type="range" id="vRange" min="5" max="50" step="5" value="15">
@@ -377,6 +496,9 @@ document.getElementById('tabs').addEventListener('click',function(e){
   var v=t.getAttribute('data-view');
   document.getElementById('view-'+v).classList.add('active');
   if(v==='inquiries') renderInquiries();
+  if(v==='payments') buildPayments();
+  if(v==='invoices') buildInvoices();
+  if(v==='vouchers') buildVoucherStats();
 });
 
 /* ============ GALAXY INQUIRIES (demo intake hand-offs) ============ */
@@ -587,8 +709,8 @@ function buildMarketing(){
   var camps=[
     {name:'Flu shot season',ch:'Facebook + Instagram',status:'Active',reach:'~1,240'},
     {name:'Free delivery days',ch:'Site banner',status:'Active',reach:'Site-wide'},
-    {name:'Diabetes care month',ch:'In-store + deals row',status:'Scheduled',reach:'—'},
-    {name:'Kreyòl & Español welcome',ch:'Instagram Reels',status:'Draft',reach:'—'}
+    {name:'Diabetes care month',ch:'In-store + deals row',status:'Scheduled',reach:'n/a'},
+    {name:'Kreyòl & Español welcome',ch:'Instagram Reels',status:'Draft',reach:'n/a'}
   ];
   var html='<tr><th>Campaign</th><th>Channel</th><th>Status</th><th>Reach</th></tr>';
   html+=camps.map(function(c){
@@ -596,6 +718,196 @@ function buildMarketing(){
     return '<tr><td>'+c.name+'</td><td>'+c.ch+'</td><td><span class="badge '+b+'">'+c.status+'</span></td><td>'+c.reach+'</td></tr>';
   }).join('');
   document.getElementById('mktTable').innerHTML=html;
+}
+
+/* =====================================================================
+   PASS A. Revenue group. Payments, Invoices & Receipts, Vouchers.
+   All figures are synthetic demo data. Nothing here touches a real
+   card, customer, or mailbox. Phase 2 production APIs named per tab.
+   ===================================================================== */
+
+/* ---------- PAYMENTS (simulated; Phase 2 = Square) ---------- */
+var PAY = {
+  days:[
+    {label:'Mon',value:1240},{label:'Tue',value:1580},{label:'Wed',value:1410},
+    {label:'Thu',value:1720},{label:'Fri',value:2130},{label:'Sat',value:2460},{label:'Sun',value:640}
+  ],
+  method:[{label:'Card',value:58},{label:'Cash',value:24},{label:'Insurance co-pay',value:18}],
+  status:[{label:'Settled',value:71},{label:'Pending',value:19},{label:'Refunded',value:6},{label:'Failed',value:4}],
+  txns:[
+    {id:'TXN-4821',cust:'Neighbor A.',method:'Card',amt:42.60,status:'Settled',date:'Jul 14'},
+    {id:'TXN-4820',cust:'Neighbor B.',method:'Insurance',amt:15.00,status:'Settled',date:'Jul 14'},
+    {id:'TXN-4819',cust:'Neighbor C.',method:'Cash',amt:8.25,status:'Settled',date:'Jul 13'},
+    {id:'TXN-4818',cust:'Neighbor D.',method:'Card',amt:126.40,status:'Pending',date:'Jul 13'},
+    {id:'TXN-4817',cust:'Neighbor E.',method:'Card',amt:34.99,status:'Refunded',date:'Jul 12'},
+    {id:'TXN-4816',cust:'Neighbor F.',method:'Card',amt:61.10,status:'Settled',date:'Jul 12'},
+    {id:'TXN-4815',cust:'Neighbor G.',method:'Cash',amt:19.75,status:'Settled',date:'Jul 11'},
+    {id:'TXN-4814',cust:'Neighbor H.',method:'Card',amt:12.00,status:'Failed',date:'Jul 11'}
+  ]
+};
+function payStatBadge(s){ var b=s==='Settled'?'b-ok':(s==='Failed'||s==='Refunded')?'b-out':'b-low'; return '<span class="badge '+b+'">'+s+'</span>'; }
+function buildPayments(){
+  var week=PAY.days.reduce(function(a,d){return a+d.value;},0);
+  var settled=PAY.txns.filter(function(t){return t.status==='Settled';}).length;
+  var refunded=PAY.txns.filter(function(t){return t.status==='Refunded';}).length;
+  var stats=[
+    {lbl:'Collected, 7 days',val:'$'+week.toLocaleString(),sub:'\u25B2 vs prior week',up:true},
+    {lbl:'Transactions',val:PAY.txns.length,sub:settled+' settled'},
+    {lbl:'Avg ticket',val:'$'+(PAY.txns.reduce(function(a,t){return a+t.amt;},0)/PAY.txns.length).toFixed(2),sub:'across methods'},
+    {lbl:'Refunds',val:refunded,sub:'this period',down:refunded>0}
+  ];
+  document.getElementById('payStats').innerHTML=stats.map(statTile).join('');
+  svBar('payChart', PAY.days, {money:true});
+  svDonut('payMethod', PAY.method, {centerTop:'100%',centerSub:'by method'});
+  svDonut('payStatus', PAY.status, {centerTop:PAY.txns.length,centerSub:'txns'});
+  var html='<tr><th>Txn ID</th><th>Customer</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr>';
+  html+=PAY.txns.map(function(t){ return '<tr><td>'+t.id+'</td><td>'+t.cust+'</td><td>'+t.method+'</td><td>$'+t.amt.toFixed(2)+'</td><td>'+payStatBadge(t.status)+'</td><td>'+t.date+'</td></tr>'; }).join('');
+  document.getElementById('payTable').innerHTML=html;
+  exportBar('payExport','springview-payments','Payments (simulated)',
+    ['Txn ID','Customer','Method','Amount','Status','Date'],
+    function(){ return PAY.txns.map(function(t){ return [t.id,t.cust,t.method,t.amt.toFixed(2),t.status,t.date]; }); });
+}
+function statTile(s){
+  var sub=s.sub?('<div class="s-sub'+(s.up?' up':'')+(s.down?' down':'')+'">'+s.sub+'</div>'):'';
+  return '<div class="stat"><div class="s-lbl">'+s.lbl+'</div><div class="s-val">'+s.val+'</div>'+sub+'</div>';
+}
+
+/* ---------- INVOICES & RECEIPTS (generate + simulated send) ---------- */
+var INV_LOG=[
+  {no:'INV-1042',kind:'Invoice',to:'Neighbor D.',total:126.40,status:'Sent',date:'Jul 13'},
+  {no:'RCT-2087',kind:'Receipt',to:'Neighbor A.',total:42.60,status:'Sent',date:'Jul 14'},
+  {no:'INV-1041',kind:'Invoice',to:'Neighbor J.',total:58.00,status:'Draft',date:'Jul 12'}
+];
+var invLineData=[
+  {desc:'Prescription co-pay',qty:1,price:15.00},
+  {desc:'Springview Essentials multivitamin',qty:2,price:9.49}
+];
+var invSeq=1043, rctSeq=2088;
+function invLineRow(l,i){
+  return '<div class="li-row" data-i="'+i+'">'+
+    '<input class="li-desc" placeholder="Description" value="'+_esc(l.desc)+'">'+
+    '<input class="li-qty" placeholder="Qty" value="'+l.qty+'">'+
+    '<input class="li-price" placeholder="Price" value="'+l.price.toFixed(2)+'">'+
+    '<div class="li-del" title="Remove">\u00d7</div></div>';
+}
+function invRenderLines(){
+  document.getElementById('invLines').innerHTML=invLineData.map(invLineRow).join('');
+}
+function invReadLines(){
+  var out=[];
+  document.querySelectorAll('#invLines .li-row').forEach(function(row){
+    var desc=row.querySelector('.li-desc').value||'Item';
+    var qty=parseFloat(row.querySelector('.li-qty').value)||0;
+    var price=parseFloat(row.querySelector('.li-price').value)||0;
+    out.push({desc:desc,qty:qty,price:price});
+  });
+  invLineData=out; return out;
+}
+function invCompute(){
+  var lines=invReadLines();
+  var sub=lines.reduce(function(a,l){return a+l.qty*l.price;},0);
+  var taxRate=(parseFloat(document.getElementById('invTax').value)||0)/100;
+  var tax=sub*taxRate, total=sub+tax;
+  return {lines:lines,sub:sub,tax:tax,taxRate:taxRate,total:total};
+}
+function invCurrentDoc(){
+  var kind=document.getElementById('invKind').value;
+  var c=invCompute();
+  var no=kind==='invoice'?('INV-'+invSeq):('RCT-'+rctSeq);
+  return {kind:kind,no:no,to:document.getElementById('invTo').value||'Customer',c:c};
+}
+function invRenderPreview(){
+  var d=invCurrentDoc();
+  var isInv=d.kind==='invoice';
+  var rows=d.c.lines.map(function(l){ return '<tr><td>'+_esc(l.desc)+'</td><td class="r">'+l.qty+'</td><td class="r">$'+l.price.toFixed(2)+'</td><td class="r">$'+(l.qty*l.price).toFixed(2)+'</td></tr>'; }).join('');
+  var title=isInv?'INVOICE':'RECEIPT';
+  var statusLine=isInv?'Amount due':'Paid in full';
+  document.getElementById('invPaper').innerHTML=
+    '<div class="ip-top"><div class="ip-name">Springview Pharmacy<small>& Surgical</small></div>'+
+      '<div class="ip-meta"><b>'+title+'</b><br>'+d.no+'<br>'+new Date().toLocaleDateString()+'</div></div>'+
+    '<div style="font-size:11px;color:#555;margin-bottom:6px">4 Elmwood Avenue, Irvington, NJ 07111 &middot; (973) 372-1300</div>'+
+    '<div style="margin-bottom:8px"><b>Bill to:</b> '+_esc(d.to)+'</div>'+
+    '<table><tr><th>Item</th><th class="r">Qty</th><th class="r">Price</th><th class="r">Amount</th></tr>'+rows+'</table>'+
+    '<div class="ip-tot"><span>Subtotal</span><span>$'+d.c.sub.toFixed(2)+'</span></div>'+
+    '<div class="ip-tot"><span>Tax ('+(d.c.taxRate*100).toFixed(3)+'%)</span><span>$'+d.c.tax.toFixed(2)+'</span></div>'+
+    '<div class="ip-tot grand"><span>'+statusLine+'</span><span>$'+d.c.total.toFixed(2)+'</span></div>'+
+    '<div class="ip-watermark">Demo document, not a real bill or proof of payment</div>';
+}
+function invRenderLog(){
+  var html='<tr><th>Number</th><th>Type</th><th>To</th><th>Total</th><th>Status</th><th>Date</th></tr>';
+  html+=INV_LOG.map(function(r){ var b=r.status==='Sent'?'b-ok':'b-low';
+    return '<tr><td>'+r.no+'</td><td>'+r.kind+'</td><td>'+r.to+'</td><td>$'+r.total.toFixed(2)+'</td><td><span class="badge '+b+'">'+r.status+'</span></td><td>'+r.date+'</td></tr>'; }).join('');
+  document.getElementById('invTableLog').innerHTML=html;
+}
+function invStatsRender(){
+  var sent=INV_LOG.filter(function(r){return r.status==='Sent';}).length;
+  var outstanding=INV_LOG.filter(function(r){return r.kind==='Invoice'&&r.status!=='Paid';}).reduce(function(a,r){return a+r.total;},0);
+  var stats=[
+    {lbl:'Documents',val:INV_LOG.length,sub:sent+' sent'},
+    {lbl:'Outstanding',val:'$'+outstanding.toFixed(2),sub:'unpaid invoices',down:outstanding>0},
+    {lbl:'Receipts issued',val:INV_LOG.filter(function(r){return r.kind==='Receipt';}).length,sub:'this period'}
+  ];
+  document.getElementById('invStats').innerHTML=stats.map(statTile).join('');
+}
+var invWired=false;
+function buildInvoices(){
+  invStatsRender(); invRenderLog(); invRenderLines(); invRenderPreview();
+  exportBar('invExport','springview-invoice-log','Invoice & receipt log (simulated)',
+    ['Number','Type','To','Total','Status','Date'],
+    function(){ return INV_LOG.map(function(r){ return [r.no,r.kind,r.to,r.total.toFixed(2),r.status,r.date]; }); });
+  exportBar('invDocExport','springview-document','Document (simulated)',
+    ['Item','Qty','Price','Amount'],
+    function(){ var d=invCurrentDoc(); var rows=d.c.lines.map(function(l){ return [l.desc,l.qty,'$'+l.price.toFixed(2),'$'+(l.qty*l.price).toFixed(2)]; });
+      rows.push(['','','Subtotal','$'+d.c.sub.toFixed(2)]); rows.push(['','','Tax','$'+d.c.tax.toFixed(2)]); rows.push(['','','Total','$'+d.c.total.toFixed(2)]); return rows; });
+  if(invWired) return; invWired=true;
+  document.getElementById('invAddLine').addEventListener('click',function(){ invReadLines(); invLineData.push({desc:'',qty:1,price:0}); invRenderLines(); });
+  document.getElementById('invLines').addEventListener('click',function(e){ var d=e.target.closest('.li-del'); if(!d)return; var i=parseInt(d.parentNode.getAttribute('data-i'),10); invReadLines(); invLineData.splice(i,1); if(!invLineData.length)invLineData.push({desc:'',qty:1,price:0}); invRenderLines(); });
+  document.getElementById('invGen').addEventListener('click',function(){ invRenderPreview(); document.getElementById('invSendNote').classList.remove('on'); });
+  ['invKind','invTo','invTax'].forEach(function(id){ document.getElementById(id).addEventListener('input',invRenderPreview); document.getElementById(id).addEventListener('change',invRenderPreview); });
+  document.getElementById('invSend').addEventListener('click',function(){
+    var d=invCurrentDoc();
+    INV_LOG.unshift({no:d.no,kind:d.kind==='invoice'?'Invoice':'Receipt',to:d.to,total:d.c.total,status:'Sent',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})});
+    if(d.kind==='invoice') invSeq++; else rctSeq++;
+    invStatsRender(); invRenderLog();
+    var note=document.getElementById('invSendNote');
+    note.innerHTML='SIMULATED SEND. '+d.no+' for '+_esc(d.to)+' was logged as sent, but nothing was actually emailed or texted. In Phase 2 this delivers via Square Invoices or Brevo email. Owner action: confirm the sending provider and delivery address.';
+    note.classList.add('on');
+  });
+}
+
+/* ---------- VOUCHERS (upgraded: stat tiles + redemption chart) ---------- */
+var VOU = {
+  campaigns:[
+    {name:'Neighbor appreciation',issued:220,redeemed:148,pct:15},
+    {name:'Flu shot season',issued:180,redeemed:96,pct:10},
+    {name:'Kreyol & Espanol welcome',issued:140,redeemed:71,pct:20},
+    {name:'Diabetes care month',issued:90,redeemed:38,pct:25}
+  ],
+  tiers:[{label:'5-10% off',value:96},{label:'15% off',value:148},{label:'20% off',value:71},{label:'25%+ off',value:38}],
+  channel:[{label:'In store',value:262},{label:'Online cart',value:73},{label:'Phone order',value:18}]
+};
+function buildVoucherStats(){
+  var issued=VOU.campaigns.reduce(function(a,c){return a+c.issued;},0);
+  var redeemed=VOU.campaigns.reduce(function(a,c){return a+c.redeemed;},0);
+  var rate=Math.round(redeemed/issued*100);
+  var stats=[
+    {lbl:'Vouchers issued',val:issued.toLocaleString(),sub:'across '+VOU.campaigns.length+' campaigns'},
+    {lbl:'Redeemed',val:redeemed.toLocaleString(),sub:rate+'% redemption',up:true},
+    {lbl:'Outstanding',val:(issued-redeemed).toLocaleString(),sub:'not yet used'},
+    {lbl:'Top campaign',val:VOU.campaigns[0].pct+'%',sub:VOU.campaigns[0].name}
+  ];
+  document.getElementById('vouStats').innerHTML=stats.map(statTile).join('');
+  var chartData=VOU.campaigns.map(function(c){ return {label:c.name.split(' ')[0], value:c.redeemed, tip:'<b>'+c.name+'</b><br>'+c.redeemed+' redeemed of '+c.issued+' issued'}; });
+  svBar('vouChart', chartData, {unit:'redeemed'});
+  svDonut('vouTier', VOU.tiers, {centerTop:VOU.tiers.reduce(function(a,d){return a+d.value;},0),centerSub:'redeemed'});
+  svDonut('vouChannel', VOU.channel, {centerTop:'100%',centerSub:'channel'});
+  var html='<tr><th>Campaign</th><th>Discount</th><th>Issued</th><th>Redeemed</th><th>Rate</th></tr>';
+  html+=VOU.campaigns.map(function(c){ var r=Math.round(c.redeemed/c.issued*100); var b=r>=60?'b-ok':r>=40?'b-low':'b-out';
+    return '<tr><td>'+c.name+'</td><td>'+c.pct+'%</td><td>'+c.issued+'</td><td>'+c.redeemed+'</td><td><span class="badge '+b+'">'+r+'%</span></td></tr>'; }).join('');
+  document.getElementById('vouTable').innerHTML=html;
+  exportBar('vouExport','springview-vouchers','Voucher performance (simulated)',
+    ['Campaign','Discount %','Issued','Redeemed','Rate %'],
+    function(){ return VOU.campaigns.map(function(c){ return [c.name,c.pct,c.issued,c.redeemed,Math.round(c.redeemed/c.issued*100)]; }); });
 }
 
 /* =====================================================================
@@ -790,6 +1102,7 @@ function buildAll(){
   buildAlertLog(); buildInvSubtabs(); buildInvTable();
   buildReorderTable(); setupReorderButtons();
   buildOrders(); setupVouchers(); buildMarketing();
+  buildPayments(); buildInvoices(); buildVoucherStats();
   document.getElementById('exportCsv').addEventListener('click',exportCSV);
   document.getElementById('exportWord').addEventListener('click',exportWord);
 }
