@@ -1518,11 +1518,27 @@ function ccRenderSummary(){
 
   document.getElementById('ccIntakeSend').addEventListener('click',function(){
     this.disabled=true; this.textContent='\u2713';
-    // Demo: build the brief and log it (no transmission). Phase 2 wires this to the backend.
+    // Demo only: build the brief and store it locally. No transmission happens.
+    // Phase 2 wires this to a real backend (Google Sheet or pharmacy email).
     var brief=ccBuildBrief(s);
     try{ console.log('[Springview intake demo, not transmitted]\n'+brief); }catch(e){}
-    // stash the last brief so an admin/demo view could read it (session only)
-    try{ sessionStorage.setItem('sv-last-intake', brief); }catch(e){}
+    // Persist a structured record to a shared local list the admin console can read.
+    // localStorage (not sessionStorage) so the staff console, in another tab on the
+    // same browser, can display it during a demo. This is a local demo mirror only,
+    // never a real or HIPAA-safe store.
+    try{
+      var rec={ id:'in_'+Date.now(), ts:Date.now(), type:s.key, title:ccT(s.flow.title),
+                lang:ccLang(), fields:[] };
+      s.flow.fields.forEach(function(f){
+        var lbl=ccEnLabel(f.id);
+        var val=s.data[f.id]; if(val==null||String(val).trim()==='') val='(not provided)';
+        rec.fields.push({ k:lbl, v:String(val) });
+      });
+      var list=[]; try{ list=JSON.parse(localStorage.getItem('sv-intakes')||'[]'); }catch(e){ list=[]; }
+      list.unshift(rec); if(list.length>50) list=list.slice(0,50);
+      localStorage.setItem('sv-intakes', JSON.stringify(list));
+      sessionStorage.setItem('sv-last-intake', brief);
+    }catch(e){}
     ccAddMsg(ccT(CC_UI.sentMsg),'bot');
     document.getElementById('ccQuick').classList.remove('hide');
     CC_INTAKE=null;
@@ -1530,6 +1546,9 @@ function ccRenderSummary(){
   var book=document.getElementById('ccGoBook');
   if(book) book.addEventListener('click',function(){ ccClose(); });
 }
+
+/* English (staff-facing) field label for the admin console, independent of site language */
+function ccEnLabel(id){ var o=CC_UI.fieldLabels[id]; return o? o.en : id; }
 
 function ccBuildBrief(s){
   var out='SPRINGVIEW INTAKE, '+ccT(s.flow.title)+'\n';
