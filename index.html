@@ -442,6 +442,14 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .form-submit:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .form-ok{display:none;background:color-mix(in srgb,#2E7D32 12%,transparent);border:1px solid #2E7D32;color:var(--ink);border-radius:11px;padding:16px;margin-top:14px;font-size:14px}
 .form-ok.show{display:block}
+.rx-deliv{border:1px dashed var(--line);border-radius:12px;padding:14px;margin:2px 0 14px;background:color-mix(in srgb,var(--ink) 3%,transparent)}
+.rx-deliv[hidden]{display:none}
+.rx-deliv-note{font-size:12.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.45}
+.rx-deliv-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.rx-area{font-size:13px;padding:10px 12px;border-radius:9px;margin-top:4px}
+.rx-area[hidden]{display:none}
+.rx-area.in{background:color-mix(in srgb,#2E7D32 14%,transparent);border:1px solid #2E7D32;color:var(--ink)}
+.rx-area.out{background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid var(--gold);color:var(--ink)}
 
 /* ============ STORY FLIPBOOK ============ */
 .flip-wrap{perspective:1600px;max-width:560px;margin:10px auto 30px}
@@ -893,7 +901,16 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
         <div class="field"><label><span data-i18n="en">Prescription (Rx) number</span><span data-i18n="es">Número de receta (Rx)</span><span data-i18n="ht">Nimewo preskripsyon (Rx)</span><span data-i18n="fr">Numéro d'ordonnance (Rx)</span></label><input type="text" id="rfRx" placeholder="e.g. 3049217"></div>
         <div class="field"><label><span data-i18n="en">Full name</span><span data-i18n="es">Nombre completo</span><span data-i18n="ht">Non konplè</span><span data-i18n="fr">Nom complet</span></label><input type="text" id="rfName"></div>
         <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span><span data-i18n="fr">Téléphone ou courriel</span></label><input type="text" id="rfContact"></div>
-        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span><span data-i18n="fr">Retrait ou livraison ?</span></label><select id="rfMethod"><option data-i18n-opt="pickup"></option><option data-i18n-opt="delivery"></option></select></div>
+        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span><span data-i18n="fr">Retrait ou livraison ?</span></label><select id="rfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
+        <div class="rx-deliv" id="rfDeliv" hidden>
+          <div class="rx-deliv-note" id="rfDelivNote"></div>
+          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span><span data-i18n="fr">Adresse de livraison</span></label><input type="text" id="rfStreet" autocomplete="address-line1"></div>
+          <div class="rx-deliv-row">
+            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span><span data-i18n="fr">Ville</span></label><input type="text" id="rfTown" autocomplete="address-level2"></div>
+            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span><span data-i18n="fr">Code postal</span></label><input type="text" id="rfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
+          </div>
+          <div class="rx-area" id="rfArea" hidden></div>
+        </div>
         <button class="form-submit" data-form="refill"><span data-i18n="en">Request refill</span><span data-i18n="es">Solicitar resurtido</span><span data-i18n="ht">Mande ranpli</span><span data-i18n="fr">Demander</span></button>
         <div class="form-ok" id="okRefill"><span data-i18n="en">Demo: in the live site this reaches the pharmacy queue. Nothing was submitted. Call (973) 372-1300 to confirm a real refill.</span><span data-i18n="es">Demo: en el sitio real esto llega a la farmacia. No se envió nada. Llame al (973) 372-1300.</span><span data-i18n="ht">Demo: sou sit reyèl la sa rive nan famasi a. Anyen pa t voye. Rele (973) 372-1300.</span><span data-i18n="fr">Demo: sur le site réel, ceci atteint la pharmacie. Rien n'a été envoyé. Appelez le (973) 372-1300.</span></div>
       </div>
@@ -904,6 +921,16 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
         <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span><span data-i18n="fr">Téléphone ou courriel</span></label><input type="text" id="tfContact"></div>
         <div class="field"><label><span data-i18n="en">Current pharmacy name</span><span data-i18n="es">Farmacia actual</span><span data-i18n="ht">Non famasi aktyèl la</span><span data-i18n="fr">Pharmacie actuelle</span></label><input type="text" id="tfPharm"></div>
         <div class="field"><label><span data-i18n="en">Medication(s) to transfer</span><span data-i18n="es">Medicamento(s) a transferir</span><span data-i18n="ht">Medikaman pou transfere</span><span data-i18n="fr">Médicament(s) à transférer</span></label><textarea id="tfMeds" rows="2"></textarea></div>
+        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span><span data-i18n="fr">Retrait ou livraison ?</span></label><select id="tfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
+        <div class="rx-deliv" id="tfDeliv" hidden>
+          <div class="rx-deliv-note" id="tfDelivNote"></div>
+          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span><span data-i18n="fr">Adresse de livraison</span></label><input type="text" id="tfStreet" autocomplete="address-line1"></div>
+          <div class="rx-deliv-row">
+            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span><span data-i18n="fr">Ville</span></label><input type="text" id="tfTown" autocomplete="address-level2"></div>
+            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span><span data-i18n="fr">Code postal</span></label><input type="text" id="tfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
+          </div>
+          <div class="rx-area" id="tfArea" hidden></div>
+        </div>
         <button class="form-submit" data-form="transfer"><span data-i18n="en">Request transfer</span><span data-i18n="es">Solicitar transferencia</span><span data-i18n="ht">Mande transfè</span><span data-i18n="fr">Demander le transfert</span></button>
         <div class="form-ok" id="okTransfer"><span data-i18n="en">Demo: no data was sent. In the live site our pharmacist calls your old pharmacy for you. Questions? (973) 372-1300.</span><span data-i18n="es">Demo: no se envió nada. En el sitio real llamamos por usted. ¿Dudas? (973) 372-1300.</span><span data-i18n="ht">Demo: anyen pa t voye. Sou sit reyèl la nou rele pou ou. Kesyon? (973) 372-1300.</span><span data-i18n="fr">Demo: rien n'a été envoyé. Sur le site réel, nous appelons pour vous. Questions ? (973) 372-1300.</span></div>
       </div>
