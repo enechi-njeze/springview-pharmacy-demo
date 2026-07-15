@@ -19,6 +19,35 @@ var SV_DEPTS = [
   {id:'home',  ic:'🏠', promo:false, en:'Home Health',       es:'Salud en casa',    ht:'Sante Lakay',      fr:'Santé à domicile'}
 ];
 
+/* ============================================================
+   DELIVERY + SERVICE-AREA CONFIG (single source of truth)
+   Edit these values to change behavior everywhere. Owner-confirmed.
+   ============================================================ */
+var SV_DELIVERY = {
+  otcMinimum: 60,                    // OTC free-delivery threshold (owner-confirmed)
+  rxExemptFromMinimum: true,         // Rx delivery ignores the OTC minimum
+  serviceAreaTowns: ['Newark','Orange','East Orange','Irvington','Maplewood'],
+  serviceAreaZips: ['07111','07018','07017','07050','07052','07040','07079',
+                    '07102','07103','07104','07105','07106','07107','07108','07112','07114']
+  // ^ indicative ZIPs for the in-area towns; town-name match is primary, ZIP is a helper.
+  //   Owner action: confirm exact delivery ZIPs before go-live.
+};
+/* is the typed town in the service area? (case-insensitive, trimmed) */
+function svTownInArea(town){
+  if(!town) return false;
+  var t=String(town).trim().toLowerCase();
+  return SV_DELIVERY.serviceAreaTowns.some(function(x){ return x.toLowerCase()===t; });
+}
+function svZipInArea(zip){
+  if(!zip) return false;
+  var z=String(zip).trim().slice(0,5);
+  return SV_DELIVERY.serviceAreaZips.indexOf(z)>=0;
+}
+/* does the current cart contain any Rx-flagged item? (none in demo catalog; hook for Phase 2) */
+function svCartHasRx(){
+  var c=cartLoad(); for(var k in c){ var p=findProduct(k); if(p&&p.rx) return true; } return false;
+}
+
 /* stock states cycle for realism */
 function _stock(i){ return i%9===0 ? 'out' : (i%4===0 ? 'low' : 'in'); }
 
@@ -436,10 +465,122 @@ function renderCart(){
     items.querySelectorAll('[data-rm]').forEach(function(b){ b.onclick=function(){ cartSet(b.getAttribute('data-rm'),0); }; });
   }
   document.getElementById('cartSubtotal').textContent=money(cartSubtotal());
+  renderReserve();
 }
 function openCart(){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); renderCart(); }
 function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
 function pulseCart(){ var b=document.getElementById('cartBtn'); if(!b) return; b.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:260}); }
+
+/* ============================================================
+   RESERVE FOR PICKUP / DELIVERY  (Phase-1 e-commerce bridge)
+   No card capture. Submits via the same sv-intakes messenger
+   the Galaxy intake uses, so it lands in admin Inquiries.
+   Delivery gated by $60 OTC minimum + service-area check.
+   Rx delivery is exempt from the minimum (config).
+   ============================================================ */
+var RSV = { mode:'pickup', areaOK:null };  // mode: 'pickup' | 'delivery'
+
+/* 4-language strings for the reserve panel (HT/FR need native review before production) */
+var RSV_TXT = {
+  pickup:{en:'Pickup at 4 Elmwood',es:'Recoger en 4 Elmwood',ht:'Ranmase nan 4 Elmwood',fr:'Retrait au 4 Elmwood'},
+  deliv:{en:'Local delivery',es:'Entrega local',ht:'Livrezon lokal',fr:'Livraison locale'},
+  zipLbl:{en:'Delivery ZIP code',es:'Código postal de entrega',ht:'Kòd postal livrezon',fr:'Code postal de livraison'},
+  townLbl:{en:'Your town',es:'Su ciudad',ht:'Vil ou',fr:'Votre ville'},
+  check:{en:'Check my area',es:'Verificar mi zona',ht:'Tcheke zòn mwen',fr:'Vérifier ma zone'},
+  areaYes:{en:'Good news: we deliver to your area.',es:'Buenas noticias: entregamos en su zona.',ht:'Bon nouvèl: nou livre nan zòn ou.',fr:'Bonne nouvelle : nous livrons dans votre zone.'},
+  areaNo:{en:'We do not deliver to your address yet. Pickup is ready and fast.',es:'Aún no entregamos en su dirección. La recogida es rápida.',ht:'Nou poko livre nan adrès ou. Ranmasaj la pare epi rapid.',fr:'Nous ne livrons pas encore à votre adresse. Le retrait est rapide.'},
+  belowMin:{en:'Free delivery on orders over $60. Smaller orders are ready for quick pickup.',es:'Entrega gratis en pedidos de más de $60. Los pedidos menores están listos para recogida rápida.',ht:'Livrezon gratis pou kòmand ki depase $60. Ti kòmand yo pare pou ranmasaj rapid.',fr:'Livraison gratuite pour les commandes de plus de 60 $. Les petites commandes sont prêtes pour un retrait rapide.'},
+  rxNote:{en:'Prescription delivery is available in-area with no minimum.',es:'La entrega de recetas está disponible en la zona sin mínimo.',ht:'Livrezon preskripsyon disponib nan zòn nan san minimòm.',fr:'La livraison des ordonnances est disponible dans la zone sans minimum.'},
+  nameLbl:{en:'Your name',es:'Su nombre',ht:'Non ou',fr:'Votre nom'},
+  phoneLbl:{en:'Callback number',es:'Número de devolución de llamada',ht:'Nimewo pou rele w',fr:'Numéro de rappel'},
+  reserveBtn:{en:'Send reservation request',es:'Enviar solicitud de reserva',ht:'Voye demann rezèvasyon',fr:'Envoyer la demande de réservation'},
+  consent:{en:'By sending, you agree we may contact you about this request.',es:'Al enviar, acepta que podamos contactarle sobre esta solicitud.',ht:'Lè ou voye, ou dakò nou ka kontakte w sou demann sa a.',fr:'En envoyant, vous acceptez que nous vous contactions à ce sujet.'},
+  sent:{en:'Request sent. We will call you to confirm. Pay at the counter on pickup or on delivery.',es:'Solicitud enviada. Le llamaremos para confirmar. Pague en el mostrador o en la entrega.',ht:'Demann voye. N ap rele w pou konfime. Peye nan kontwa a oswa nan livrezon.',fr:'Demande envoyée. Nous vous appellerons pour confirmer. Payez au comptoir ou à la livraison.'},
+  demoTag:{en:'Demo: this prepares a request for the pharmacy team, it does not take payment.',es:'Demo: prepara una solicitud para la farmacia, no cobra.',ht:'Demo: sa prepare yon demann pou ekip famasi a, li pa pran peman.',fr:'Démo : prépare une demande pour l\u2019équipe, sans paiement.'},
+  needFields:{en:'Please add your name and a callback number.',es:'Agregue su nombre y un número.',ht:'Tanpri ajoute non ou ak yon nimewo.',fr:'Ajoutez votre nom et un numéro.'}
+};
+
+/* render the reserve panel inside the cart foot (called from renderCart) */
+function renderReserve(){
+  var host=document.getElementById('rsvPanel'); if(!host) return;
+  var sub=cartSubtotal(), hasRx=svCartHasRx();
+  var minOK = sub>=SV_DELIVERY.otcMinimum || (hasRx && SV_DELIVERY.rxExemptFromMinimum);
+  var deliverable = minOK && RSV.areaOK===true;
+  var toggle=''
+    +'<div class="rsv-toggle" role="tablist">'
+    +'<button class="rsv-tab'+(RSV.mode==='pickup'?' on':'')+'" data-rsv="pickup">'+tr(RSV_TXT.pickup)+'</button>'
+    +'<button class="rsv-tab'+(RSV.mode==='delivery'?' on':'')+'" data-rsv="delivery">'+tr(RSV_TXT.deliv)+'</button>'
+    +'</div>';
+  var deliveryBlock='';
+  if(RSV.mode==='delivery'){
+    var minMsg = minOK ? '' : '<div class="rsv-msg warn">'+tr(RSV_TXT.belowMin)+'</div>';
+    var rxMsg  = (hasRx && SV_DELIVERY.rxExemptFromMinimum) ? '<div class="rsv-msg ok">'+tr(RSV_TXT.rxNote)+'</div>' : '';
+    var areaMsg='';
+    if(RSV.areaOK===true) areaMsg='<div class="rsv-msg ok">'+tr(RSV_TXT.areaYes)+'</div>';
+    else if(RSV.areaOK===false) areaMsg='<div class="rsv-msg warn">'+tr(RSV_TXT.areaNo)+'</div>';
+    deliveryBlock=''
+      +'<div class="rsv-area">'
+      +'<label>'+tr(RSV_TXT.townLbl)+'<input id="rsvTown" type="text" autocomplete="address-level2"></label>'
+      +'<label>'+tr(RSV_TXT.zipLbl)+'<input id="rsvZip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code"></label>'
+      +'<button class="rsv-check" id="rsvCheck">'+tr(RSV_TXT.check)+'</button>'
+      +'</div>'+minMsg+rxMsg+areaMsg;
+  }
+  var showForm = (RSV.mode==='pickup') || (RSV.mode==='delivery' && deliverable);
+  var form = !showForm ? '' :
+     '<div class="rsv-form">'
+    +'<label>'+tr(RSV_TXT.nameLbl)+'<input id="rsvName" type="text" autocomplete="name"></label>'
+    +'<label>'+tr(RSV_TXT.phoneLbl)+'<input id="rsvPhone" type="tel" autocomplete="tel"></label>'
+    +'<div class="rsv-consent">'+tr(RSV_TXT.consent)+'</div>'
+    +'<button class="rsv-send" id="rsvSend">'+tr(RSV_TXT.reserveBtn)+'</button>'
+    +'<div class="rsv-demo">'+tr(RSV_TXT.demoTag)+'</div>'
+    +'</div>';
+  host.innerHTML = toggle + deliveryBlock + form + '<div class="rsv-ok" id="rsvOk"></div>';
+
+  host.querySelectorAll('[data-rsv]').forEach(function(b){
+    b.onclick=function(){ RSV.mode=b.getAttribute('data-rsv'); if(RSV.mode==='pickup') RSV.areaOK=null; renderReserve(); };
+  });
+  var chk=document.getElementById('rsvCheck');
+  if(chk) chk.onclick=function(){
+    var town=(document.getElementById('rsvTown')||{}).value;
+    var zip=(document.getElementById('rsvZip')||{}).value;
+    RSV.areaOK = svTownInArea(town) || svZipInArea(zip);
+    renderReserve();
+  };
+  var snd=document.getElementById('rsvSend');
+  if(snd) snd.onclick=submitReserve;
+}
+
+/* write a reservation into sv-intakes (same shape the Galaxy intake uses) */
+function submitReserve(){
+  var name=(document.getElementById('rsvName')||{}).value||'';
+  var phone=(document.getElementById('rsvPhone')||{}).value||'';
+  if(!name.trim()||!phone.trim()){
+    var okv=document.getElementById('rsvOk'); if(okv){ okv.className='rsv-ok warn show'; okv.textContent=tr(RSV_TXT.needFields); }
+    return;
+  }
+  var c=cartLoad(), lines=[];
+  for(var k in c){ var p=findProduct(k); if(p) lines.push(c[k]+' x '+ (p.name.en||tr(p.name)) ); }
+  var town=(document.getElementById('rsvTown')||{}).value||'';
+  var zip=(document.getElementById('rsvZip')||{}).value||'';
+  var fulfill = RSV.mode==='delivery' ? ('Delivery ('+ (town||'') + (zip?(' '+zip):'') +')') : 'Pickup at 4 Elmwood';
+  var rec={ id:'in_'+Date.now(), ts:Date.now(), type:'reserve',
+            title:'OTC Reservation', lang:L(),
+            fields:[
+              {k:'Name', v:name},
+              {k:'Callback', v:phone},
+              {k:'Fulfillment', v:fulfill},
+              {k:'Items', v: lines.join('; ')||'(none)'},
+              {k:'Subtotal', v: money(cartSubtotal())},
+              {k:'Payment', v:'At counter / on delivery (no online payment)'}
+            ]};
+  try{
+    var list=[]; try{ list=JSON.parse(localStorage.getItem('sv-intakes')||'[]'); }catch(e){ list=[]; }
+    list.unshift(rec); if(list.length>50) list=list.slice(0,50);
+    localStorage.setItem('sv-intakes', JSON.stringify(list));
+  }catch(e){}
+  try{ console.log('[Springview reserve demo, not transmitted]', rec); }catch(e){}
+  var ok=document.getElementById('rsvOk'); if(ok){ ok.className='rsv-ok ok show'; ok.textContent=tr(RSV_TXT.sent); }
+}
 
 /* ============ STORY FLIPBOOK ============ */
 var STORY=[
@@ -502,7 +643,11 @@ function setupCartUI(){
   var cc=document.getElementById('cartClose'); if(cc) cc.addEventListener('click',closeCart);
   var co=document.getElementById('cartOverlay'); if(co) co.addEventListener('click',closeCart);
   var chk=document.getElementById('cartCheckout');
-  if(chk) chk.addEventListener('click',function(){ document.getElementById('checkoutHonesty').classList.add('show'); });
+  if(chk) chk.addEventListener('click',function(){
+    var panel=document.getElementById('rsvPanel');
+    if(panel){ panel.classList.add('show'); renderReserve(); panel.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+    var hon=document.getElementById('checkoutHonesty'); if(hon) hon.classList.add('show');
+  });
   var lb=document.getElementById('lightbox');
   if(lb) lb.addEventListener('click',function(){ lb.classList.remove('open'); });
   var sortSel=document.getElementById('plpSort');
