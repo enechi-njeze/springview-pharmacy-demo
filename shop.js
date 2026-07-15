@@ -20,19 +20,18 @@ var SV_DEPTS = [
 ];
 
 /* ============================================================
-   DELIVERY + SERVICE-AREA CONFIG (single source of truth)
-   Edit these values to change behavior everywhere. Owner-confirmed.
+   SERVICE-AREA CONFIG (single source of truth)
+   Delivery is for PRESCRIPTIONS ONLY. OTC is always pickup
+   (payment happens at the counter, so OTC cannot be delivered).
    ============================================================ */
 var SV_DELIVERY = {
-  otcMinimum: 60,                    // OTC free-delivery threshold (owner-confirmed)
-  rxExemptFromMinimum: true,         // Rx delivery ignores the OTC minimum
   serviceAreaTowns: ['Newark','Orange','East Orange','Irvington','Maplewood'],
   serviceAreaZips: ['07111','07018','07017','07050','07052','07040','07079',
                     '07102','07103','07104','07105','07106','07107','07108','07112','07114']
   // ^ indicative ZIPs for the in-area towns; town-name match is primary, ZIP is a helper.
-  //   Owner action: confirm exact delivery ZIPs before go-live.
+  //   Owner action: confirm exact Rx-delivery ZIPs before go-live.
 };
-/* is the typed town in the service area? (case-insensitive, trimmed) */
+/* is the typed town in the Rx service area? (case-insensitive, trimmed) */
 function svTownInArea(town){
   if(!town) return false;
   var t=String(town).trim().toLowerCase();
@@ -42,10 +41,6 @@ function svZipInArea(zip){
   if(!zip) return false;
   var z=String(zip).trim().slice(0,5);
   return SV_DELIVERY.serviceAreaZips.indexOf(z)>=0;
-}
-/* does the current cart contain any Rx-flagged item? (none in demo catalog; hook for Phase 2) */
-function svCartHasRx(){
-  var c=cartLoad(); for(var k in c){ var p=findProduct(k); if(p&&p.rx) return true; } return false;
 }
 
 /* stock states cycle for realism */
@@ -222,10 +217,10 @@ function _nameTr(en){
 function _blurb(deptId,nameEn){
   var d=SV_DEPTS.filter(function(x){return x.id===deptId;})[0];
   return {
-    en:'Quality '+d.en.toLowerCase()+' from Springview. Ask our pharmacist if it is right for you. Pickup at 4 Elmwood or free local delivery Mon/Wed/Fri.',
-    es:'Producto de calidad para '+d.es.toLowerCase()+' de Springview. Pregunte a nuestro farmacéutico si es adecuado para usted. Recoja en 4 Elmwood o entrega gratis.',
-    ht:'Pwodwi kalite pou '+d.ht.toLowerCase()+' nan Springview. Mande famasyen nou an si li bon pou ou. Ranmase nan 4 Elmwood oswa livrezon gratis.',
-    fr:'Produit de qualité pour '+d.fr.toLowerCase()+' de Springview. Demandez à notre pharmacien s\u2019il vous convient. Retrait au 4 Elmwood ou livraison gratuite.'
+    en:'Quality '+d.en.toLowerCase()+' from Springview. Ask our pharmacist if it is right for you. Reserve for pickup at 4 Elmwood.',
+    es:'Producto de calidad para '+d.es.toLowerCase()+' de Springview. Pregunte a nuestro farmacéutico si es adecuado para usted. Reserve para recoger en 4 Elmwood.',
+    ht:'Pwodwi kalite pou '+d.ht.toLowerCase()+' nan Springview. Mande famasyen nou an si li bon pou ou. Rezève pou ranmase nan 4 Elmwood.',
+    fr:'Produit de qualité pour '+d.fr.toLowerCase()+' de Springview. Demandez à notre pharmacien s\u2019il vous convient. Réservez pour le retrait au 4 Elmwood.'
   };
 }
 
@@ -273,7 +268,7 @@ var FILTER_TXT={
   reset:{en:'Reset filters',es:'Restablecer',ht:'Reyinisyalize',fr:'Réinitialiser'},
   addcart:{en:'Add to cart',es:'Añadir al carrito',ht:'Mete nan panye',fr:'Ajouter au panier'},
   pickup:{en:'Pickup today at 4 Elmwood',es:'Recoja hoy en 4 Elmwood',ht:'Ranmase jodi a nan 4 Elmwood',fr:'Retrait aujourd\u2019hui au 4 Elmwood'},
-  deliv:{en:'Free delivery Mon / Wed / Fri',es:'Entrega gratis Lun / Mié / Vie',ht:'Livrezon gratis Len / Mèk / Van',fr:'Livraison gratuite Lun / Mer / Ven'},
+  deliv:{en:'Pay at the counter on pickup',es:'Pague en el mostrador al recoger',ht:'Peye nan kontwa a lè ou ranmase',fr:'Payez au comptoir au retrait'},
   desc:{en:'Description',es:'Descripción',ht:'Deskripsyon',fr:'Description'},
   specs:{en:'Details & specs',es:'Detalles',ht:'Detay',fr:'Détails'},
   related:{en:'You might also need',es:'También podría necesitar',ht:'Ou ka bezwen tou',fr:'Vous pourriez aussi avoir besoin'},
@@ -286,7 +281,7 @@ var FILTER_TXT={
 function renderPromoChips(){
   var wrap=document.getElementById('promoChips'); if(!wrap) return;
   var chips=[
-    {en:'Free local delivery Mon/Wed/Fri',es:'Entrega gratis Lun/Mié/Vie',ht:'Livrezon gratis Len/Mèk/Van',fr:'Livraison gratuite Lun/Mer/Ven'},
+    {en:'We deliver prescriptions in the area',es:'Entregamos recetas en la zona',ht:'Nou livre preskripsyon nan zòn nan',fr:'Nous livrons les ordonnances dans la zone'},
     {en:'Surgical & DME fitted in person',es:'Equipo médico ajustado en persona',ht:'Ekipman medikal mezire an pèsòn',fr:'Matériel médical ajusté en personne'},
     {en:'Ask about discount cards',es:'Pregunte por tarjetas de descuento',ht:'Mande sou kat rabè',fr:'Demandez les cartes de réduction'}
   ];
@@ -388,7 +383,7 @@ function renderPDP(id){
       +'<div class="pcard-size">'+tr(p.size)+'</div>'
       +'<div class="pdp-price">'+money(p.price)+'</div>'
       +'<div class="pdp-fulfill"><div class="row"><span class="ic">🏪</span>'+tr(FILTER_TXT.pickup)+'</div>'
-        +'<div class="row"><span class="ic">🚚</span>'+tr(FILTER_TXT.deliv)+'</div>'
+        +'<div class="row"><span class="ic">💳</span>'+tr(FILTER_TXT.deliv)+'</div>'
         +'<div class="row"><span class="ic">'+(out?'⛔':'✅')+'</span>'+tr(STOCK_LABEL[p.stock])+'</div></div>'
       +'<div class="qty-row"><span class="pcard-size">'+tr(FILTER_TXT.qty)+'</span>'
         +'<div class="qty-step"><button id="qtyMinus">&minus;</button><span id="qtyVal">1</span><button id="qtyPlus">+</button></div></div>'
@@ -472,85 +467,47 @@ function closeCart(){ document.getElementById('cartDrawer').classList.remove('op
 function pulseCart(){ var b=document.getElementById('cartBtn'); if(!b) return; b.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:260}); }
 
 /* ============================================================
-   RESERVE FOR PICKUP / DELIVERY  (Phase-1 e-commerce bridge)
-   No card capture. Submits via the same sv-intakes messenger
-   the Galaxy intake uses, so it lands in admin Inquiries.
-   Delivery gated by $60 OTC minimum + service-area check.
-   Rx delivery is exempt from the minimum (config).
+   RESERVE FOR PICKUP  (Phase-1 e-commerce bridge, OTC)
+   OTC is PICKUP ONLY: payment happens at the counter, so OTC
+   items are never delivered. Rx delivery lives in the refill
+   flow, not here. No card capture. Submits via the same
+   sv-intakes messenger the Galaxy intake uses, so it lands in
+   admin Inquiries.
    ============================================================ */
-var RSV = { mode:'pickup', areaOK:null };  // mode: 'pickup' | 'delivery'
+var RSV = {};
 
 /* 4-language strings for the reserve panel (HT/FR need native review before production) */
 var RSV_TXT = {
-  pickup:{en:'Pickup at 4 Elmwood',es:'Recoger en 4 Elmwood',ht:'Ranmase nan 4 Elmwood',fr:'Retrait au 4 Elmwood'},
-  deliv:{en:'Local delivery',es:'Entrega local',ht:'Livrezon lokal',fr:'Livraison locale'},
-  zipLbl:{en:'Delivery ZIP code',es:'Código postal de entrega',ht:'Kòd postal livrezon',fr:'Code postal de livraison'},
-  townLbl:{en:'Your town',es:'Su ciudad',ht:'Vil ou',fr:'Votre ville'},
-  check:{en:'Check my area',es:'Verificar mi zona',ht:'Tcheke zòn mwen',fr:'Vérifier ma zone'},
-  areaYes:{en:'Good news: we deliver to your area.',es:'Buenas noticias: entregamos en su zona.',ht:'Bon nouvèl: nou livre nan zòn ou.',fr:'Bonne nouvelle : nous livrons dans votre zone.'},
-  areaNo:{en:'We do not deliver to your address yet. Pickup is ready and fast.',es:'Aún no entregamos en su dirección. La recogida es rápida.',ht:'Nou poko livre nan adrès ou. Ranmasaj la pare epi rapid.',fr:'Nous ne livrons pas encore à votre adresse. Le retrait est rapide.'},
-  belowMin:{en:'Free delivery on orders over $60. Smaller orders are ready for quick pickup.',es:'Entrega gratis en pedidos de más de $60. Los pedidos menores están listos para recogida rápida.',ht:'Livrezon gratis pou kòmand ki depase $60. Ti kòmand yo pare pou ranmasaj rapid.',fr:'Livraison gratuite pour les commandes de plus de 60 $. Les petites commandes sont prêtes pour un retrait rapide.'},
-  rxNote:{en:'Prescription delivery is available in-area with no minimum.',es:'La entrega de recetas está disponible en la zona sin mínimo.',ht:'Livrezon preskripsyon disponib nan zòn nan san minimòm.',fr:'La livraison des ordonnances est disponible dans la zone sans minimum.'},
+  heading:{en:'Reserve these for pickup',es:'Reserve para recoger',ht:'Rezève sa yo pou ranmase',fr:'Réservez pour le retrait'},
+  pickupOnly:{en:'Pickup at 4 Elmwood. Pay at the counter when you collect. We do not deliver over-the-counter items.',es:'Recoja en 4 Elmwood. Pague en el mostrador al recoger. No entregamos artículos de venta libre.',ht:'Ranmase nan 4 Elmwood. Peye nan kontwa a lè ou vin pran. Nou pa livre atik san preskripsyon.',fr:'Retrait au 4 Elmwood. Payez au comptoir au retrait. Nous ne livrons pas les articles en vente libre.'},
   nameLbl:{en:'Your name',es:'Su nombre',ht:'Non ou',fr:'Votre nom'},
   phoneLbl:{en:'Callback number',es:'Número de devolución de llamada',ht:'Nimewo pou rele w',fr:'Numéro de rappel'},
   reserveBtn:{en:'Send reservation request',es:'Enviar solicitud de reserva',ht:'Voye demann rezèvasyon',fr:'Envoyer la demande de réservation'},
   consent:{en:'By sending, you agree we may contact you about this request.',es:'Al enviar, acepta que podamos contactarle sobre esta solicitud.',ht:'Lè ou voye, ou dakò nou ka kontakte w sou demann sa a.',fr:'En envoyant, vous acceptez que nous vous contactions à ce sujet.'},
-  sent:{en:'Request sent. We will call you to confirm. Pay at the counter on pickup or on delivery.',es:'Solicitud enviada. Le llamaremos para confirmar. Pague en el mostrador o en la entrega.',ht:'Demann voye. N ap rele w pou konfime. Peye nan kontwa a oswa nan livrezon.',fr:'Demande envoyée. Nous vous appellerons pour confirmer. Payez au comptoir ou à la livraison.'},
+  sent:{en:'Request sent. We will call you to confirm, then set your items aside. Pay at the counter on pickup.',es:'Solicitud enviada. Le llamaremos para confirmar y apartaremos sus artículos. Pague en el mostrador al recoger.',ht:'Demann voye. N ap rele w pou konfime, epi n ap mete atik ou yo sou kote. Peye nan kontwa a lè ou vin pran.',fr:'Demande envoyée. Nous vous appellerons pour confirmer et mettrons vos articles de côté. Payez au comptoir au retrait.'},
   demoTag:{en:'Demo: this prepares a request for the pharmacy team, it does not take payment.',es:'Demo: prepara una solicitud para la farmacia, no cobra.',ht:'Demo: sa prepare yon demann pou ekip famasi a, li pa pran peman.',fr:'Démo : prépare une demande pour l\u2019équipe, sans paiement.'},
   needFields:{en:'Please add your name and a callback number.',es:'Agregue su nombre y un número.',ht:'Tanpri ajoute non ou ak yon nimewo.',fr:'Ajoutez votre nom et un numéro.'}
 };
 
-/* render the reserve panel inside the cart foot (called from renderCart) */
+/* render the pickup-only reserve panel inside the cart foot (called from renderCart) */
 function renderReserve(){
   var host=document.getElementById('rsvPanel'); if(!host) return;
-  var sub=cartSubtotal(), hasRx=svCartHasRx();
-  var minOK = sub>=SV_DELIVERY.otcMinimum || (hasRx && SV_DELIVERY.rxExemptFromMinimum);
-  var deliverable = minOK && RSV.areaOK===true;
-  var toggle=''
-    +'<div class="rsv-toggle" role="tablist">'
-    +'<button class="rsv-tab'+(RSV.mode==='pickup'?' on':'')+'" data-rsv="pickup">'+tr(RSV_TXT.pickup)+'</button>'
-    +'<button class="rsv-tab'+(RSV.mode==='delivery'?' on':'')+'" data-rsv="delivery">'+tr(RSV_TXT.deliv)+'</button>'
-    +'</div>';
-  var deliveryBlock='';
-  if(RSV.mode==='delivery'){
-    var minMsg = minOK ? '' : '<div class="rsv-msg warn">'+tr(RSV_TXT.belowMin)+'</div>';
-    var rxMsg  = (hasRx && SV_DELIVERY.rxExemptFromMinimum) ? '<div class="rsv-msg ok">'+tr(RSV_TXT.rxNote)+'</div>' : '';
-    var areaMsg='';
-    if(RSV.areaOK===true) areaMsg='<div class="rsv-msg ok">'+tr(RSV_TXT.areaYes)+'</div>';
-    else if(RSV.areaOK===false) areaMsg='<div class="rsv-msg warn">'+tr(RSV_TXT.areaNo)+'</div>';
-    deliveryBlock=''
-      +'<div class="rsv-area">'
-      +'<label>'+tr(RSV_TXT.townLbl)+'<input id="rsvTown" type="text" autocomplete="address-level2"></label>'
-      +'<label>'+tr(RSV_TXT.zipLbl)+'<input id="rsvZip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code"></label>'
-      +'<button class="rsv-check" id="rsvCheck">'+tr(RSV_TXT.check)+'</button>'
-      +'</div>'+minMsg+rxMsg+areaMsg;
-  }
-  var showForm = (RSV.mode==='pickup') || (RSV.mode==='delivery' && deliverable);
-  var form = !showForm ? '' :
-     '<div class="rsv-form">'
+  host.innerHTML=''
+    +'<div class="rsv-head">'+tr(RSV_TXT.heading)+'</div>'
+    +'<div class="rsv-msg ok">'+tr(RSV_TXT.pickupOnly)+'</div>'
+    +'<div class="rsv-form">'
     +'<label>'+tr(RSV_TXT.nameLbl)+'<input id="rsvName" type="text" autocomplete="name"></label>'
     +'<label>'+tr(RSV_TXT.phoneLbl)+'<input id="rsvPhone" type="tel" autocomplete="tel"></label>'
     +'<div class="rsv-consent">'+tr(RSV_TXT.consent)+'</div>'
     +'<button class="rsv-send" id="rsvSend">'+tr(RSV_TXT.reserveBtn)+'</button>'
     +'<div class="rsv-demo">'+tr(RSV_TXT.demoTag)+'</div>'
-    +'</div>';
-  host.innerHTML = toggle + deliveryBlock + form + '<div class="rsv-ok" id="rsvOk"></div>';
-
-  host.querySelectorAll('[data-rsv]').forEach(function(b){
-    b.onclick=function(){ RSV.mode=b.getAttribute('data-rsv'); if(RSV.mode==='pickup') RSV.areaOK=null; renderReserve(); };
-  });
-  var chk=document.getElementById('rsvCheck');
-  if(chk) chk.onclick=function(){
-    var town=(document.getElementById('rsvTown')||{}).value;
-    var zip=(document.getElementById('rsvZip')||{}).value;
-    RSV.areaOK = svTownInArea(town) || svZipInArea(zip);
-    renderReserve();
-  };
+    +'</div>'
+    +'<div class="rsv-ok" id="rsvOk"></div>';
   var snd=document.getElementById('rsvSend');
   if(snd) snd.onclick=submitReserve;
 }
 
-/* write a reservation into sv-intakes (same shape the Galaxy intake uses) */
+/* write a pickup reservation into sv-intakes (same shape the Galaxy intake uses) */
 function submitReserve(){
   var name=(document.getElementById('rsvName')||{}).value||'';
   var phone=(document.getElementById('rsvPhone')||{}).value||'';
@@ -560,18 +517,15 @@ function submitReserve(){
   }
   var c=cartLoad(), lines=[];
   for(var k in c){ var p=findProduct(k); if(p) lines.push(c[k]+' x '+ (p.name.en||tr(p.name)) ); }
-  var town=(document.getElementById('rsvTown')||{}).value||'';
-  var zip=(document.getElementById('rsvZip')||{}).value||'';
-  var fulfill = RSV.mode==='delivery' ? ('Delivery ('+ (town||'') + (zip?(' '+zip):'') +')') : 'Pickup at 4 Elmwood';
   var rec={ id:'in_'+Date.now(), ts:Date.now(), type:'reserve',
-            title:'OTC Reservation', lang:L(),
+            title:'OTC Reservation (pickup)', lang:L(),
             fields:[
               {k:'Name', v:name},
               {k:'Callback', v:phone},
-              {k:'Fulfillment', v:fulfill},
+              {k:'Fulfillment', v:'Pickup at 4 Elmwood'},
               {k:'Items', v: lines.join('; ')||'(none)'},
               {k:'Subtotal', v: money(cartSubtotal())},
-              {k:'Payment', v:'At counter / on delivery (no online payment)'}
+              {k:'Payment', v:'At counter on pickup (no online payment, no delivery)'}
             ]};
   try{
     var list=[]; try{ list=JSON.parse(localStorage.getItem('sv-intakes')||'[]'); }catch(e){ list=[]; }
@@ -581,6 +535,7 @@ function submitReserve(){
   try{ console.log('[Springview reserve demo, not transmitted]', rec); }catch(e){}
   var ok=document.getElementById('rsvOk'); if(ok){ ok.className='rsv-ok ok show'; ok.textContent=tr(RSV_TXT.sent); }
 }
+
 
 /* ============ STORY FLIPBOOK ============ */
 var STORY=[
@@ -701,7 +656,7 @@ var TOUR_STEPS=[
   {sel:'#plpSort', route:'#shop', title:{en:'Sort your way',es:'Ordene a su manera',ht:'Klase jan ou vle',fr:'Triez a votre facon'},
    body:{en:'Order items by relevance, price, or name. The count next to it always shows how many products match.',es:'Ordene por relevancia, precio o nombre. El numero al lado muestra cuantos productos coinciden.',ht:'Klase atik pa enpotans, pri, oswa non. Kantite ki akote a toujou montre konbyen pwodwi ki koresponn.',fr:'Classez par pertinence, prix ou nom. Le compteur a cote indique combien de produits correspondent.'}},
   {sel:'#plpGrid', route:'#shop', title:{en:'Tap any product',es:'Toque un producto',ht:'Peze nenpot pwodwi',fr:'Touchez un produit'},
-   body:{en:'Open a product to see a larger photo you can zoom, the price, delivery and pickup options, and details. Add it to your cart when ready.',es:'Abra un producto para ver una foto ampliable, el precio, opciones de entrega y recogida, y detalles. Agreguelo al carrito cuando quiera.',ht:'Louvri yon pwodwi pou we yon pi gwo foto ou ka zoome, pri a, opsyon livrezon ak ranmasaj, ak detay. Ajoute l nan panye le ou pare.',fr:'Ouvrez un produit pour voir une photo agrandissable, le prix, les options de livraison et retrait, et les details. Ajoutez-le au panier quand vous voulez.'}},
+   body:{en:'Open a product to see a larger photo you can zoom, the price, pickup details, and specs. Add it to your cart when ready.',es:'Abra un producto para ver una foto ampliable, el precio, los detalles de recogida y las especificaciones. Agreguelo al carrito cuando quiera.',ht:'Louvri yon pwodwi pou we yon pi gwo foto ou ka zoome, pri a, detay ranmasaj, ak detay. Ajoute l nan panye le ou pare.',fr:'Ouvrez un produit pour voir une photo agrandissable, le prix, les details de retrait et les caracteristiques. Ajoutez-le au panier quand vous voulez.'}},
   {sel:'#cartBtn', route:'#shop', title:{en:'Your cart',es:'Su carrito',ht:'Panye ou',fr:'Votre panier'},
    body:{en:'Items you add collect here, and stay saved even if you leave and come back later. Online payment is coming soon; for now you can reserve and pay at the counter.',es:'Los articulos que agrega se guardan aqui, incluso si vuelve mas tarde. El pago en linea llega pronto; por ahora reserve y pague en el mostrador.',ht:'Atik ou ajoute yo rasanble la, epi yo rete sove menm si ou tounen pita. Peman sou entenet ap vini; pou kounye a ou ka rezeve epi peye nan kontwa a.',fr:'Les articles ajoutes se regroupent ici et restent enregistres meme si vous revenez plus tard. Le paiement en ligne arrive bientot; pour l instant, reservez et payez au comptoir.'}},
   {sel:'#page-rx', route:'#rx', title:{en:'Refills and transfers',es:'Resurtidos y transferencias',ht:'Ranpli ak transfe',fr:'Renouvellements et transferts'},
