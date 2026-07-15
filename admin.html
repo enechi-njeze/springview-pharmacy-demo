@@ -212,6 +212,24 @@ tr:last-child td{border-bottom:none}
 .news-mail .nm-sub{font-family:var(--font-display);font-weight:700;font-size:15px;color:#C8102E;margin-bottom:4px}
 .news-mail .nm-from{font-size:11px;color:#777;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:8px}
 .news-mail .nm-body{font-size:13px;line-height:1.5;white-space:pre-wrap}
+/* Pass C: review cards, stars, promo toggle */
+.rev-card{border:1px solid var(--line);border-radius:14px;padding:0;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+.rev-h{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rev-plat{font-family:var(--font-display);font-weight:700;letter-spacing:.4px;font-size:13px}
+.rev-plat.g{color:#4285F4}.rev-plat.y{color:#C8102E}.rev-plat.f{color:#2A6F97}
+.rev-stars{color:#B8963E;letter-spacing:1px;font-size:14px}
+.rev-when{margin-left:auto;font-size:12px;color:var(--ink-soft)}
+.rev-b{padding:11px 14px;font-size:13.5px;line-height:1.5}
+.rev-name{font-weight:600;margin-bottom:3px}
+.rev-actions{padding:0 14px 12px;display:flex;gap:8px;flex-wrap:wrap}
+.rev-reply{margin:0 14px 12px;padding:11px 13px;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);border-radius:10px;font-size:13px;line-height:1.5;display:none}
+.rev-reply.on{display:block}
+.rev-reply .rr-lbl{font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.rate-card{display:inline-flex;flex-direction:column;gap:2px}
+.promo-toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:5px 11px;border-radius:20px;border:1px solid var(--line);transition:.14s;color:var(--ink-soft);background:var(--panel)}
+.promo-toggle.armed{border-color:var(--green);color:var(--green);background:color-mix(in srgb,var(--green) 10%,transparent)}
+.promo-toggle .tg-dot{width:8px;height:8px;border-radius:50%;background:var(--ink-soft)}
+.promo-toggle.armed .tg-dot{background:var(--green)}
 @media(max-width:820px){.chart-wrap{grid-template-columns:1fr}}
 </style>
 </head>
@@ -256,6 +274,12 @@ tr:last-child td{border-bottom:none}
   <button class="tab" data-view="customers">Customers</button>
   <button class="tab" data-view="newsletter">Newsletter</button>
   <button class="tab" data-view="referral">Referral</button>
+  <button class="tab" data-view="campaigns">Campaigns</button>
+  <button class="tab" data-view="promos">Holiday Promos</button>
+  <button class="tab" data-view="reviews">Reviews</button>
+  <button class="tab" data-view="analytics">Deep Analytics</button>
+  <button class="tab" data-view="automations">Email Automations</button>
+  <button class="tab" data-view="audit">Audit Log</button>
 </div>
 
 <main>
@@ -604,6 +628,163 @@ tr:last-child td{border-bottom:none}
       <p class="note">Synthetic demo data. Phase 2 issues a unique referral code per customer, tracks joins, and auto-credits a voucher on a successful referral (ties into the Vouchers tab). Owner action: decide the referral reward (for example a house-brand discount) and confirm program terms.</p>
     </div>
   </div>
+
+  <!-- CAMPAIGNS -->
+  <div class="view" id="view-campaigns">
+    <div class="section-title"><h2>Campaigns</h2><span class="pill-sim"><span class="dotp"></span>Simulated ad performance; Phase 2 wires to Meta / Google Ads</span>
+      <span id="campExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="campStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Spend vs revenue by campaign <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Ad spend against attributed revenue, demo figures</div>
+        <div id="campChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Spend by channel</h3>
+        <div class="csub">Where the budget went</div>
+        <div id="campChannel"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Conversions by channel</h3>
+        <div class="csub">Attributed actions, demo figures</div>
+        <div id="campConv"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Campaign performance <span class="pill-sim"><span class="dotp"></span>Synthetic demo data</span></h3>
+      <table id="campTable"></table>
+      <p class="note">Live in Phase 2 via the Meta Marketing API and Google Ads API, with attribution through GA4. All figures here are illustrative. Owner action: confirm ad accounts and budgets before any real spend, and connect the pharmacy's Meta and Google Ads accounts.</p>
+    </div>
+  </div>
+
+  <!-- HOLIDAY PROMOS (automated calendar) -->
+  <div class="view" id="view-promos">
+    <div class="section-title"><h2>Holiday Promos</h2><span class="pill-sim"><span class="dotp"></span>Automation is simulated; Phase 2 runs on a scheduler</span>
+      <span id="promoExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="promoStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Projected ROI by promo <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Estimated return on each seasonal promo, demo figures</div>
+        <div id="promoChart"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Automated promo calendar <span class="pill-sim"><span class="dotp"></span>Simulated scheduler</span></h3>
+      <div class="csub" style="margin-bottom:12px">Each promo auto-launches a site banner, a voucher, and a matching newsletter on its trigger date. Toggle a promo to arm or pause its automation (demo only, nothing schedules).</div>
+      <table id="promoTable"></table>
+      <p class="note">This is the automated holiday promo plus newsletter flow the owner asked for. In the demo, arming a promo just flips its state in this browser. Phase 2 runs it on a real scheduler (a Google Apps Script time-trigger or a Netlify scheduled function) that publishes the banner, issues the voucher, and queues the newsletter through Brevo on each trigger date. Newsletter and banner copy need HT/FR native review before a real send. Owner action: approve the annual promo calendar and confirm the scheduler + newsletter provider.</p>
+    </div>
+  </div>
+
+  <!-- REVIEWS MONITOR -->
+  <div class="view" id="view-reviews">
+    <div class="section-title"><h2>Reviews Monitor</h2><span class="pill-sim"><span class="dotp"></span>Illustrative data; Phase 2 wires to the review APIs</span>
+      <span id="revExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="revStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Rating trend <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Average star rating over recent months, demo figures</div>
+        <div id="revTrend"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Reviews by platform</h3>
+        <div class="csub">Volume across sources</div>
+        <div id="revPlatform"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Sentiment split</h3>
+        <div class="csub">Positive, neutral, negative</div>
+        <div id="revSentiment"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Latest reviews <span class="pill-sim"><span class="dotp"></span>Synthetic samples, not real reviews</span></h3>
+      <div id="revFeed"></div>
+      <p class="note">The rating cards above reflect the July 2026 audit as a starting point (Google 4.1 with 53 reviews, Yelp 1 review, Facebook reviews off), labeled as last audited; live figures come from the Google Business Profile API, the Yelp Fusion API, and the Meta Graph API in Phase 2. Review text below is synthetic sample data, not copied from any real review. "Suggest a reply" drafts a response in the console only; it does NOT post anywhere. Owner action: responding to reviews (including the real unanswered Yelp review) must be done by the owner on each platform; claim the Google and Birdeye profiles first.</p>
+    </div>
+    <div class="panel">
+      <h3>Platform ratings <span class="pill-sim"><span class="dotp"></span>Last audited July 2026</span></h3>
+      <table id="revTable"></table>
+    </div>
+  </div>
+
+  <!-- DEEP ANALYTICS -->
+  <div class="view" id="view-analytics">
+    <div class="section-title"><h2>Deep Analytics</h2><span class="pill-sim"><span class="dotp"></span>Illustrative; Phase 2 wires to GA4</span>
+      <span id="anExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="anStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Traffic sources <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">How visitors reach the site</div>
+        <div id="anSources"></div>
+      </div>
+      <div class="chart-card">
+        <h3>New vs repeat</h3>
+        <div class="csub">Visitor mix</div>
+        <div id="anRepeat"></div>
+      </div>
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Peak hours <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Site sessions by hour of day, demo figures</div>
+        <div id="anHours"></div>
+      </div>
+      <div class="chart-card" style="grid-column:1/-1">
+        <h3>Service interest overlap <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">How many customers engage with more than one service line. Hover any region for the count.</div>
+        <div id="anVenn"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Top pages <span class="pill-sim"><span class="dotp"></span>Synthetic demo data</span></h3>
+      <table id="anTable"></table>
+      <p class="note">Live in Phase 2 via Google Analytics 4 (GA4) with the Measurement Protocol; the overlap diagram would be built from GA4 audience segments. All figures here are illustrative. Owner action: create a GA4 property and add the measurement ID to the site.</p>
+    </div>
+  </div>
+
+  <!-- EMAIL AUTOMATIONS -->
+  <div class="view" id="view-automations">
+    <div class="section-title"><h2>Email Automations</h2><span class="pill-sim"><span class="dotp"></span>Flows are simulated; Phase 2 runs on Brevo</span>
+      <span id="autoExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="autoStats"></div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Flow status <span class="pill-sim"><span class="dotp"></span>Simulated</span></h3>
+        <div class="csub">Live, planned, paused</div>
+        <div id="autoStatus"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Messages sent by flow</h3>
+        <div class="csub">Last 30 days, demo figures</div>
+        <div id="autoSent"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Automation flows <span class="pill-sim"><span class="dotp"></span>Synthetic demo data</span></h3>
+      <table id="autoTable"></table>
+      <p class="note">Each flow is tagged LIVE or PLANNED. In this demo nothing sends. Phase 2 runs these on Brevo (or another ESP) with real triggers; anything sending to a real customer stays off until the sending domain, HT/FR copy review, and HIPAA handling are confirmed. Owner action: choose the ESP and approve each flow before it goes live.</p>
+    </div>
+  </div>
+
+  <!-- AUDIT LOG -->
+  <div class="view" id="view-audit">
+    <div class="section-title"><h2>Audit Log</h2><span class="pill-sim"><span class="dotp"></span>Demo events, local to this browser</span>
+      <span id="auditExport" style="margin-left:auto"></span></div>
+    <div class="stat-grid" id="auditStats"></div>
+    <div class="panel">
+      <div class="btn-row" style="margin-bottom:14px">
+        <button class="btn btn-ghost" id="auditRefresh">Refresh</button>
+        <select id="auditFilter" style="border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink)">
+          <option value="all">All events</option><option value="Auth">Auth</option><option value="Billing">Billing</option><option value="Customer">Customer</option><option value="Marketing">Marketing</option><option value="System">System</option>
+        </select>
+      </div>
+      <table id="auditTable"></table>
+      <p class="note">A running event log of staff actions in the console. In this demo, events are seeded plus anything you do this session (for example toggling a promo or the theme) is appended in-browser only; nothing is transmitted. Phase 2 writes to an append-only store (a Google Sheet tab or a database table) with real user IDs and timestamps, which also supports HIPAA access-audit requirements. Owner action: decide the audit store and retention policy before real patient data flows.</p>
+    </div>
+  </div>
 </main>
 </div>
 
@@ -667,6 +848,12 @@ document.getElementById('tabs').addEventListener('click',function(e){
   if(v==='customers') buildCustomers();
   if(v==='newsletter') buildNewsletter();
   if(v==='referral') buildReferral();
+  if(v==='campaigns') buildCampaigns();
+  if(v==='promos') buildPromos();
+  if(v==='reviews') buildReviews();
+  if(v==='analytics') buildAnalytics();
+  if(v==='automations') buildAutomations();
+  if(v==='audit') buildAudit();
 });
 
 /* ============ GALAXY INQUIRIES (demo intake hand-offs) ============ */
@@ -1209,6 +1396,7 @@ function buildCustomers(){
     if(act==='suspend') CUST.rows[i].status='Suspended';
     else if(act==='terminate') CUST.rows[i].status='Terminated';
     else if(act==='reactivate') CUST.rows[i].status='Active';
+    if(typeof auditLog==='function') auditLog('Customer', 'Customer '+CUST.rows[i].status.toLowerCase(), CUST.rows[i].id);
     custStats(); custCharts(); custRenderTable();
   });
 }
@@ -1300,6 +1488,281 @@ function buildReferral(){
 }
 
 /* =====================================================================
+   PASS C. Marketing / Reputation group. Campaigns, Holiday Promos,
+   Reviews Monitor. All synthetic demo data. Review text is invented,
+   not copied from any real review. Phase 2 APIs named per tab.
+   ===================================================================== */
+
+/* ---------- CAMPAIGNS ---------- */
+var CAMP = {
+  rows:[
+    {name:'Flu shot season',channel:'Meta',spend:420,rev:2380,conv:41,status:'Active'},
+    {name:'Free delivery days',channel:'Google Ads',spend:310,rev:1490,conv:33,status:'Active'},
+    {name:'DME / Surgical awareness',channel:'Meta',spend:260,rev:1710,conv:19,status:'Active'},
+    {name:'Kreyol & Espanol welcome',channel:'Instagram',spend:180,rev:640,conv:24,status:'Scheduled'},
+    {name:'Diabetes care month',channel:'Google Ads',spend:150,rev:0,conv:0,status:'Draft'}
+  ]
+};
+function campRoas(r){ return r.spend? (r.rev/r.spend):0; }
+function buildCampaigns(){
+  var spend=CAMP.rows.reduce(function(a,r){return a+r.spend;},0);
+  var rev=CAMP.rows.reduce(function(a,r){return a+r.rev;},0);
+  var conv=CAMP.rows.reduce(function(a,r){return a+r.conv;},0);
+  document.getElementById('campStats').innerHTML=[
+    {lbl:'Total spend',val:'$'+spend.toLocaleString(),sub:'this period'},
+    {lbl:'Attributed revenue',val:'$'+rev.toLocaleString(),sub:'demo attribution',up:true},
+    {lbl:'Blended ROAS',val:(rev/spend).toFixed(1)+'x',sub:'revenue per $1'},
+    {lbl:'Conversions',val:conv,sub:'across campaigns'}
+  ].map(statTile).join('');
+  var active=CAMP.rows.filter(function(r){return r.spend>0;});
+  svBar('campChart', active.map(function(r){ return {label:r.name.split(' ')[0],value:r.rev,tip:'<b>'+r.name+'</b><br>Spend $'+r.spend+' &rarr; Revenue $'+r.rev+' ('+campRoas(r).toFixed(1)+'x)'}; }), {money:true});
+  var byChan={};active.forEach(function(r){byChan[r.channel]=(byChan[r.channel]||0)+r.spend;});
+  svDonut('campChannel', Object.keys(byChan).map(function(k){return {label:k,value:byChan[k]};}), {centerTop:'$'+spend,centerSub:'spend'});
+  var convChan={};active.forEach(function(r){convChan[r.channel]=(convChan[r.channel]||0)+r.conv;});
+  svBar('campConv', Object.keys(convChan).map(function(k){return {label:k,value:convChan[k]};}), {unit:'conversions'});
+  var html='<tr><th>Campaign</th><th>Channel</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Conv.</th><th>Status</th></tr>';
+  html+=CAMP.rows.map(function(r){ var b=r.status==='Active'?'b-ok':r.status==='Scheduled'?'b-low':'b-out';
+    return '<tr><td>'+r.name+'</td><td>'+r.channel+'</td><td>$'+r.spend+'</td><td>$'+r.rev+'</td><td>'+(r.spend?campRoas(r).toFixed(1)+'x':'n/a')+'</td><td>'+r.conv+'</td><td><span class="badge '+b+'">'+r.status+'</span></td></tr>'; }).join('');
+  document.getElementById('campTable').innerHTML=html;
+  exportBar('campExport','springview-campaigns','Campaigns (simulated)',
+    ['Campaign','Channel','Spend','Revenue','ROAS','Conversions','Status'],
+    function(){ return CAMP.rows.map(function(r){ return [r.name,r.channel,r.spend,r.rev,(r.spend?campRoas(r).toFixed(1)+'x':'n/a'),r.conv,r.status]; }); });
+}
+
+/* ---------- HOLIDAY PROMOS (automated calendar) ---------- */
+var PROMO = {
+  rows:[
+    {name:'New Year wellness reset',trigger:'Jan 2',discount:15,est:1800,armed:true},
+    {name:'Heart Health Month (BP checks)',trigger:'Feb 1',discount:10,est:1400,armed:true},
+    {name:'Spring allergy prep',trigger:'Apr 1',discount:15,est:1600,armed:false},
+    {name:'Back-to-school immunizations',trigger:'Aug 1',discount:20,est:2600,armed:true},
+    {name:'Flu shot season kickoff',trigger:'Sep 15',discount:10,est:3100,armed:true},
+    {name:'Diabetes Awareness Month',trigger:'Nov 1',discount:25,est:2100,armed:false},
+    {name:'Holiday delivery & gift baskets',trigger:'Dec 1',discount:15,est:2400,armed:true}
+  ]
+};
+function promoRenderTable(){
+  var html='<tr><th>Promo</th><th>Trigger date</th><th>Discount</th><th>Auto-launches</th><th>Est. revenue</th><th>Automation</th></tr>';
+  html+=PROMO.rows.map(function(r,i){
+    return '<tr><td>'+r.name+'</td><td>'+r.trigger+'</td><td>'+r.discount+'%</td>'+
+      '<td>Banner + voucher + newsletter</td><td>$'+r.est.toLocaleString()+'</td>'+
+      '<td><button class="promo-toggle'+(r.armed?' armed':'')+'" data-i="'+i+'"><span class="tg-dot"></span>'+(r.armed?'Armed':'Paused')+'</button></td></tr>';
+  }).join('');
+  document.getElementById('promoTable').innerHTML=html;
+}
+function promoStats(){
+  var armed=PROMO.rows.filter(function(r){return r.armed;});
+  document.getElementById('promoStats').innerHTML=[
+    {lbl:'Promos scheduled',val:PROMO.rows.length,sub:'annual calendar'},
+    {lbl:'Armed',val:armed.length,sub:'auto-launch on',up:true},
+    {lbl:'Paused',val:PROMO.rows.length-armed.length,sub:'need review'},
+    {lbl:'Projected revenue',val:'$'+armed.reduce(function(a,r){return a+r.est;},0).toLocaleString(),sub:'from armed promos'}
+  ].map(statTile).join('');
+}
+function promoChart(){
+  svBar('promoChart', PROMO.rows.map(function(r){ return {label:r.trigger.split(' ')[0],value:r.est,tip:'<b>'+r.name+'</b><br>'+r.trigger+', '+r.discount+'% off<br>Est. $'+r.est.toLocaleString()+(r.armed?' (armed)':' (paused)')}; }), {money:true});
+}
+var promoWired=false;
+function buildPromos(){
+  promoStats(); promoChart(); promoRenderTable();
+  exportBar('promoExport','springview-holiday-promos','Holiday promo calendar (simulated)',
+    ['Promo','Trigger','Discount %','Est. revenue','Automation'],
+    function(){ return PROMO.rows.map(function(r){ return [r.name,r.trigger,r.discount,r.est,r.armed?'Armed':'Paused']; }); });
+  if(promoWired) return; promoWired=true;
+  document.getElementById('promoTable').addEventListener('click',function(e){
+    var t=e.target.closest('.promo-toggle'); if(!t) return;
+    var i=parseInt(t.getAttribute('data-i'),10);
+    PROMO.rows[i].armed=!PROMO.rows[i].armed;
+    if(typeof auditLog==='function') auditLog('Marketing', PROMO.rows[i].armed?'Promo armed':'Promo paused', PROMO.rows[i].name);
+    promoStats(); promoChart(); promoRenderTable();
+  });
+}
+
+/* ---------- REVIEWS MONITOR ---------- */
+/* Rating cards seed from the July 2026 audit; live via review APIs in Phase 2.
+   Feed text is synthetic sample data, NOT copied from any real review. */
+var REV = {
+  platforms:[
+    {plat:'Google',cls:'g',rating:4.1,count:53},
+    {plat:'Yelp',cls:'y',rating:1.0,count:1},
+    {plat:'Facebook',cls:'f',rating:0,count:0}
+  ],
+  trend:[{label:'Feb',value:3.9},{label:'Mar',value:4.0},{label:'Apr',value:4.0},{label:'May',value:4.1},{label:'Jun',value:4.1},{label:'Jul',value:4.2}],
+  sentiment:[{label:'Positive',value:38},{label:'Neutral',value:9},{label:'Negative',value:6}],
+  feed:[
+    {plat:'Google',cls:'g',name:'A. Neighbor',stars:5,when:'3 days ago',text:'Staff took time to explain my new medication in Spanish. The surgical supplies section had exactly the walker I needed.',
+      reply:'Thank you so much for the kind words. We are glad the team could help in Spanish and that you found the right walker in our Surgical department. See you next time at 4 Elmwood.'},
+    {plat:'Google',cls:'g',name:'M. Resident',stars:4,when:'1 week ago',text:'Quick prescription pickup and friendly pharmacist. Wish the posted hours online were clearer.',
+      reply:'We appreciate the feedback and the note about hours. We are updating our listings so the posted times are consistent everywhere. Thank you for choosing Springview.'},
+    {plat:'Yelp',cls:'y',name:'J. Local',stars:2,when:'2 weeks ago',text:'Called about a transfer and felt rushed on the phone.',
+      reply:'We are sorry your call felt rushed; that is not the experience we want. Please reach us at (973) 372-1300 or support@springviewpharmacy.com and ask for the pharmacist on duty so we can make this right.'}
+  ]
+};
+function stars(n){ var full='\u2605'.repeat(Math.round(n)); var empty='\u2606'.repeat(5-Math.round(n)); return full+empty; }
+function revBuildFeed(){
+  document.getElementById('revFeed').innerHTML=REV.feed.map(function(r,i){
+    return '<div class="rev-card">'+
+      '<div class="rev-h"><span class="rev-plat '+r.cls+'">'+r.plat+'</span><span class="rev-stars">'+stars(r.stars)+'</span><span class="rev-when">'+r.when+'</span></div>'+
+      '<div class="rev-b"><div class="rev-name">'+_esc(r.name)+'</div>'+_esc(r.text)+'</div>'+
+      '<div class="rev-actions"><button class="act-btn" data-act="suggest" data-i="'+i+'">Suggest a reply</button></div>'+
+      '<div class="rev-reply" id="revReply'+i+'"><div class="rr-lbl">Suggested reply, demo only, not posted</div><span id="revReplyTxt'+i+'"></span></div>'+
+    '</div>';
+  }).join('');
+}
+function buildReviews(){
+  var totalReviews=REV.platforms.reduce(function(a,p){return a+p.count;},0);
+  var rated=REV.platforms.filter(function(p){return p.count>0;});
+  var avg=rated.reduce(function(a,p){return a+p.rating*p.count;},0)/rated.reduce(function(a,p){return a+p.count;},0);
+  document.getElementById('revStats').innerHTML=[
+    {lbl:'Total reviews',val:totalReviews,sub:'across platforms'},
+    {lbl:'Weighted avg',val:avg.toFixed(1)+'\u2605',sub:'audited Jul 2026'},
+    {lbl:'Unanswered',val:1,sub:'Yelp, owner action',down:true},
+    {lbl:'Trend',val:'\u25B2',sub:'improving',up:true}
+  ].map(statTile).join('');
+  svLine('revTrend', REV.trend, {});
+  svBar('revPlatform', REV.platforms.map(function(p){return {label:p.plat,value:p.count,tip:'<b>'+p.plat+'</b><br>'+p.count+' reviews'+(p.count?', '+p.rating.toFixed(1)+'\u2605':'')};}), {unit:'reviews'});
+  svDonut('revSentiment', REV.sentiment, {centerTop:REV.sentiment.reduce(function(a,d){return a+d.value;},0),centerSub:'rated'});
+  revBuildFeed();
+  var html='<tr><th>Platform</th><th>Rating</th><th>Reviews</th><th>Status</th></tr>';
+  html+=REV.platforms.map(function(p){ var b=p.rating>=4?'b-ok':p.rating>0?'b-out':'b-low';
+    var status=p.count===0?'No reviews yet':(p.plat==='Yelp'?'Unanswered':'Monitored');
+    return '<tr><td><span class="rev-plat '+p.cls+'">'+p.plat+'</span></td><td>'+(p.count?p.rating.toFixed(1)+' '+stars(p.rating):'n/a')+'</td><td>'+p.count+'</td><td><span class="badge '+b+'">'+status+'</span></td></tr>'; }).join('');
+  document.getElementById('revTable').innerHTML=html;
+  exportBar('revExport','springview-reviews','Reviews summary (audited Jul 2026)',
+    ['Platform','Rating','Reviews','Status'],
+    function(){ return REV.platforms.map(function(p){ return [p.plat,(p.count?p.rating.toFixed(1):'n/a'),p.count,(p.count===0?'No reviews':(p.plat==='Yelp'?'Unanswered':'Monitored'))]; }); });
+}
+/* delegate the Suggest-a-reply action once */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('#revFeed .act-btn[data-act="suggest"]'); if(!b) return;
+  var i=parseInt(b.getAttribute('data-i'),10);
+  document.getElementById('revReplyTxt'+i).textContent=REV.feed[i].reply;
+  document.getElementById('revReply'+i).classList.add('on');
+  b.textContent='Reply drafted';
+});
+
+/* =====================================================================
+   PASS D. Analytics / Settings group. Deep Analytics (with svVenn),
+   Email Automations, Audit Log. All synthetic demo data.
+   ===================================================================== */
+
+/* ---------- DEEP ANALYTICS ---------- */
+var ANA = {
+  sources:[{label:'Google',value:1420},{label:'Direct',value:880},{label:'Facebook',value:640},{label:'Instagram',value:410},{label:'Referral',value:230}],
+  repeat:[{label:'New',value:62},{label:'Repeat',value:38}],
+  hours:[{label:'8a',value:22},{label:'10a',value:41},{label:'12p',value:58},{label:'2p',value:47},{label:'4p',value:63},{label:'6p',value:71},{label:'8p',value:38}],
+  /* three service lines and how customers overlap across them */
+  venn:{ sets:[{label:'Prescriptions'},{label:'DME / Surgical'},{label:'Vaccines'}],
+    regions:{A:520,B:180,C:140,AB:96,AC:74,BC:58,ABC:42} },
+  pages:[
+    {page:'/ (Home)',views:3120,avg:'1m 48s'},
+    {page:'/shop',views:1980,avg:'2m 22s'},
+    {page:'/rx (Refill)',views:1440,avg:'2m 05s'},
+    {page:'/savings',views:910,avg:'1m 30s'},
+    {page:'/book',views:760,avg:'2m 40s'}
+  ]
+};
+function buildAnalytics(){
+  var sessions=ANA.sources.reduce(function(a,d){return a+d.value;},0);
+  var vennTotal=Object.keys(ANA.venn.regions).reduce(function(a,k){return a+ANA.venn.regions[k];},0);
+  document.getElementById('anStats').innerHTML=[
+    {lbl:'Sessions (30d)',val:sessions.toLocaleString(),sub:'demo traffic'},
+    {lbl:'Repeat visitors',val:ANA.repeat[1].value+'%',sub:'returning',up:true},
+    {lbl:'Peak hour',val:'6 PM',sub:'busiest window'},
+    {lbl:'Multi-service customers',val:(ANA.venn.regions.AB+ANA.venn.regions.AC+ANA.venn.regions.BC+ANA.venn.regions.ABC),sub:'use 2+ service lines'}
+  ].map(statTile).join('');
+  svBar('anSources', ANA.sources, {unit:'sessions'});
+  svDonut('anRepeat', ANA.repeat, {centerTop:'100%',centerSub:'visitors'});
+  svBar('anHours', ANA.hours, {unit:'sessions'});
+  svVenn('anVenn', ANA.venn.sets, {regions:ANA.venn.regions});
+  var html='<tr><th>Page</th><th>Views</th><th>Avg. time</th></tr>';
+  html+=ANA.pages.map(function(p){ return '<tr><td>'+p.page+'</td><td>'+p.views.toLocaleString()+'</td><td>'+p.avg+'</td></tr>'; }).join('');
+  document.getElementById('anTable').innerHTML=html;
+  exportBar('anExport','springview-analytics','Deep analytics (simulated)',
+    ['Page','Views','Avg time'],
+    function(){ return ANA.pages.map(function(p){ return [p.page,p.views,p.avg]; }); });
+}
+
+/* ---------- EMAIL AUTOMATIONS ---------- */
+var AUTO = {
+  flows:[
+    {name:'Refill ready notice',trigger:'Rx marked ready',state:'LIVE',sent:412},
+    {name:'Booking confirmation',trigger:'Appointment booked',state:'LIVE',sent:168},
+    {name:'Appointment reminder ladder',trigger:'48h + 2h before',state:'PLANNED',sent:0},
+    {name:'Welcome series',trigger:'New newsletter signup',state:'PLANNED',sent:0},
+    {name:'Refill due reminder',trigger:'30 days after fill',state:'PLANNED',sent:0},
+    {name:'Win-back (lapsed customer)',trigger:'No visit in 120 days',state:'Paused',sent:64}
+  ]
+};
+function buildAutomations(){
+  var live=AUTO.flows.filter(function(f){return f.state==='LIVE';}).length;
+  var planned=AUTO.flows.filter(function(f){return f.state==='PLANNED';}).length;
+  var sent=AUTO.flows.reduce(function(a,f){return a+f.sent;},0);
+  document.getElementById('autoStats').innerHTML=[
+    {lbl:'Flows',val:AUTO.flows.length,sub:'configured'},
+    {lbl:'Live',val:live,sub:'sending now',up:true},
+    {lbl:'Planned',val:planned,sub:'not yet on'},
+    {lbl:'Messages (30d)',val:sent.toLocaleString(),sub:'demo figures'}
+  ].map(statTile).join('');
+  var byState={};AUTO.flows.forEach(function(f){byState[f.state]=(byState[f.state]||0)+1;});
+  svDonut('autoStatus', Object.keys(byState).map(function(k){return {label:k,value:byState[k]};}), {centerTop:AUTO.flows.length,centerSub:'flows'});
+  svBar('autoSent', AUTO.flows.filter(function(f){return f.sent>0;}).map(function(f){return {label:f.name.split(' ')[0],value:f.sent,tip:'<b>'+f.name+'</b><br>'+f.sent+' sent'};}), {unit:'messages'});
+  var html='<tr><th>Flow</th><th>Trigger</th><th>State</th><th>Sent (30d)</th></tr>';
+  html+=AUTO.flows.map(function(f){ var b=f.state==='LIVE'?'b-ok':f.state==='PLANNED'?'b-low':'b-out';
+    return '<tr><td>'+f.name+'</td><td>'+f.trigger+'</td><td><span class="badge '+b+'">'+f.state+'</span></td><td>'+f.sent+'</td></tr>'; }).join('');
+  document.getElementById('autoTable').innerHTML=html;
+  exportBar('autoExport','springview-automations','Email automations (simulated)',
+    ['Flow','Trigger','State','Sent 30d'],
+    function(){ return AUTO.flows.map(function(f){ return [f.name,f.trigger,f.state,f.sent]; }); });
+}
+
+/* ---------- AUDIT LOG ---------- */
+var AUDIT_SEED=[
+  {cat:'Auth',event:'Staff signed in',detail:'Admin console',ts:Date.now()-1000*60*4},
+  {cat:'Billing',event:'Invoice generated',detail:'INV-1042',ts:Date.now()-1000*60*38},
+  {cat:'Customer',event:'Customer suspended',detail:'C-1004',ts:Date.now()-1000*60*95},
+  {cat:'Marketing',event:'Promo armed',detail:'Back-to-school immunizations',ts:Date.now()-1000*60*140},
+  {cat:'Billing',event:'Voucher generated',detail:'15% Neighbor appreciation',ts:Date.now()-1000*60*210},
+  {cat:'System',event:'Export downloaded',detail:'payments.csv',ts:Date.now()-1000*60*260}
+];
+function auditLoad(){ try{ var s=JSON.parse(sessionStorage.getItem('sv-audit')||'null'); return s||AUDIT_SEED.slice(); }catch(e){ return AUDIT_SEED.slice(); } }
+function auditSave(list){ try{ sessionStorage.setItem('sv-audit',JSON.stringify(list)); }catch(e){} }
+function auditLog(cat,event,detail){
+  var list=auditLoad(); list.unshift({cat:cat,event:event,detail:detail||'',ts:Date.now()}); auditSave(list);
+  if(document.getElementById('view-audit').classList.contains('active')) buildAudit();
+}
+function auditStatsRender(list){
+  var byCat={};list.forEach(function(r){byCat[r.cat]=(byCat[r.cat]||0)+1;});
+  var top=Object.keys(byCat).sort(function(a,b){return byCat[b]-byCat[a];})[0]||'n/a';
+  document.getElementById('auditStats').innerHTML=[
+    {lbl:'Events',val:list.length,sub:'this session'},
+    {lbl:'Categories',val:Object.keys(byCat).length,sub:'tracked'},
+    {lbl:'Most active',val:top,sub:(byCat[top]||0)+' events'},
+    {lbl:'Newest',val:new Date(list[0].ts).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sub:'last event'}
+  ].map(statTile).join('');
+}
+function buildAudit(){
+  var list=auditLoad();
+  auditStatsRender(list);
+  var filter=(document.getElementById('auditFilter')||{}).value||'all';
+  var shown=filter==='all'?list:list.filter(function(r){return r.cat===filter;});
+  var html='<tr><th>Time</th><th>Category</th><th>Event</th><th>Detail</th></tr>';
+  html+=shown.map(function(r){ var b=r.cat==='Auth'?'b-low':r.cat==='Billing'?'b-ok':r.cat==='System'?'b-out':'b-low';
+    return '<tr><td>'+new Date(r.ts).toLocaleString()+'</td><td><span class="badge '+b+'">'+r.cat+'</span></td><td>'+_esc(r.event)+'</td><td>'+_esc(r.detail)+'</td></tr>'; }).join('');
+  document.getElementById('auditTable').innerHTML=html;
+  exportBar('auditExport','springview-audit-log','Audit log (demo)',
+    ['Time','Category','Event','Detail'],
+    function(){ return shown.map(function(r){ return [new Date(r.ts).toLocaleString(),r.cat,r.event,r.detail]; }); });
+}
+var auditWired=false;
+function setupAudit(){
+  buildAudit();
+  if(auditWired) return; auditWired=true;
+  document.getElementById('auditRefresh').addEventListener('click',buildAudit);
+  document.getElementById('auditFilter').addEventListener('change',buildAudit);
+}
+
+/* =====================================================================
    CHART ENGINE, interactive SVG (bar / donut / line) with hover tooltips.
    All demo data. Palette pulls from the pharmacy design tokens.
    ===================================================================== */
@@ -1379,10 +1842,43 @@ function svLine(mount, data, opt){
   var svg=el.querySelector('svg'); _wire(svg);
   if(opt.onPoint){ svg.querySelectorAll('.cdot').forEach(function(c){ c.style.cursor='pointer'; c.addEventListener('click',function(){ opt.onPoint(parseInt(c.getAttribute('data-i'),10)); }); }); }
 }
-
-/* =====================================================================
-   EXPORT ENGINE, one call gives CSV + Excel (SpreadsheetML) + Word.
-   ===================================================================== */
+/* VENN: three overlapping circles with hover insight per region.
+   sets = [{label, value}, {label, value}, {label, value}] (three sets)
+   opt = {regions: {A,B,C,AB,AC,BC,ABC} counts for hover tips, title}
+   Regions are drawn as hover hotspots; the circles show set labels + totals. */
+function svVenn(mount, sets, opt){
+  opt=opt||{}; var el=(typeof mount==='string')?document.getElementById(mount):mount; if(!el) return;
+  var W=440,H=300;
+  var circles=[
+    {cx:170,cy:130,r:88,col:SV_PAL[0],s:sets[0]},
+    {cx:270,cy:130,r:88,col:SV_PAL[3],s:sets[1]},
+    {cx:220,cy:210,r:88,col:SV_PAL[2],s:sets[2]}
+  ];
+  var reg=opt.regions||{};
+  function tipFor(label,count){ return '<b>'+label+'</b>'+(count!=null?('<br>'+count+' customers'):''); }
+  var circ=circles.map(function(c){
+    return '<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.r+'" fill="'+c.col+'" fill-opacity="0.32" stroke="'+c.col+'" stroke-width="2"/>';
+  }).join('');
+  /* hover hotspots: small invisible circles placed at each region centroid */
+  var spots=[
+    {x:130,y:110,k:'A',lbl:sets[0].label+' only'},
+    {x:310,y:110,k:'B',lbl:sets[1].label+' only'},
+    {x:220,y:250,k:'C',lbl:sets[2].label+' only'},
+    {x:220,y:112,k:'AB',lbl:sets[0].label+' + '+sets[1].label},
+    {x:168,y:190,k:'AC',lbl:sets[0].label+' + '+sets[2].label},
+    {x:272,y:190,k:'BC',lbl:sets[1].label+' + '+sets[2].label},
+    {x:220,y:160,k:'ABC',lbl:'All three'}
+  ].map(function(s){ var tip=tipFor(s.lbl, reg[s.k]);
+    return '<circle class="cvenn" data-tip="'+tip.replace(/"/g,'&quot;')+'" cx="'+s.x+'" cy="'+s.y+'" r="22" fill="transparent" style="cursor:pointer"/>'+
+      (reg[s.k]!=null?'<text x="'+s.x+'" y="'+(s.y+4)+'" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" pointer-events="none">'+reg[s.k]+'</text>':'');
+  }).join('');
+  var labels=circles.map(function(c,i){
+    var lx=i===0?c.cx-46:i===1?c.cx+46:c.cx; var ly=i===2?c.cy+70:c.cy-64;
+    return '<text x="'+lx+'" y="'+ly+'" text-anchor="middle" font-size="12" font-family="var(--font-display)" font-weight="700" fill="'+c.col+'">'+c.s.label+'</text>';
+  }).join('');
+  el.innerHTML='<svg class="svg-chart" viewBox="0 0 '+W+' '+H+'" role="img">'+circ+spots+labels+'</svg>';
+  _wire(el.querySelector('svg'));
+}
 function _dl(blob,fn){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fn; a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);},1200); }
 function _esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function toCSV(cols,rows){
@@ -1493,6 +1989,8 @@ function buildAll(){
   buildOrders(); setupVouchers(); buildMarketing();
   buildPayments(); buildInvoices(); buildVoucherStats();
   buildLeads(); buildBookings(); buildCustomers(); buildNewsletter(); buildReferral();
+  buildCampaigns(); buildPromos(); buildReviews();
+  buildAnalytics(); buildAutomations(); setupAudit();
   document.getElementById('exportCsv').addEventListener('click',exportCSV);
   document.getElementById('exportWord').addEventListener('click',exportWord);
 }
