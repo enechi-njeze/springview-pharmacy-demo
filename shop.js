@@ -581,11 +581,123 @@ function renderDeals(){
   }).join('');
 }
 
-/* ============ RX FORMS ============ */
+/* ============ RX FORMS + Rx DELIVERY ============ */
+/* 4-language strings for the Rx pickup/delivery choice.
+   Delivery is PRESCRIPTIONS ONLY, within the service area, with NO minimum.
+   HT/FR need native review before production (owner action). */
+var RX_TXT = {
+  pickup:{en:'Pickup at 4 Elmwood',es:'Recoger en 4 Elmwood',ht:'Ranmase nan 4 Elmwood',fr:'Retrait au 4 Elmwood'},
+  delivery:{en:'Delivery (prescriptions, local area)',es:'Entrega (recetas, área local)',ht:'Livrezon (preskripsyon, zòn lokal)',fr:'Livraison (ordonnances, zone locale)'},
+  delivNote:{en:'We deliver prescriptions within our local service area at no charge and with no minimum. Enter your address and we will confirm delivery is available for you.',es:'Entregamos recetas dentro de nuestra área de servicio local, sin cargo y sin mínimo. Ingrese su dirección y confirmaremos si la entrega está disponible.',ht:'Nou livre preskripsyon nan zòn sèvis lokal nou an gratis, san minimòm. Antre adrès ou epi n ap konfime si livrezon disponib pou ou.',fr:'Nous livrons les ordonnances dans notre zone de service locale, sans frais ni minimum. Saisissez votre adresse et nous confirmerons la disponibilité.'},
+  inArea:{en:'Good news: your area is within our prescription delivery zone. The pharmacy will confirm the delivery day when they call.',es:'Buenas noticias: su zona está dentro de nuestra área de entrega de recetas. La farmacia confirmará el día de entrega al llamar.',ht:'Bòn nouvèl: zòn ou an nan zòn livrezon preskripsyon nou an. Famasi a ap konfime jou livrezon an lè yo rele.',fr:'Bonne nouvelle : votre secteur est dans notre zone de livraison d\u2019ordonnances. La pharmacie confirmera le jour de livraison lors de l\u2019appel.'},
+  outArea:{en:'Your area may be outside our usual delivery zone. You can still send this request and the pharmacy will call to discuss options, or choose pickup at 4 Elmwood.',es:'Su zona puede estar fuera de nuestra área habitual. Aún puede enviar la solicitud y la farmacia le llamará para ver opciones, o elija recoger en 4 Elmwood.',ht:'Zòn ou an ka andeyò zòn abityèl nou an. Ou ka toujou voye demann sa a epi famasi a ap rele pou diskite opsyon, oswa chwazi ranmase nan 4 Elmwood.',fr:'Votre secteur est peut-être hors de notre zone habituelle. Vous pouvez tout de même envoyer la demande et la pharmacie vous appellera pour en discuter, ou choisir le retrait au 4 Elmwood.'},
+  needAddr:{en:'Please add your delivery street, town, and ZIP so we can check availability.',es:'Agregue su calle, ciudad y código postal para verificar disponibilidad.',ht:'Tanpri ajoute lari, vil, ak kòd postal ou pou nou ka verifye disponiblite.',fr:'Ajoutez votre rue, ville et code postal pour vérifier la disponibilité.'}
+};
+
+/* populate a pickup/delivery <select> and toggle its delivery sub-panel */
+function rxSyncMethodLabels(){
+  ['rfMethod','tfMethod'].forEach(function(id){
+    var sel=document.getElementById(id); if(!sel) return;
+    Array.prototype.forEach.call(sel.options,function(o){
+      if(o.value==='pickup') o.textContent=tr(RX_TXT.pickup);
+      else if(o.value==='delivery') o.textContent=tr(RX_TXT.delivery);
+    });
+  });
+  // refresh any visible note/area text for the current language
+  var rn=document.getElementById('rfDelivNote'); if(rn) rn.textContent=tr(RX_TXT.delivNote);
+  var tn=document.getElementById('tfDelivNote'); if(tn) tn.textContent=tr(RX_TXT.delivNote);
+  rxAreaCheck('rf'); rxAreaCheck('tf');
+}
+
+/* show/hide the delivery sub-panel for one form prefix (rf|tf) */
+function rxToggleDeliv(pfx){
+  var sel=document.getElementById(pfx+'Method');
+  var panel=document.getElementById(pfx+'Deliv');
+  if(!sel||!panel) return;
+  var isDeliv=sel.value==='delivery';
+  panel.hidden=!isDeliv;
+  if(isDeliv){ var n=document.getElementById(pfx+'DelivNote'); if(n) n.textContent=tr(RX_TXT.delivNote); rxAreaCheck(pfx); }
+}
+
+/* run the service-area check for one form prefix and paint the feedback */
+function rxAreaCheck(pfx){
+  var sel=document.getElementById(pfx+'Method'); if(!sel||sel.value!=='delivery') return;
+  var area=document.getElementById(pfx+'Area'); if(!area) return;
+  var town=(document.getElementById(pfx+'Town')||{}).value||'';
+  var zip=(document.getElementById(pfx+'Zip')||{}).value||'';
+  if(!town.trim() && !zip.trim()){ area.hidden=true; return; }
+  var inArea = svTownInArea(town) || svZipInArea(zip);
+  area.hidden=false;
+  area.className='rx-area '+(inArea?'in':'out');
+  area.textContent=tr(inArea?RX_TXT.inArea:RX_TXT.outArea);
+}
+
+/* write a refill/transfer request into sv-intakes (same shape Galaxy + reserve use) */
+function rxWriteIntake(which){
+  var pfx = which==='refill' ? 'rf' : 'tf';
+  var g=function(id){ return (document.getElementById(id)||{}).value||''; };
+  var method=(document.getElementById(pfx+'Method')||{}).value||'pickup';
+  var isDeliv=method==='delivery';
+  var fields=[];
+  if(which==='refill'){
+    fields.push({k:'Rx number', v:g('rfRx')||'(not provided)'});
+    fields.push({k:'Name', v:g('rfName')||'(not provided)'});
+    fields.push({k:'Contact', v:g('rfContact')||'(not provided)'});
+  } else {
+    fields.push({k:'Name', v:g('tfName')||'(not provided)'});
+    fields.push({k:'Contact', v:g('tfContact')||'(not provided)'});
+    fields.push({k:'Current pharmacy', v:g('tfPharm')||'(not provided)'});
+    fields.push({k:'Medication(s)', v:g('tfMeds')||'(not provided)'});
+  }
+  if(isDeliv){
+    var town=g(pfx+'Town'), zip=g(pfx+'Zip');
+    var inArea = svTownInArea(town) || svZipInArea(zip);
+    fields.push({k:'Fulfillment', v:'Prescription delivery (no minimum)'});
+    fields.push({k:'Delivery address', v:[g(pfx+'Street'),town,zip].filter(Boolean).join(', ')||'(not provided)'});
+    fields.push({k:'Service area', v: inArea ? 'In area (confirmed by town/ZIP)' : 'Outside usual zone, pharmacy to confirm'});
+  } else {
+    fields.push({k:'Fulfillment', v:'Pickup at 4 Elmwood'});
+  }
+  var rec={ id:'in_'+Date.now(), ts:Date.now(),
+            type: which==='refill'?'refill':'transfer',
+            title: which==='refill'?'Prescription refill':'Prescription transfer',
+            lang:L(), fields:fields };
+  try{
+    var list=[]; try{ list=JSON.parse(localStorage.getItem('sv-intakes')||'[]'); }catch(e){ list=[]; }
+    list.unshift(rec); if(list.length>50) list=list.slice(0,50);
+    localStorage.setItem('sv-intakes', JSON.stringify(list));
+  }catch(e){}
+  try{ console.log('[Springview '+which+' demo, not transmitted]', rec); }catch(e){}
+}
+
 function setupForms(){
+  rxSyncMethodLabels();
+  ['rf','tf'].forEach(function(pfx){
+    var sel=document.getElementById(pfx+'Method');
+    if(sel) sel.addEventListener('change',function(){ rxToggleDeliv(pfx); });
+    ['Town','Zip'].forEach(function(f){
+      var el=document.getElementById(pfx+f);
+      if(el) el.addEventListener('input',function(){ rxAreaCheck(pfx); });
+    });
+    rxToggleDeliv(pfx);
+  });
   document.querySelectorAll('[data-form]').forEach(function(btn){
     btn.addEventListener('click',function(){
       var which=btn.getAttribute('data-form');
+      // If delivery chosen but no address, nudge and stop.
+      var pfx = which==='refill'?'rf':'tf';
+      var sel=document.getElementById(pfx+'Method');
+      if(sel && sel.value==='delivery'){
+        var town=(document.getElementById(pfx+'Town')||{}).value||'';
+        var zip=(document.getElementById(pfx+'Zip')||{}).value||'';
+        var street=(document.getElementById(pfx+'Street')||{}).value||'';
+        if(!street.trim() || (!town.trim() && !zip.trim())){
+          var area=document.getElementById(pfx+'Area');
+          if(area){ area.hidden=false; area.className='rx-area out'; area.textContent=tr(RX_TXT.needAddr); }
+          return;
+        }
+      }
+      rxWriteIntake(which);
       var ok=document.getElementById(which==='refill'?'okRefill':'okTransfer');
       if(ok){ ok.classList.add('show'); ok.scrollIntoView({behavior:'smooth',block:'nearest'}); }
     });
@@ -617,6 +729,7 @@ function initShop(){
   /* re-render language-sensitive shop bits when language cycles */
   new MutationObserver(function(){
     renderPromoChips(); renderFilterRail(); renderPLP(); renderDeals(); renderStory(); renderCart();
+    rxSyncMethodLabels();
     var id=(location.hash||'').split('?')[0].replace('#','');
     if(id==='product'){ var pid=(location.hash.split('p=')[1]||''); if(pid) renderPDP(pid); }
   }).observe(document.documentElement,{attributes:true,attributeFilter:['data-lang']});
