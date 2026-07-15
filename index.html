@@ -410,6 +410,28 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .cart-checkout:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .cart-checkout:disabled{background:var(--stone);color:var(--ink-soft);box-shadow:none;cursor:not-allowed;transform:none}
 .checkout-honesty{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);border-radius:12px;padding:16px;margin-top:14px;font-size:13.5px;color:var(--ink);display:none}
+/* ===== Reserve for pickup / delivery panel ===== */
+.rsv-panel{display:none;margin-top:14px}
+.rsv-panel.show{display:block}
+.rsv-toggle{display:flex;gap:8px;margin-bottom:12px}
+.rsv-tab{flex:1;padding:11px 8px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font-weight:600;font-size:13.5px;min-height:44px;transition:.15s}
+.rsv-tab.on{background:var(--red);color:#fff;border-color:var(--red);box-shadow:var(--glow)}
+.rsv-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.rsv-area label,.rsv-form label{display:flex;flex-direction:column;font-size:12px;color:var(--ink-soft);gap:5px}
+.rsv-area input,.rsv-form input{padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:14px;min-height:44px}
+.rsv-check{grid-column:1 / -1;padding:12px;border:1px solid var(--gold);border-radius:10px;background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--ink);font-weight:600;font-size:13.5px;min-height:44px}
+.rsv-msg{font-size:13px;padding:10px 12px;border-radius:9px;margin-bottom:10px}
+.rsv-msg.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
+.rsv-msg.warn{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);color:var(--ink)}
+.rsv-form{display:grid;gap:10px;margin-top:4px}
+.rsv-consent{font-size:11.5px;color:var(--ink-soft)}
+.rsv-send{width:100%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:14px;border-radius:12px;font-size:14px;box-shadow:var(--glow);min-height:44px}
+.rsv-demo{font-size:11px;color:var(--ink-soft);text-align:center}
+.rsv-ok{display:none;font-size:13.5px;padding:12px;border-radius:10px;margin-top:10px}
+.rsv-ok.show{display:block}
+.rsv-ok.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
+.rsv-ok.warn{background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid var(--gold);color:var(--ink)}
+@media(max-width:380px){.rsv-area{grid-template-columns:1fr}}
 .checkout-honesty.show{display:block}
 
 /* ============ RX FORMS ============ */
@@ -1139,12 +1161,13 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <div class="cart-foot">
     <div class="cart-sub"><span data-i18n="en">Subtotal</span><span data-i18n="es">Subtotal</span><span data-i18n="ht">Sou-total</span><span data-i18n="fr">Sous-total</span><span id="cartSubtotal">$0.00</span></div>
     <div class="cart-note"><span data-i18n="en">Taxes and delivery calculated at pickup. Pickup at 4 Elmwood or free local delivery Mon/Wed/Fri.</span><span data-i18n="es">Impuestos y entrega al recoger. Recoja en 4 Elmwood o entrega gratis Lun/Mié/Vie.</span><span data-i18n="ht">Taks ak livrezon nan ranmase. Ranmase nan 4 Elmwood oswa livrezon gratis Len/Mèk/Van.</span><span data-i18n="fr">Taxes et livraison au retrait. Retrait au 4 Elmwood ou livraison gratuite Lun/Mer/Ven.</span></div>
-    <button class="cart-checkout" id="cartCheckout" disabled><span data-i18n="en">Checkout</span><span data-i18n="es">Pagar</span><span data-i18n="ht">Peye</span><span data-i18n="fr">Payer</span></button>
+    <button class="cart-checkout" id="cartCheckout" disabled><span data-i18n="en">Reserve for pickup</span><span data-i18n="es">Reservar para recoger</span><span data-i18n="ht">Rezève pou ranmase</span><span data-i18n="fr">Réserver pour retrait</span></button>
+    <div class="rsv-panel" id="rsvPanel"></div>
     <div class="checkout-honesty" id="checkoutHonesty">
-      <span data-i18n="en">This is a demo. Online payment is Phase 2. For now, reserve items by calling (973) 372-1300 or add them to your pickup list in person.</span>
-      <span data-i18n="es">Esto es una demo. El pago en línea es Fase 2. Por ahora, reserve llamando al (973) 372-1300.</span>
-      <span data-i18n="ht">Sa se yon demo. Peman anliy se Faz 2. Pou kounye a, rezève lè ou rele (973) 372-1300.</span>
-      <span data-i18n="fr">Ceci est une démo. Le paiement en ligne est la Phase 2. Pour l'instant, réservez en appelant le (973) 372-1300.</span>
+      <span data-i18n="en">Demo: no online payment. Choose pickup or in-area delivery, and we prepare your request for the pharmacy team.</span>
+      <span data-i18n="es">Demo: sin pago en línea. Elija recogida o entrega en la zona; preparamos su solicitud para la farmacia.</span>
+      <span data-i18n="ht">Demo: pa gen peman anliy. Chwazi ranmasaj oswa livrezon nan zòn nan; nou prepare demann ou pou ekip famasi a.</span>
+      <span data-i18n="fr">Démo : pas de paiement en ligne. Choisissez le retrait ou la livraison dans la zone ; nous préparons votre demande.</span>
     </div>
   </div>
 </aside>
