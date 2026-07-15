@@ -58,6 +58,12 @@ header{position:sticky;top:0;z-index:40;background:var(--panel);border-bottom:1p
 .icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s}
 .icon-btn:hover{border-color:var(--red);color:var(--red)}
 
+.lite-bar{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:10px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lite-label{font-family:var(--font-display);font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft)}
+.lite-mode{font-family:var(--font-display);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);background:var(--paper);transition:.15s}
+.lite-mode.on{background:var(--red);color:#fff;border-color:var(--red)}
+.lite-hint{font-size:12px;color:var(--ink-soft);margin-left:auto}
+.tab.adv-hidden{display:none}
 .tabs{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--panel)}
 .tab{font-family:var(--font-display);font-size:14px;font-weight:500;letter-spacing:.4px;padding:14px 16px;color:var(--ink-soft);text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
 .tab:hover{color:var(--red)}
@@ -259,24 +265,30 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
 </header>
+<div class="lite-bar" id="liteBar">
+  <span class="lite-label">View:</span>
+  <button class="lite-mode on" id="liteBtn" data-mode="lite">Lite (day-one tools)</button>
+  <button class="lite-mode" id="advBtn" data-mode="adv">Advanced / Phase 2</button>
+  <span class="lite-hint" id="liteHint">Showing the tabs you use day one. Phase 2 modules are hidden but still here.</span>
+</div>
 <div class="tabs" id="tabs">
+  <button class="tab" data-view="inquiries" data-lite="1">Inquiries</button>
+  <button class="tab" data-view="inv" data-lite="1">Inventory</button>
+  <button class="tab" data-view="reorder" data-lite="1">Reorder</button>
+  <button class="tab" data-view="marketing" data-lite="1">Marketing</button>
+  <button class="tab" data-view="promos" data-lite="1">Holiday Promos</button>
+  <button class="tab" data-view="reviews" data-lite="1">Reviews</button>
   <button class="tab active" data-view="dash">Dashboard</button>
-  <button class="tab" data-view="inv">Inventory</button>
-  <button class="tab" data-view="reorder">Reorder</button>
   <button class="tab" data-view="orders">Orders</button>
   <button class="tab" data-view="payments">Payments</button>
   <button class="tab" data-view="invoices">Invoices &amp; Receipts</button>
-  <button class="tab" data-view="inquiries">Inquiries</button>
   <button class="tab" data-view="vouchers">Vouchers</button>
-  <button class="tab" data-view="marketing">Marketing</button>
   <button class="tab" data-view="leads">Leads</button>
   <button class="tab" data-view="bookings">Bookings</button>
   <button class="tab" data-view="customers">Customers</button>
   <button class="tab" data-view="newsletter">Newsletter</button>
   <button class="tab" data-view="referral">Referral</button>
   <button class="tab" data-view="campaigns">Campaigns</button>
-  <button class="tab" data-view="promos">Holiday Promos</button>
-  <button class="tab" data-view="reviews">Reviews</button>
   <button class="tab" data-view="analytics">Deep Analytics</button>
   <button class="tab" data-view="automations">Email Automations</button>
   <button class="tab" data-view="audit">Audit Log</button>
@@ -825,6 +837,9 @@ function showApp(){
   document.getElementById('app').style.display='block';
   setThemeIcon();
   buildAll();
+  var mode='lite'; try{ mode=sessionStorage.getItem('sv-admin-mode')||'lite'; }catch(e){}
+  applyLiteMode(mode);
+  if(mode!=='adv'){ var inq=document.querySelector('#tabs .tab[data-view="inquiries"]'); if(inq) inq.click(); }
 }
 window.addEventListener('DOMContentLoaded',function(){
   var ok=false; try{ok=sessionStorage.getItem('sv-admin')==='1';}catch(e){}
@@ -854,6 +869,30 @@ document.getElementById('tabs').addEventListener('click',function(e){
   if(v==='analytics') buildAnalytics();
   if(v==='automations') buildAutomations();
   if(v==='audit') buildAudit();
+});
+
+/* ============ LITE / ADVANCED VIEW ============ */
+function applyLiteMode(mode){
+  var lite = mode!=='adv';
+  document.querySelectorAll('#tabs .tab').forEach(function(t){
+    if(t.getAttribute('data-lite')==='1'){ t.classList.remove('adv-hidden'); }
+    else { t.classList.toggle('adv-hidden', lite); }
+  });
+  document.getElementById('liteBtn').classList.toggle('on', lite);
+  document.getElementById('advBtn').classList.toggle('on', !lite);
+  document.getElementById('liteHint').textContent = lite
+    ? 'Showing the tabs you use day one. Phase 2 modules are hidden but still here.'
+    : 'Showing all modules, including simulated Phase 2 tools for the roadmap pitch.';
+  /* if the active tab just got hidden, jump to Inquiries (a Lite tab) */
+  var active=document.querySelector('#tabs .tab.active');
+  if(lite && active && active.classList.contains('adv-hidden')){
+    var inq=document.querySelector('#tabs .tab[data-view="inquiries"]'); if(inq) inq.click();
+  }
+  try{ sessionStorage.setItem('sv-admin-mode', lite?'lite':'adv'); }catch(e){}
+}
+document.getElementById('liteBar').addEventListener('click',function(e){
+  var b=e.target.closest('.lite-mode'); if(!b) return;
+  applyLiteMode(b.getAttribute('data-mode'));
 });
 
 /* ============ GALAXY INQUIRIES (demo intake hand-offs) ============ */
