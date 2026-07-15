@@ -410,16 +410,12 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .cart-checkout:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .cart-checkout:disabled{background:var(--stone);color:var(--ink-soft);box-shadow:none;cursor:not-allowed;transform:none}
 .checkout-honesty{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);border-radius:12px;padding:16px;margin-top:14px;font-size:13.5px;color:var(--ink);display:none}
-/* ===== Reserve for pickup / delivery panel ===== */
+/* ===== Reserve for pickup panel (OTC pickup only) ===== */
 .rsv-panel{display:none;margin-top:14px}
 .rsv-panel.show{display:block}
-.rsv-toggle{display:flex;gap:8px;margin-bottom:12px}
-.rsv-tab{flex:1;padding:11px 8px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font-weight:600;font-size:13.5px;min-height:44px;transition:.15s}
-.rsv-tab.on{background:var(--red);color:#fff;border-color:var(--red);box-shadow:var(--glow)}
-.rsv-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.rsv-head{font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:10px}
 .rsv-area label,.rsv-form label{display:flex;flex-direction:column;font-size:12px;color:var(--ink-soft);gap:5px}
 .rsv-area input,.rsv-form input{padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:14px;min-height:44px}
-.rsv-check{grid-column:1 / -1;padding:12px;border:1px solid var(--gold);border-radius:10px;background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--ink);font-weight:600;font-size:13.5px;min-height:44px}
 .rsv-msg{font-size:13px;padding:10px 12px;border-radius:9px;margin-bottom:10px}
 .rsv-msg.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
 .rsv-msg.warn{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);color:var(--ink)}
@@ -431,7 +427,6 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .rsv-ok.show{display:block}
 .rsv-ok.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
 .rsv-ok.warn{background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid var(--gold);color:var(--ink)}
-@media(max-width:380px){.rsv-area{grid-template-columns:1fr}}
 .checkout-honesty.show{display:block}
 
 /* ============ RX FORMS ============ */
@@ -1160,14 +1155,14 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
     <div class="cart-sub"><span data-i18n="en">Subtotal</span><span data-i18n="es">Subtotal</span><span data-i18n="ht">Sou-total</span><span data-i18n="fr">Sous-total</span><span id="cartSubtotal">$0.00</span></div>
-    <div class="cart-note"><span data-i18n="en">Taxes and delivery calculated at pickup. Pickup at 4 Elmwood or free local delivery Mon/Wed/Fri.</span><span data-i18n="es">Impuestos y entrega al recoger. Recoja en 4 Elmwood o entrega gratis Lun/Mié/Vie.</span><span data-i18n="ht">Taks ak livrezon nan ranmase. Ranmase nan 4 Elmwood oswa livrezon gratis Len/Mèk/Van.</span><span data-i18n="fr">Taxes et livraison au retrait. Retrait au 4 Elmwood ou livraison gratuite Lun/Mer/Ven.</span></div>
+    <div class="cart-note"><span data-i18n="en">Reserve for pickup at 4 Elmwood and pay at the counter. Over-the-counter items are pickup only; ask the pharmacy about prescription delivery.</span><span data-i18n="es">Reserve para recoger en 4 Elmwood y pague en el mostrador. Los artículos de venta libre son solo para recoger; pregunte por la entrega de recetas.</span><span data-i18n="ht">Rezève pou ranmase nan 4 Elmwood epi peye nan kontwa a. Atik san preskripsyon se pou ranmase sèlman; mande famasi a sou livrezon preskripsyon.</span><span data-i18n="fr">Réservez pour le retrait au 4 Elmwood et payez au comptoir. Les articles en vente libre sont uniquement à retirer ; renseignez-vous sur la livraison des ordonnances.</span></div>
     <button class="cart-checkout" id="cartCheckout" disabled><span data-i18n="en">Reserve for pickup</span><span data-i18n="es">Reservar para recoger</span><span data-i18n="ht">Rezève pou ranmase</span><span data-i18n="fr">Réserver pour retrait</span></button>
     <div class="rsv-panel" id="rsvPanel"></div>
     <div class="checkout-honesty" id="checkoutHonesty">
-      <span data-i18n="en">Demo: no online payment. Choose pickup or in-area delivery, and we prepare your request for the pharmacy team.</span>
-      <span data-i18n="es">Demo: sin pago en línea. Elija recogida o entrega en la zona; preparamos su solicitud para la farmacia.</span>
-      <span data-i18n="ht">Demo: pa gen peman anliy. Chwazi ranmasaj oswa livrezon nan zòn nan; nou prepare demann ou pou ekip famasi a.</span>
-      <span data-i18n="fr">Démo : pas de paiement en ligne. Choisissez le retrait ou la livraison dans la zone ; nous préparons votre demande.</span>
+      <span data-i18n="en">Demo: no online payment. Over-the-counter items are reserved for pickup and paid at the counter. Prescription delivery is arranged through the pharmacy.</span>
+      <span data-i18n="es">Demo: sin pago en línea. Los artículos de venta libre se reservan para recoger y se pagan en el mostrador. La entrega de recetas se gestiona con la farmacia.</span>
+      <span data-i18n="ht">Demo: pa gen peman anliy. Atik san preskripsyon yo rezève pou ranmase epi peye nan kontwa a. Livrezon preskripsyon fèt atravè famasi a.</span>
+      <span data-i18n="fr">Démo : pas de paiement en ligne. Les articles en vente libre sont réservés pour le retrait et payés au comptoir. La livraison des ordonnances est organisée avec la pharmacie.</span>
     </div>
   </div>
 </aside>
