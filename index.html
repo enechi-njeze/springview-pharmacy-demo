@@ -6,9 +6,12 @@
 <title>Springview Pharmacy &amp; Surgical | Irvington, NJ</title>
 <meta name="description" content="Springview Pharmacy & Surgical, your independent family pharmacy in Irvington, NJ since 1995. Prescriptions, vaccines, durable medical equipment, and neighborhood care.">
 <link rel="canonical" href="https://springviewpharmacy.com/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="mask-icon" href="favicon.svg" color="#C8102E">
+<meta name="theme-color" content="#C8102E">
 <meta property="og:type" content="business.business">
 <meta property="og:title" content="Springview Pharmacy & Surgical | Irvington, NJ">
-<meta property="og:description" content="Independent family pharmacy in Irvington, NJ since 1995. Prescriptions, vaccines, and Surgical & DME. English, Español, Kreyòl, Français.">
+<meta property="og:description" content="Independent family pharmacy in Irvington, NJ since 1995. Prescriptions, vaccines, and Surgical & DME. English, Español, Kreyòl.">
 <meta property="og:url" content="https://springviewpharmacy.com/">
 <meta property="og:image" content="https://springviewpharmacy.com/exterior.jpg">
 
@@ -70,12 +73,10 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.1;lett
 [data-i18n]{display:none}
 [data-lang="en"] [data-i18n="en"],
 [data-lang="es"] [data-i18n="es"],
-[data-lang="ht"] [data-i18n="ht"],
-[data-lang="fr"] [data-i18n="fr"]{display:inline}
+[data-lang="ht"] [data-i18n="ht"]{display:inline}
 [data-lang="en"] [data-i18n="en"].block,
 [data-lang="es"] [data-i18n="es"].block,
-[data-lang="ht"] [data-i18n="ht"].block,
-[data-lang="fr"] [data-i18n="fr"].block{display:block}
+[data-lang="ht"] [data-i18n="ht"].block{display:block}
 
 /* ============ LANGUAGE GATE ============ */
 .gate{
@@ -230,70 +231,8 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .cal-wrap iframe{width:100%;min-height:600px;border:0;display:block}
 .cal-loading{padding:60px 20px;text-align:center;color:var(--ink-soft);font-size:15px}
 
-/* ============ CONCIERGE WIDGET ============ */
-.cc-fab{position:fixed;bottom:22px;right:22px;z-index:120;width:60px;height:60px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--shadow-lg),var(--glow);transition:.2s}
-.cc-fab:hover{transform:scale(1.06)}
-.cc-fab .close-x{display:none}
-.cc-fab.open .chat-i{display:none}
-.cc-fab.open .close-x{display:block}
-.cc-panel{position:fixed;bottom:94px;right:22px;z-index:120;width:min(380px,calc(100vw - 44px));height:min(560px,calc(100vh - 130px));background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);display:none;flex-direction:column;overflow:hidden}
-.cc-panel.open{display:flex;animation:ccIn .25s ease}
-@keyframes ccIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.cc-head{background:var(--red);color:#fff;padding:15px 18px;display:flex;align-items:center;gap:11px}
-.cc-head .av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:19px}
-.cc-head .t{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:.5px;line-height:1.1}
-.cc-head .s{font-size:11px;opacity:.85;display:flex;align-items:center;gap:5px}
-.cc-head .s .d{width:7px;height:7px;border-radius:50%;background:#7CFF9B;display:inline-block}
-.cc-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
-.cc-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
-.cc-msg.bot{background:var(--panel);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
-.cc-msg.user{background:var(--red);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.cc-guard{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);color:var(--ink);font-size:13px}
-.cc-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px}
-.cc-typing span{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);animation:blink 1.2s infinite}
-.cc-typing span:nth-child(2){animation-delay:.2s}.cc-typing span:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
-.cc-quick{display:flex;gap:7px;flex-wrap:wrap;padding:0 16px 10px;background:var(--paper)}
-.cc-quick button{font-size:12px;border:1px solid var(--line);border-radius:16px;padding:6px 12px;background:var(--panel);transition:.15s}
-.cc-quick button:hover{border-color:var(--red);color:var(--red)}
-.cc-foot{border-top:1px solid var(--line);padding:12px;display:flex;gap:8px;background:var(--panel)}
-.cc-foot input{flex:1;border:1px solid var(--line);border-radius:22px;padding:10px 15px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink)}
-.cc-foot input:focus{outline:none;border-color:var(--red)}
-.cc-foot button{width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;font-size:17px;flex-shrink:0;transition:.15s}
-.cc-foot button:hover{transform:scale(1.06)}
-.cc-foot button:disabled{opacity:.5;cursor:not-allowed}
-.cc-disclaimer{font-size:10.5px;color:var(--ink-soft);text-align:center;padding:0 16px 10px;background:var(--paper)}
-
-/* ---- Galaxy in-chat intake forms (customized input form chat) ---- */
-.cc-form{align-self:stretch;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 14px;display:flex;flex-direction:column;gap:9px;animation:ccMsgIn .3s cubic-bezier(.22,.61,.36,1)}
-.cc-form .q{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.35}
-.cc-form .hint{font-size:11.5px;color:var(--ink-soft);margin-top:-4px}
-.cc-form input.cc-fi,.cc-form textarea.cc-fi{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink)}
-.cc-form input.cc-fi:focus,.cc-form textarea.cc-fi:focus{outline:none;border-color:var(--red)}
-.cc-form textarea.cc-fi{resize:vertical;min-height:56px}
-.cc-opts{display:flex;flex-wrap:wrap;gap:7px}
-.cc-opt{font-size:13px;border:1.5px solid var(--line);border-radius:16px;padding:7px 13px;background:var(--paper);color:var(--ink);transition:.14s;min-height:40px}
-.cc-opt:hover{border-color:var(--red);color:var(--red)}
-.cc-opt.sel{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);color:var(--red);font-weight:600}
-.cc-form-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.cc-form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:2px}
-.cc-fbtn{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.4px;border-radius:10px;padding:9px 15px;min-height:40px;transition:.15s}
-.cc-fbtn.primary{background:var(--red);color:#fff}
-.cc-fbtn.primary:hover{filter:brightness(1.06)}
-.cc-fbtn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
-.cc-fbtn.ghost:hover{border-color:var(--red);color:var(--red)}
-.cc-fbtn:disabled{opacity:.5;cursor:not-allowed}
-.cc-progress{font-size:11px;color:var(--ink-soft);letter-spacing:.5px;text-transform:uppercase;font-family:var(--font-display)}
-/* pharmacist handoff summary card */
-.cc-summary{align-self:stretch;background:var(--panel);border:1px solid var(--gold);border-radius:14px;overflow:hidden;animation:ccMsgIn .3s cubic-bezier(.22,.61,.36,1)}
-.cc-summary .sh{background:color-mix(in srgb,var(--gold) 16%,transparent);padding:11px 14px;font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:8px}
-.cc-summary .sb{padding:12px 14px;display:flex;flex-direction:column;gap:7px}
-.cc-sline{display:flex;gap:8px;font-size:13px;line-height:1.4}
-.cc-sline .k{color:var(--ink-soft);flex:0 0 40%;font-weight:600}
-.cc-sline .v{color:var(--ink);flex:1}
-.cc-summary .sf{padding:0 14px 13px;display:flex;gap:8px;flex-wrap:wrap}
-.cc-demo-tag{font-size:11px;color:var(--ink-soft);background:color-mix(in srgb,var(--ink) 6%,transparent);border:1px dashed var(--line);border-radius:8px;padding:7px 10px;line-height:1.4}
-.cc-quick.hide{display:none}
+/* browse-only note on the product page (v15: no cart) */
+.pdp-browse{margin-top:6px;padding:13px 15px;border:1px dashed var(--gold);border-radius:var(--radius-sm);background:color-mix(in srgb,var(--gold) 9%,transparent);font-size:14px;line-height:1.5;color:var(--ink)}
 
 /* ============ SHOP / PLP ============ */
 .shop-layout{display:grid;grid-template-columns:236px 1fr;gap:28px;align-items:start}
@@ -374,60 +313,6 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .lightbox.open{display:flex}
 .lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
 .lightbox .lb-close{position:absolute;top:24px;right:28px;font-size:30px;color:#fff}
-
-/* ============ CART DRAWER ============ */
-.cart-btn{position:relative}
-.cart-count{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;font-family:var(--font-display);font-size:11px;font-weight:700;min-width:19px;height:19px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 5px;box-shadow:var(--glow)}
-.cart-count.zero{display:none}
-.cart-overlay{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s}
-.cart-overlay.open{opacity:1;pointer-events:auto}
-.cart-drawer{position:fixed;top:0;right:0;bottom:0;z-index:151;width:min(420px,100vw);max-width:100vw;background:var(--panel);box-shadow:var(--shadow-lg);transform:translateX(101%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
-.cart-drawer.open{transform:translateX(0)}
-.cart-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.cart-head h3{font-size:19px}
-.cart-head .x{font-size:24px;color:var(--ink-soft);width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
-.cart-head .x:hover{color:var(--red);background:var(--stone)}
-.cart-items{flex:1;overflow-y:auto;padding:14px 22px;display:flex;flex-direction:column;gap:14px}
-.cart-empty{text-align:center;color:var(--ink-soft);padding:60px 20px;font-size:15px}
-.cart-empty .em{font-size:44px;margin-bottom:12px;opacity:.5}
-.cart-line{display:flex;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.cart-line .ci-img{width:62px;height:62px;border-radius:10px;background:var(--stone);object-fit:cover;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;opacity:.9}
-.cart-line .ci-info{flex:1;min-width:0}
-.cart-line .ci-name{font-family:var(--font-display);font-weight:600;font-size:14.5px;line-height:1.25}
-.cart-line .ci-size{font-size:12px;color:var(--ink-soft)}
-.cart-line .ci-controls{display:flex;align-items:center;gap:12px;margin-top:8px}
-.ci-qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.ci-qty button{width:28px;height:28px;font-size:15px;transition:.15s}
-.ci-qty button:hover{background:var(--stone);color:var(--red)}
-.ci-qty span{width:30px;text-align:center;font-family:var(--font-display);font-weight:600;font-size:14px}
-.ci-remove{font-size:12px;color:var(--ink-soft);text-decoration:underline}
-.ci-remove:hover{color:var(--red)}
-.cart-line .ci-price{font-family:var(--font-display);font-weight:700;color:var(--red);white-space:nowrap}
-.cart-foot{border-top:1px solid var(--line);padding:18px 22px;background:var(--panel)}
-.cart-sub{display:flex;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:18px;margin-bottom:6px}
-.cart-note{font-size:11.5px;color:var(--ink-soft);margin-bottom:14px}
-.cart-checkout{width:100%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:15px;border-radius:12px;font-size:15px;box-shadow:var(--glow);transition:.15s}
-.cart-checkout:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
-.cart-checkout:disabled{background:var(--stone);color:var(--ink-soft);box-shadow:none;cursor:not-allowed;transform:none}
-.checkout-honesty{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);border-radius:12px;padding:16px;margin-top:14px;font-size:13.5px;color:var(--ink);display:none}
-/* ===== Reserve for pickup panel (OTC pickup only) ===== */
-.rsv-panel{display:none;margin-top:14px}
-.rsv-panel.show{display:block}
-.rsv-head{font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:10px}
-.rsv-area label,.rsv-form label{display:flex;flex-direction:column;font-size:12px;color:var(--ink-soft);gap:5px}
-.rsv-area input,.rsv-form input{padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:14px;min-height:44px}
-.rsv-msg{font-size:13px;padding:10px 12px;border-radius:9px;margin-bottom:10px}
-.rsv-msg.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
-.rsv-msg.warn{background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);color:var(--ink)}
-.rsv-form{display:grid;gap:10px;margin-top:4px}
-.rsv-consent{font-size:11.5px;color:var(--ink-soft)}
-.rsv-send{width:100%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:14px;border-radius:12px;font-size:14px;box-shadow:var(--glow);min-height:44px}
-.rsv-demo{font-size:11px;color:var(--ink-soft);text-align:center}
-.rsv-ok{display:none;font-size:13.5px;padding:12px;border-radius:10px;margin-top:10px}
-.rsv-ok.show{display:block}
-.rsv-ok.ok{background:color-mix(in srgb,var(--green,#2E7D32) 14%,transparent);border:1px solid var(--green,#2E7D32);color:var(--ink)}
-.rsv-ok.warn{background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid var(--gold);color:var(--ink)}
-.checkout-honesty.show{display:block}
 
 /* ============ RX FORMS ============ */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -585,56 +470,11 @@ footer{background:var(--panel);border-top:1px solid var(--line);margin-top:50px;
 .sec-head::after{content:"";position:absolute;left:0;bottom:-8px;height:3px;width:0;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:2px;transition:width .7s cubic-bezier(.22,.61,.36,1) .2s}
 .reveal.in .sec-head::after,.sec-head.in::after{width:56px}
 
-/* hide WhatsApp bubble while Galaxy panel is open, so they never stack visually */
-body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transition:opacity .2s}
-
-/* ============ WHATSAPP WIDGET (animated) ============ */
-.wa-fab{position:fixed;bottom:92px;right:22px;z-index:119;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(37,211,102,.45);transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
-.wa-fab svg{width:30px;height:30px}
-.wa-fab:hover{transform:scale(1.08)}
-/* pulsing ring that radiates outward to draw the eye */
-.wa-fab::before,.wa-fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;opacity:0;animation:waRing 2.6s ease-out infinite}
-.wa-fab::after{animation-delay:1.3s}
-@keyframes waRing{0%{opacity:.55;transform:scale(1)}80%{opacity:0;transform:scale(1.9)}100%{opacity:0;transform:scale(1.9)}}
-/* little tooltip bubble that slides in once */
-.wa-tip{position:fixed;bottom:104px;right:86px;z-index:119;background:var(--panel);border:1px solid var(--line);border-radius:14px;border-bottom-right-radius:4px;padding:9px 13px;font-size:13px;color:var(--ink);box-shadow:var(--shadow);max-width:190px;opacity:0;transform:translateX(12px);pointer-events:none}
-.wa-tip.show{animation:waTip 5.5s ease forwards}
-@keyframes waTip{0%{opacity:0;transform:translateX(12px)}8%{opacity:1;transform:none}82%{opacity:1;transform:none}100%{opacity:0;transform:translateX(12px)}}
-
-/* ============ GALAXY CONCIERGE (upgraded animation) ============ */
-/* orbiting-star avatar treatment + attention nudge on the FAB */
-.cc-fab{background:linear-gradient(135deg,var(--red),#8B0A20)}
-.cc-fab::before{content:"";position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 0deg,transparent,color-mix(in srgb,var(--gold) 80%,transparent),transparent 40%);animation:galaxySpin 4s linear infinite;z-index:-1;opacity:.9}
-@keyframes galaxySpin{to{transform:rotate(360deg)}}
-.cc-fab .chat-i{animation:galaxyFloat 3s ease-in-out infinite}
-@keyframes galaxyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-/* one-time attention bounce shortly after load */
-.cc-fab.nudge{animation:ccNudge 1s cubic-bezier(.34,1.56,.64,1) 2s 2}
-@keyframes ccNudge{0%,100%{transform:scale(1)}30%{transform:scale(1.12) rotate(-6deg)}60%{transform:scale(1.05) rotate(4deg)}}
-/* animated starfield inside the header avatar */
-.cc-head .av{position:relative;overflow:hidden;background:radial-gradient(circle at 32% 30%,#4a2f7a,#0d0820)}
-.cc-head .av::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(1.4px 1.4px at 30% 35%,#fff,transparent),
-  radial-gradient(1.1px 1.1px at 68% 58%,#fff,transparent),
-  radial-gradient(1px 1px at 50% 78%,#fff,transparent),
-  radial-gradient(1px 1px at 78% 28%,rgba(255,255,255,.85),transparent);
-  animation:twinkle 2.6s ease-in-out infinite}
-.cc-head .av::after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;color:#fff;animation:twinkle 2.2s ease-in-out .4s infinite}
-@keyframes twinkle{0%,100%{opacity:.45}50%{opacity:1}}
-.cc-panel.open{animation:ccPanelIn .34s cubic-bezier(.22,.61,.36,1)}
-@keyframes ccPanelIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
-/* messages animate in */
-.cc-msg{animation:ccMsgIn .32s cubic-bezier(.22,.61,.36,1)}
-@keyframes ccMsgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.cc-quick button{transition:transform .15s cubic-bezier(.34,1.56,.64,1),border-color .15s,color .15s}
-.cc-quick button:hover{transform:translateY(-2px)}
-
 /* respect reduced motion everywhere: kill all of the above */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
   .reveal{opacity:1!important;transform:none!important}
   .hero-copy>*,.hero-img,.hero-badge,.quick-in .qpill{opacity:1!important;animation:none!important}
-  .wa-fab::before,.wa-fab::after,.cc-fab::before{animation:none!important;opacity:0!important}
 }
 
 /* ============ GUIDED TOUR ============ */
@@ -684,12 +524,6 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
 
 /* ============ MOBILE (phones) ============ */
 @media(max-width:640px){
-  /* floating widgets: Galaxy + WhatsApp stack on the right, smaller; tour launcher bottom-left */
-  .cc-fab{width:54px;height:54px;font-size:23px;bottom:18px;right:16px}
-  .cc-panel{bottom:82px;right:10px;left:10px;width:auto;height:min(72vh,540px)}
-  .wa-fab{width:48px;height:48px;bottom:80px;right:19px}
-  .wa-fab svg{width:26px;height:26px}
-  .wa-tip{display:none} /* avoid clutter on small screens */
   .tour-launch{bottom:18px;left:16px;font-size:11px;padding:10px 14px;z-index:118}
   /* tour card becomes a bottom sheet, always readable, never covers the whole screen */
   .tour-card{max-width:none;left:12px!important;right:12px!important;width:auto;padding:18px 18px 16px}
@@ -700,13 +534,10 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   .foot-in{grid-template-columns:1fr}
   .hero h1{font-size:clamp(30px,8vw,40px)}
   .quick-in{padding:10px 14px}
-  /* keep the two right-side FABs from colliding: WhatsApp sits above Galaxy */
 }
 
 /* very small phones */
 @media(max-width:380px){
-  .cc-fab{width:50px;height:50px;font-size:21px}
-  .wa-fab{width:44px;height:44px;bottom:74px}
   .tour-launch span{display:none} /* icon-only launcher to save room */
   .tour-launch{padding:11px 13px}
 }
@@ -745,19 +576,18 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
       <span data-i18n="en">Welcome</span>
       <span data-i18n="es">Bienvenido</span>
       <span data-i18n="ht">Byenveni</span>
-      <span data-i18n="fr">Bienvenue</span>
+      
     </h1>
     <p>
       <span data-i18n="en">Choose your language to continue</span>
       <span data-i18n="es">Elija su idioma para continuar</span>
       <span data-i18n="ht">Chwazi lang ou pou kontinye</span>
-      <span data-i18n="fr">Choisissez votre langue pour continuer</span>
+      
     </p>
     <div class="lang-grid">
       <button class="lang-btn" data-set-lang="en"><strong>English</strong><span>Continue in English</span></button>
       <button class="lang-btn" data-set-lang="es"><strong>Español</strong><span>Continuar en español</span></button>
       <button class="lang-btn" data-set-lang="ht"><strong>Kreyòl</strong><span>Kontinye an Kreyòl</span></button>
-      <button class="lang-btn" data-set-lang="fr"><strong>Français</strong><span>Continuer en français</span></button>
     </div>
   </div>
 </div>
@@ -779,16 +609,15 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
       <span class="sub">Pharmacy &middot; Irvington NJ</span>
     </a>
     <nav class="main" id="nav">
-      <a href="#home" data-i18n="en">Home</a><a href="#home" data-i18n="es">Inicio</a><a href="#home" data-i18n="ht">Akèy</a><a href="#home" data-i18n="fr">Accueil</a>
-      <a href="#shop" data-i18n="en">Shop</a><a href="#shop" data-i18n="es">Tienda</a><a href="#shop" data-i18n="ht">Boutik</a><a href="#shop" data-i18n="fr">Boutique</a>
-      <a href="#rx" data-i18n="en">Prescriptions</a><a href="#rx" data-i18n="es">Recetas</a><a href="#rx" data-i18n="ht">Preskripsyon</a><a href="#rx" data-i18n="fr">Ordonnances</a>
-      <a href="#health" data-i18n="en">Health Corner</a><a href="#health" data-i18n="es">Salud</a><a href="#health" data-i18n="ht">Sante</a><a href="#health" data-i18n="fr">Santé</a>
-      <a href="#story" data-i18n="en">Our Story</a><a href="#story" data-i18n="es">Historia</a><a href="#story" data-i18n="ht">Istwa Nou</a><a href="#story" data-i18n="fr">Notre Histoire</a>
-      <a href="#contact" data-i18n="en">Contact</a><a href="#contact" data-i18n="es">Contacto</a><a href="#contact" data-i18n="ht">Kontak</a><a href="#contact" data-i18n="fr">Contact</a>
+      <a href="#home" data-i18n="en">Home</a><a href="#home" data-i18n="es">Inicio</a><a href="#home" data-i18n="ht">Akèy</a>
+      <a href="#shop" data-i18n="en">Shop</a><a href="#shop" data-i18n="es">Tienda</a><a href="#shop" data-i18n="ht">Boutik</a>
+      <a href="#rx" data-i18n="en">Prescriptions</a><a href="#rx" data-i18n="es">Recetas</a><a href="#rx" data-i18n="ht">Preskripsyon</a>
+      <a href="#health" data-i18n="en">Health Corner</a><a href="#health" data-i18n="es">Salud</a><a href="#health" data-i18n="ht">Sante</a>
+      <a href="#story" data-i18n="en">Our Story</a><a href="#story" data-i18n="es">Historia</a><a href="#story" data-i18n="ht">Istwa Nou</a>
+      <a href="#contact" data-i18n="en">Contact</a><a href="#contact" data-i18n="es">Contacto</a><a href="#contact" data-i18n="ht">Kontak</a>
     </nav>
     <div class="header-tools">
       <button class="lang-mini" id="langMini" title="Change language">🌐 <span id="langLabel">EN</span></button>
-      <button class="icon-btn cart-btn" id="cartBtn" title="Cart" aria-label="Open cart">🛒<span class="cart-count zero" id="cartCount">0</span></button>
       <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
       <button class="icon-btn menu-toggle" id="menuToggle" title="Menu">☰</button>
     </div>
@@ -798,11 +627,11 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
 <!-- QUICK ACTIONS -->
 <div class="quick">
   <div class="quick-in">
-    <a href="#rx" class="pill"><span class="dot"></span><span data-i18n="en">Refill Rx</span><span data-i18n="es">Resurtir receta</span><span data-i18n="ht">Ranpli preskripsyon</span><span data-i18n="fr">Renouveler</span></a>
-    <a href="#rx" class="pill"><span data-i18n="en">Transfer Rx</span><span data-i18n="es">Transferir receta</span><span data-i18n="ht">Transfere preskripsyon</span><span data-i18n="fr">Transférer</span></a>
-    <a href="#book" class="pill"><span data-i18n="en">Book a Vaccine</span><span data-i18n="es">Reservar vacuna</span><span data-i18n="ht">Rezève yon vaksen</span><span data-i18n="fr">Réserver un vaccin</span></a>
-    <a href="#shop" class="pill"><span data-i18n="en">Surgical &amp; DME</span><span data-i18n="es">Equipo médico</span><span data-i18n="ht">Ekipman medikal</span><span data-i18n="fr">Matériel médical</span></a>
-    <a href="#savings" class="pill"><span data-i18n="en">Savings Center</span><span data-i18n="es">Centro de ahorros</span><span data-i18n="ht">Sant Ekonomi</span><span data-i18n="fr">Économies</span></a>
+    <a href="#rx" class="pill"><span class="dot"></span><span data-i18n="en">Refill Rx</span><span data-i18n="es">Resurtir receta</span><span data-i18n="ht">Ranpli preskripsyon</span></a>
+    <a href="#rx" class="pill"><span data-i18n="en">Transfer Rx</span><span data-i18n="es">Transferir receta</span><span data-i18n="ht">Transfere preskripsyon</span></a>
+    <a href="#book" class="pill"><span data-i18n="en">Book a Vaccine</span><span data-i18n="es">Reservar vacuna</span><span data-i18n="ht">Rezève yon vaksen</span></a>
+    <a href="#shop" class="pill"><span data-i18n="en">Surgical &amp; DME</span><span data-i18n="es">Equipo médico</span><span data-i18n="ht">Ekipman medikal</span></a>
+    <a href="#savings" class="pill"><span data-i18n="en">Savings Center</span><span data-i18n="es">Centro de ahorros</span><span data-i18n="ht">Sant Ekonomi</span></a>
   </div>
 </div>
 
@@ -812,23 +641,23 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
     <div class="hero">
       <div class="hero-copy">
         <div class="hero-eyebrow">
-          <span data-i18n="en">Your neighborhood pharmacy</span><span data-i18n="es">Su farmacia del vecindario</span><span data-i18n="ht">Famasi katye ou</span><span data-i18n="fr">Votre pharmacie de quartier</span>
+          <span data-i18n="en">Your neighborhood pharmacy</span><span data-i18n="es">Su farmacia del vecindario</span><span data-i18n="ht">Famasi katye ou</span>
         </div>
         <h1>
           <span data-i18n="en" class="block">Real care, from people who know your name <span class="script">&amp; Surgical</span></span>
           <span data-i18n="es" class="block">Cuidado real, de personas que saben su nombre <span class="script">&amp; Surgical</span></span>
           <span data-i18n="ht" class="block">Vrè swen, ki soti nan moun ki konnen non ou <span class="script">&amp; Surgical</span></span>
-          <span data-i18n="fr" class="block">De vrais soins, par des gens qui vous connaissent <span class="script">&amp; Surgical</span></span>
+          
         </h1>
         <p class="lede">
           <span data-i18n="en">Independent and family-run in Irvington since 1995. Prescriptions, vaccines, and durable medical equipment, with a pharmacist who actually picks up the phone.</span>
           <span data-i18n="es">Independiente y familiar en Irvington desde 1995. Recetas, vacunas y equipo médico, con un farmacéutico que contesta el teléfono.</span>
           <span data-i18n="ht">Endepandan e fanmi depi 1995 nan Irvington. Preskripsyon, vaksen, ak ekipman medikal, ak yon famasyen ki reponn telefòn.</span>
-          <span data-i18n="fr">Indépendante et familiale à Irvington depuis 1995. Ordonnances, vaccins et matériel médical, avec un pharmacien qui répond au téléphone.</span>
+          
         </p>
         <div class="hero-cta">
-          <a href="#rx" class="btn btn-primary"><span data-i18n="en">Refill a prescription</span><span data-i18n="es">Resurtir receta</span><span data-i18n="ht">Ranpli preskripsyon</span><span data-i18n="fr">Renouveler</span></a>
-          <a href="#story" class="btn btn-ghost"><span data-i18n="en">Meet the pharmacy</span><span data-i18n="es">Conózcanos</span><span data-i18n="ht">Rankontre famasi a</span><span data-i18n="fr">Nous découvrir</span></a>
+          <a href="#rx" class="btn btn-primary"><span data-i18n="en">Refill a prescription</span><span data-i18n="es">Resurtir receta</span><span data-i18n="ht">Ranpli preskripsyon</span></a>
+          <a href="#story" class="btn btn-ghost"><span data-i18n="en">Meet the pharmacy</span><span data-i18n="es">Conózcanos</span><span data-i18n="ht">Rankontre famasi a</span></a>
         </div>
       </div>
       <div class="hero-img">
@@ -838,10 +667,10 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
     </div>
 
     <div class="trust">
-      <div class="trust-item"><div class="ic">💊</div><strong data-i18n="en">Prescriptions</strong><strong data-i18n="es">Recetas</strong><strong data-i18n="ht">Preskripsyon</strong><strong data-i18n="fr">Ordonnances</strong><span data-i18n="en">Fast refills &amp; transfers</span><span data-i18n="es">Resurtidos rápidos</span><span data-i18n="ht">Ranpli rapid</span><span data-i18n="fr">Renouvellements rapides</span></div>
-      <div class="trust-item"><div class="ic">🩺</div><strong data-i18n="en">Surgical &amp; DME</strong><strong data-i18n="es">Equipo médico</strong><strong data-i18n="ht">Ekipman medikal</strong><strong data-i18n="fr">Matériel médical</strong><span data-i18n="en">Braces, mobility &amp; more</span><span data-i18n="es">Soportes y movilidad</span><span data-i18n="ht">Sipò ak mobilite</span><span data-i18n="fr">Attelles et mobilité</span></div>
-      <div class="trust-item"><div class="ic">💉</div><strong data-i18n="en">Vaccines</strong><strong data-i18n="es">Vacunas</strong><strong data-i18n="ht">Vaksen</strong><strong data-i18n="fr">Vaccins</strong><span data-i18n="en">Walk-in &amp; by appointment</span><span data-i18n="es">Sin cita o con cita</span><span data-i18n="ht">San randevou oswa avèk</span><span data-i18n="fr">Sans ou avec rendez-vous</span></div>
-      <div class="trust-item"><div class="ic">🗣️</div><strong data-i18n="en">4 Languages</strong><strong data-i18n="es">4 Idiomas</strong><strong data-i18n="ht">4 Lang</strong><strong data-i18n="fr">4 Langues</strong><span data-i18n="en">EN &middot; ES &middot; HT &middot; FR</span><span data-i18n="es">EN &middot; ES &middot; HT &middot; FR</span><span data-i18n="ht">EN &middot; ES &middot; HT &middot; FR</span><span data-i18n="fr">EN &middot; ES &middot; HT &middot; FR</span></div>
+      <div class="trust-item"><div class="ic">💊</div><strong data-i18n="en">Prescriptions</strong><strong data-i18n="es">Recetas</strong><strong data-i18n="ht">Preskripsyon</strong><span data-i18n="en">Fast refills &amp; transfers</span><span data-i18n="es">Resurtidos rápidos</span><span data-i18n="ht">Ranpli rapid</span></div>
+      <div class="trust-item"><div class="ic">🩺</div><strong data-i18n="en">Surgical &amp; DME</strong><strong data-i18n="es">Equipo médico</strong><strong data-i18n="ht">Ekipman medikal</strong><span data-i18n="en">Braces, mobility &amp; more</span><span data-i18n="es">Soportes y movilidad</span><span data-i18n="ht">Sipò ak mobilite</span></div>
+      <div class="trust-item"><div class="ic">💉</div><strong data-i18n="en">Vaccines</strong><strong data-i18n="es">Vacunas</strong><strong data-i18n="ht">Vaksen</strong><span data-i18n="en">Walk-in &amp; by appointment</span><span data-i18n="es">Sin cita o con cita</span><span data-i18n="ht">San randevou oswa avèk</span></div>
+      <div class="trust-item"><div class="ic">🗣️</div><strong data-i18n="en">4 Languages</strong><strong data-i18n="es">4 Idiomas</strong><strong data-i18n="ht">4 Lang</strong><span data-i18n="en">EN &middot; ES &middot; HT &middot; FR</span><span data-i18n="es">EN &middot; ES &middot; HT &middot; FR</span><span data-i18n="ht">EN &middot; ES &middot; HT &middot; FR</span></div>
     </div>
 
     <!-- concierge + booking mount here in next build pass -->
@@ -851,19 +680,19 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <!-- ========== PLACEHOLDER PAGES (filled in subsequent build passes) ========== -->
   <section class="page" id="page-shop"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Shop</div><div class="eyebrow" data-i18n="es">Tienda</div><div class="eyebrow" data-i18n="ht">Boutik</div><div class="eyebrow" data-i18n="fr">Boutique</div>
-      <h2 data-i18n="en">Departments &amp; products</h2><h2 data-i18n="es">Departamentos y productos</h2><h2 data-i18n="ht">Depatman ak pwodwi</h2><h2 data-i18n="fr">Rayons et produits</h2>
-      <p data-i18n="en" class="block">Everyday health, home care, and Surgical &amp; DME essentials. Pickup at 4 Elmwood, or free local delivery Monday, Wednesday, and Friday.</p>
-      <p data-i18n="es" class="block">Salud diaria, cuidado en el hogar y equipo médico. Recoja en 4 Elmwood o entrega local gratis lunes, miércoles y viernes.</p>
-      <p data-i18n="ht" class="block">Sante chak jou, swen lakay, ak ekipman medikal. Ranmase nan 4 Elmwood, oswa livrezon lokal gratis lendi, mèkredi, ak vandredi.</p>
-      <p data-i18n="fr" class="block">Santé au quotidien, soins à domicile et matériel médical. Retrait au 4 Elmwood, ou livraison locale gratuite lundi, mercredi et vendredi.</p>
+      <div class="eyebrow" data-i18n="en">Shop</div><div class="eyebrow" data-i18n="es">Tienda</div><div class="eyebrow" data-i18n="ht">Boutik</div>
+      <h2 data-i18n="en">Departments &amp; products</h2><h2 data-i18n="es">Departamentos y productos</h2><h2 data-i18n="ht">Depatman ak pwodwi</h2>
+      <p data-i18n="en" class="block">Everyday health, home care, and Surgical &amp; DME essentials. This is a catalogue of what we carry: come in to 4 Elmwood to buy, or call (973) 372-1300 and we will set it aside for you.</p>
+      <p data-i18n="es" class="block">Salud diaria, cuidado en el hogar y equipo médico. Este es un catálogo de lo que tenemos: venga a 4 Elmwood para comprar, o llame al (973) 372-1300 y se lo apartamos.</p>
+      <p data-i18n="ht" class="block">Sante chak jou, swen lakay, ak ekipman medikal. Sa a se yon katalòg sa nou genyen: vin nan 4 Elmwood pou achte, oswa rele (973) 372-1300 epi n ap mete l sou kote pou ou.</p>
+      
     </div>
     <div class="promo-chips" id="promoChips"></div>
     <div class="shop-layout">
       <aside class="filter-rail" id="filterRail"></aside>
       <div>
         <div class="plp-bar">
-          <div class="plp-count"><b id="plpCount">0</b> <span data-i18n="en">products</span><span data-i18n="es">productos</span><span data-i18n="ht">pwodwi</span><span data-i18n="fr">produits</span></div>
+          <div class="plp-count"><b id="plpCount">0</b> <span data-i18n="en">products</span><span data-i18n="es">productos</span><span data-i18n="ht">pwodwi</span></div>
           <select class="plp-sort" id="plpSort">
             <option value="rel" data-i18n-opt="rel"></option>
             <option value="plow" data-i18n-opt="plow"></option>
@@ -880,7 +709,6 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <section class="page" id="page-product"><div class="sec">
     <div class="pdp-mini" id="pdpMini"><div class="pdp-mini-in">
       <img class="thumb" id="pdpMiniImg" alt=""><span class="nm" id="pdpMiniName"></span><span class="pr" id="pdpMiniPrice"></span>
-      <button class="btn btn-primary" style="padding:9px 18px" id="pdpMiniAdd"><span data-i18n="en">Add</span><span data-i18n="es">Añadir</span><span data-i18n="ht">Ajoute</span><span data-i18n="fr">Ajouter</span></button>
     </div></div>
     <div id="pdpContent"></div>
   </div></section>
@@ -888,119 +716,119 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <section class="page" id="page-rx"><div class="sec">
     <div class="sec-head">
       <div class="eyebrow">Rx</div>
-      <h2 data-i18n="en">Prescriptions</h2><h2 data-i18n="es">Recetas</h2><h2 data-i18n="ht">Preskripsyon</h2><h2 data-i18n="fr">Ordonnances</h2>
+      <h2 data-i18n="en">Prescriptions</h2><h2 data-i18n="es">Recetas</h2><h2 data-i18n="ht">Preskripsyon</h2>
       <p data-i18n="en" class="block">No account needed. Give us the prescription number and how to reach you, and our pharmacist takes it from there. For vaccines, <a href="#book" style="color:var(--red)">book a time here</a>. <span class="demo-tag">Demo form</span></p>
       <p data-i18n="es" class="block">Sin cuenta. Denos el número de receta y cómo contactarle; nuestro farmacéutico se encarga. Para vacunas, <a href="#book" style="color:var(--red)">reserve aquí</a>. <span class="demo-tag">Demo</span></p>
       <p data-i18n="ht" class="block">Pa bezwen kont. Ban nou nimewo preskripsyon an ak kijan pou kontakte ou; famasyen an ap okipe rès la. Pou vaksen, <a href="#book" style="color:var(--red)">rezève isit la</a>. <span class="demo-tag">Demo</span></p>
-      <p data-i18n="fr" class="block">Pas de compte. Donnez-nous le numéro d'ordonnance et comment vous joindre; notre pharmacien s'en occupe. Pour les vaccins, <a href="#book" style="color:var(--red)">réservez ici</a>. <span class="demo-tag">Demo</span></p>
+      
     </div>
     <div class="form-grid">
       <div class="form-card">
-        <h3 data-i18n="en">Refill a prescription</h3><h3 data-i18n="es">Resurtir una receta</h3><h3 data-i18n="ht">Ranpli yon preskripsyon</h3><h3 data-i18n="fr">Renouveler une ordonnance</h3>
-        <p class="fc-sub"><span data-i18n="en">Already fill with us? Just the Rx number and your contact.</span><span data-i18n="es">¿Ya surte con nosotros? Solo el número de receta y su contacto.</span><span data-i18n="ht">Deja ranpli avèk nou? Sèlman nimewo Rx la ak kontak ou.</span><span data-i18n="fr">Déjà client ? Juste le numéro d'ordonnance et votre contact.</span></p>
-        <div class="field"><label><span data-i18n="en">Prescription (Rx) number</span><span data-i18n="es">Número de receta (Rx)</span><span data-i18n="ht">Nimewo preskripsyon (Rx)</span><span data-i18n="fr">Numéro d'ordonnance (Rx)</span></label><input type="text" id="rfRx" placeholder="e.g. 3049217"></div>
-        <div class="field"><label><span data-i18n="en">Full name</span><span data-i18n="es">Nombre completo</span><span data-i18n="ht">Non konplè</span><span data-i18n="fr">Nom complet</span></label><input type="text" id="rfName"></div>
-        <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span><span data-i18n="fr">Téléphone ou courriel</span></label><input type="text" id="rfContact"></div>
-        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span><span data-i18n="fr">Retrait ou livraison ?</span></label><select id="rfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
+        <h3 data-i18n="en">Refill a prescription</h3><h3 data-i18n="es">Resurtir una receta</h3><h3 data-i18n="ht">Ranpli yon preskripsyon</h3>
+        <p class="fc-sub"><span data-i18n="en">Already fill with us? Just the Rx number and your contact.</span><span data-i18n="es">¿Ya surte con nosotros? Solo el número de receta y su contacto.</span><span data-i18n="ht">Deja ranpli avèk nou? Sèlman nimewo Rx la ak kontak ou.</span></p>
+        <div class="field"><label><span data-i18n="en">Prescription (Rx) number</span><span data-i18n="es">Número de receta (Rx)</span><span data-i18n="ht">Nimewo preskripsyon (Rx)</span></label><input type="text" id="rfRx" placeholder="e.g. 3049217"></div>
+        <div class="field"><label><span data-i18n="en">Full name</span><span data-i18n="es">Nombre completo</span><span data-i18n="ht">Non konplè</span></label><input type="text" id="rfName"></div>
+        <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span></label><input type="text" id="rfContact"></div>
+        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span></label><select id="rfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
         <div class="rx-deliv" id="rfDeliv" hidden>
           <div class="rx-deliv-note" id="rfDelivNote"></div>
-          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span><span data-i18n="fr">Adresse de livraison</span></label><input type="text" id="rfStreet" autocomplete="address-line1"></div>
+          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span></label><input type="text" id="rfStreet" autocomplete="address-line1"></div>
           <div class="rx-deliv-row">
-            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span><span data-i18n="fr">Ville</span></label><input type="text" id="rfTown" autocomplete="address-level2"></div>
-            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span><span data-i18n="fr">Code postal</span></label><input type="text" id="rfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
+            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span></label><input type="text" id="rfTown" autocomplete="address-level2"></div>
+            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span></label><input type="text" id="rfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
           </div>
           <div class="rx-area" id="rfArea" hidden></div>
         </div>
-        <button class="form-submit" data-form="refill"><span data-i18n="en">Request refill</span><span data-i18n="es">Solicitar resurtido</span><span data-i18n="ht">Mande ranpli</span><span data-i18n="fr">Demander</span></button>
-        <div class="form-ok" id="okRefill"><span data-i18n="en">Demo: in the live site this reaches the pharmacy queue. Nothing was submitted. Call (973) 372-1300 to confirm a real refill.</span><span data-i18n="es">Demo: en el sitio real esto llega a la farmacia. No se envió nada. Llame al (973) 372-1300.</span><span data-i18n="ht">Demo: sou sit reyèl la sa rive nan famasi a. Anyen pa t voye. Rele (973) 372-1300.</span><span data-i18n="fr">Demo: sur le site réel, ceci atteint la pharmacie. Rien n'a été envoyé. Appelez le (973) 372-1300.</span></div>
+        <button class="form-submit" data-form="refill"><span data-i18n="en">Request refill</span><span data-i18n="es">Solicitar resurtido</span><span data-i18n="ht">Mande ranpli</span></button>
+        <div class="form-ok" id="okRefill"><span data-i18n="en">Demo: in the live site this reaches the pharmacy queue. Nothing was submitted. Call (973) 372-1300 to confirm a real refill.</span><span data-i18n="es">Demo: en el sitio real esto llega a la farmacia. No se envió nada. Llame al (973) 372-1300.</span><span data-i18n="ht">Demo: sou sit reyèl la sa rive nan famasi a. Anyen pa t voye. Rele (973) 372-1300.</span></div>
       </div>
       <div class="form-card">
-        <h3 data-i18n="en">Transfer from another pharmacy</h3><h3 data-i18n="es">Transferir de otra farmacia</h3><h3 data-i18n="ht">Transfere soti nan yon lòt famasi</h3><h3 data-i18n="fr">Transférer d'une autre pharmacie</h3>
-        <p class="fc-sub"><span data-i18n="en">We handle the call to your old pharmacy. You just tell us where.</span><span data-i18n="es">Nosotros llamamos a su farmacia anterior. Usted solo nos dice cuál.</span><span data-i18n="ht">Nou rele ansyen famasi ou. Ou jis di nou ki kote.</span><span data-i18n="fr">Nous appelons votre ancienne pharmacie. Dites-nous seulement laquelle.</span></p>
-        <div class="field"><label><span data-i18n="en">Full name</span><span data-i18n="es">Nombre completo</span><span data-i18n="ht">Non konplè</span><span data-i18n="fr">Nom complet</span></label><input type="text" id="tfName"></div>
-        <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span><span data-i18n="fr">Téléphone ou courriel</span></label><input type="text" id="tfContact"></div>
-        <div class="field"><label><span data-i18n="en">Current pharmacy name</span><span data-i18n="es">Farmacia actual</span><span data-i18n="ht">Non famasi aktyèl la</span><span data-i18n="fr">Pharmacie actuelle</span></label><input type="text" id="tfPharm"></div>
-        <div class="field"><label><span data-i18n="en">Medication(s) to transfer</span><span data-i18n="es">Medicamento(s) a transferir</span><span data-i18n="ht">Medikaman pou transfere</span><span data-i18n="fr">Médicament(s) à transférer</span></label><textarea id="tfMeds" rows="2"></textarea></div>
-        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span><span data-i18n="fr">Retrait ou livraison ?</span></label><select id="tfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
+        <h3 data-i18n="en">Transfer from another pharmacy</h3><h3 data-i18n="es">Transferir de otra farmacia</h3><h3 data-i18n="ht">Transfere soti nan yon lòt famasi</h3>
+        <p class="fc-sub"><span data-i18n="en">We handle the call to your old pharmacy. You just tell us where.</span><span data-i18n="es">Nosotros llamamos a su farmacia anterior. Usted solo nos dice cuál.</span><span data-i18n="ht">Nou rele ansyen famasi ou. Ou jis di nou ki kote.</span></p>
+        <div class="field"><label><span data-i18n="en">Full name</span><span data-i18n="es">Nombre completo</span><span data-i18n="ht">Non konplè</span></label><input type="text" id="tfName"></div>
+        <div class="field"><label><span data-i18n="en">Phone or email</span><span data-i18n="es">Teléfono o correo</span><span data-i18n="ht">Telefòn oswa imel</span></label><input type="text" id="tfContact"></div>
+        <div class="field"><label><span data-i18n="en">Current pharmacy name</span><span data-i18n="es">Farmacia actual</span><span data-i18n="ht">Non famasi aktyèl la</span></label><input type="text" id="tfPharm"></div>
+        <div class="field"><label><span data-i18n="en">Medication(s) to transfer</span><span data-i18n="es">Medicamento(s) a transferir</span><span data-i18n="ht">Medikaman pou transfere</span></label><textarea id="tfMeds" rows="2"></textarea></div>
+        <div class="field"><label><span data-i18n="en">Pickup or delivery?</span><span data-i18n="es">¿Recoger o entrega?</span><span data-i18n="ht">Ranmase oswa livrezon?</span></label><select id="tfMethod" class="rx-method"><option value="pickup" data-i18n-opt="pickup"></option><option value="delivery" data-i18n-opt="delivery"></option></select></div>
         <div class="rx-deliv" id="tfDeliv" hidden>
           <div class="rx-deliv-note" id="tfDelivNote"></div>
-          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span><span data-i18n="fr">Adresse de livraison</span></label><input type="text" id="tfStreet" autocomplete="address-line1"></div>
+          <div class="field"><label><span data-i18n="en">Delivery street address</span><span data-i18n="es">Dirección de entrega</span><span data-i18n="ht">Adrès lari pou livrezon</span></label><input type="text" id="tfStreet" autocomplete="address-line1"></div>
           <div class="rx-deliv-row">
-            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span><span data-i18n="fr">Ville</span></label><input type="text" id="tfTown" autocomplete="address-level2"></div>
-            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span><span data-i18n="fr">Code postal</span></label><input type="text" id="tfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
+            <div class="field"><label><span data-i18n="en">Town</span><span data-i18n="es">Ciudad</span><span data-i18n="ht">Vil</span></label><input type="text" id="tfTown" autocomplete="address-level2"></div>
+            <div class="field"><label><span data-i18n="en">ZIP</span><span data-i18n="es">Código postal</span><span data-i18n="ht">Kòd postal</span></label><input type="text" id="tfZip" inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
           </div>
           <div class="rx-area" id="tfArea" hidden></div>
         </div>
-        <button class="form-submit" data-form="transfer"><span data-i18n="en">Request transfer</span><span data-i18n="es">Solicitar transferencia</span><span data-i18n="ht">Mande transfè</span><span data-i18n="fr">Demander le transfert</span></button>
-        <div class="form-ok" id="okTransfer"><span data-i18n="en">Demo: no data was sent. In the live site our pharmacist calls your old pharmacy for you. Questions? (973) 372-1300.</span><span data-i18n="es">Demo: no se envió nada. En el sitio real llamamos por usted. ¿Dudas? (973) 372-1300.</span><span data-i18n="ht">Demo: anyen pa t voye. Sou sit reyèl la nou rele pou ou. Kesyon? (973) 372-1300.</span><span data-i18n="fr">Demo: rien n'a été envoyé. Sur le site réel, nous appelons pour vous. Questions ? (973) 372-1300.</span></div>
+        <button class="form-submit" data-form="transfer"><span data-i18n="en">Request transfer</span><span data-i18n="es">Solicitar transferencia</span><span data-i18n="ht">Mande transfè</span></button>
+        <div class="form-ok" id="okTransfer"><span data-i18n="en">Demo: no data was sent. In the live site our pharmacist calls your old pharmacy for you. Questions? (973) 372-1300.</span><span data-i18n="es">Demo: no se envió nada. En el sitio real llamamos por usted. ¿Dudas? (973) 372-1300.</span><span data-i18n="ht">Demo: anyen pa t voye. Sou sit reyèl la nou rele pou ou. Kesyon? (973) 372-1300.</span></div>
       </div>
     </div>
   </div></section>
 
   <section class="page" id="page-health"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Health Corner</div><div class="eyebrow" data-i18n="es">Salud</div><div class="eyebrow" data-i18n="ht">Sante</div><div class="eyebrow" data-i18n="fr">Santé</div>
-      <h2 data-i18n="en">Notes from your pharmacist</h2><h2 data-i18n="es">Notas de su farmacéutico</h2><h2 data-i18n="ht">Nòt famasyen ou</h2><h2 data-i18n="fr">Notes de votre pharmacien</h2>
+      <div class="eyebrow" data-i18n="en">Health Corner</div><div class="eyebrow" data-i18n="es">Salud</div><div class="eyebrow" data-i18n="ht">Sante</div>
+      <h2 data-i18n="en">Notes from your pharmacist</h2><h2 data-i18n="es">Notas de su farmacéutico</h2><h2 data-i18n="ht">Nòt famasyen ou</h2>
       <p data-i18n="en" class="block">Plain-language health tips. General information only, not medical advice. For anything about your own health, call us at (973) 372-1300 or stop in.</p>
       <p data-i18n="es" class="block">Consejos de salud en lenguaje sencillo. Solo información general, no consejo médico. Para su salud, llame al (973) 372-1300.</p>
       <p data-i18n="ht" class="block">Konsèy sante an lang senp. Enfòmasyon jeneral sèlman, pa konsèy medikal. Pou sante ou, rele (973) 372-1300.</p>
-      <p data-i18n="fr" class="block">Conseils santé en langage simple. Information générale seulement, pas un avis médical. Pour votre santé, appelez le (973) 372-1300.</p>
+      
     </div>
     <div class="article-grid">
       <article class="article"><div class="article-top">
-        <div class="tag" data-i18n="en">Seasonal</div><div class="tag" data-i18n="es">De temporada</div><div class="tag" data-i18n="ht">Sezon</div><div class="tag" data-i18n="fr">Saisonnier</div>
-        <h3 data-i18n="en">Getting ready for flu season</h3><h3 data-i18n="es">Prepararse para la gripe</h3><h3 data-i18n="ht">Prepare pou sezon grip</h3><h3 data-i18n="fr">Se préparer à la grippe</h3>
+        <div class="tag" data-i18n="en">Seasonal</div><div class="tag" data-i18n="es">De temporada</div><div class="tag" data-i18n="ht">Sezon</div>
+        <h3 data-i18n="en">Getting ready for flu season</h3><h3 data-i18n="es">Prepararse para la gripe</h3><h3 data-i18n="ht">Prepare pou sezon grip</h3>
       </div><div class="article-body">
         <div data-i18n="en" class="block"><p>The best time for a flu shot is early fall, before flu spreads. It takes about two weeks to build protection.</p><ul><li>One quick visit; walk-in or booked</li><li>Safe to get with most other vaccines</li><li>Especially important for seniors and anyone with asthma or diabetes</li></ul><p>Ask us about pairing it with COVID or pneumonia shots.</p></div>
         <div data-i18n="es" class="block"><p>El mejor momento para la vacuna de la gripe es a principios del otoño. Tarda unas dos semanas en hacer efecto.</p><ul><li>Una visita rápida; con o sin cita</li><li>Segura junto con otras vacunas</li><li>Importante para mayores y personas con asma o diabetes</li></ul><p>Pregúntenos por combinarla con la de COVID o neumonía.</p></div>
         <div data-i18n="ht" class="block"><p>Pi bon moman pou vaksen grip la se kòmansman otòn. Li pran de semèn pou pwoteje ou.</p><ul><li>Yon vizit rapid; ak oswa san randevou</li><li>An sekirite ak lòt vaksen</li><li>Enpòtan pou granmoun ak moun ki gen opresyon oswa dyabèt</li></ul><p>Mande nou konbine li ak vaksen COVID oswa nemoni.</p></div>
-        <div data-i18n="fr" class="block"><p>Le meilleur moment pour le vaccin antigrippal est le début de l'automne. Il faut environ deux semaines pour être protégé.</p><ul><li>Une visite rapide; avec ou sans rendez-vous</li><li>Sûr avec la plupart des autres vaccins</li><li>Important pour les aînés et les personnes asthmatiques ou diabétiques</li></ul><p>Demandez-nous de le combiner avec le vaccin COVID ou pneumonie.</p></div>
+        
       </div></article>
       <article class="article"><div class="article-top">
-        <div class="tag" data-i18n="en">Everyday</div><div class="tag" data-i18n="es">Cotidiano</div><div class="tag" data-i18n="ht">Chak jou</div><div class="tag" data-i18n="fr">Au quotidien</div>
-        <h3 data-i18n="en">Blood pressure basics</h3><h3 data-i18n="es">Presión arterial</h3><h3 data-i18n="ht">Baz tansyon</h3><h3 data-i18n="fr">La tension, l'essentiel</h3>
+        <div class="tag" data-i18n="en">Everyday</div><div class="tag" data-i18n="es">Cotidiano</div><div class="tag" data-i18n="ht">Chak jou</div>
+        <h3 data-i18n="en">Blood pressure basics</h3><h3 data-i18n="es">Presión arterial</h3><h3 data-i18n="ht">Baz tansyon</h3>
       </div><div class="article-body">
         <div data-i18n="en" class="block"><p>High blood pressure usually has no symptoms, so checking it matters.</p><ul><li>Sit and rest five minutes before measuring</li><li>Same time of day, same arm, keep a log</li><li>Take medication at the same time daily</li></ul><p>We can check your pressure at the counter and help you read your numbers.</p></div>
         <div data-i18n="es" class="block"><p>La presión alta no suele dar síntomas, por eso conviene medirla.</p><ul><li>Descanse cinco minutos antes de medir</li><li>Misma hora, mismo brazo, lleve un registro</li><li>Tome el medicamento a la misma hora</li></ul><p>Podemos medir su presión en el mostrador y ayudarle a leer sus números.</p></div>
         <div data-i18n="ht" class="block"><p>Tansyon wo souvan pa gen sentòm, se poutèt sa li enpòtan pou tcheke li.</p><ul><li>Repoze senk minit anvan ou mezire</li><li>Menm lè, menm bra, kenbe yon jounal</li><li>Pran medikaman an menm lè chak jou</li></ul><p>Nou ka tcheke tansyon ou nan kontwa a epi ede ou li chif yo.</p></div>
-        <div data-i18n="fr" class="block"><p>L'hypertension ne donne souvent aucun symptôme, d'où l'importance de la mesurer.</p><ul><li>Reposez-vous cinq minutes avant de mesurer</li><li>Même heure, même bras, tenez un journal</li><li>Prenez le médicament à heure fixe</li></ul><p>Nous pouvons mesurer votre tension au comptoir et vous aider à lire vos chiffres.</p></div>
+        
       </div></article>
       <article class="article"><div class="article-top">
-        <div class="tag" data-i18n="en">Nutrition</div><div class="tag" data-i18n="es">Nutrición</div><div class="tag" data-i18n="ht">Nitrisyon</div><div class="tag" data-i18n="fr">Nutrition</div>
-        <h3 data-i18n="en">Vitamin D, simply explained</h3><h3 data-i18n="es">La vitamina D, en simple</h3><h3 data-i18n="ht">Vitamin D, senpleman</h3><h3 data-i18n="fr">La vitamine D, en clair</h3>
+        <div class="tag" data-i18n="en">Nutrition</div><div class="tag" data-i18n="es">Nutrición</div><div class="tag" data-i18n="ht">Nitrisyon</div>
+        <h3 data-i18n="en">Vitamin D, simply explained</h3><h3 data-i18n="es">La vitamina D, en simple</h3><h3 data-i18n="ht">Vitamin D, senpleman</h3>
       </div><div class="article-body">
         <div data-i18n="en" class="block"><p>Vitamin D helps your body absorb calcium and supports muscles and mood. Many of us run low in winter.</p><ul><li>Sources: sunlight, fatty fish, fortified milk</li><li>A supplement can help; ask what dose fits you</li><li>A simple blood test tells you where you stand</li></ul><p>We stock several strengths; we will help you pick.</p></div>
         <div data-i18n="es" class="block"><p>La vitamina D ayuda a absorber calcio y apoya músculos y ánimo. Muchos andamos bajos en invierno.</p><ul><li>Fuentes: sol, pescado graso, leche fortificada</li><li>Un suplemento ayuda; pregunte la dosis</li><li>Un análisis simple le dice cómo está</li></ul><p>Tenemos varias concentraciones; le ayudamos a elegir.</p></div>
         <div data-i18n="ht" class="block"><p>Vitamin D ede kò ou absòbe kalsyòm epi sipòte misk ak imè. Anpil nan nou ba nan sezon fredi.</p><ul><li>Sous: solèy, pwason gra, lèt ranfòse</li><li>Yon sipleman ka ede; mande ki dòz</li><li>Yon tès san senp di ou kote ou ye</li></ul><p>Nou gen plizyè fòs; n ap ede ou chwazi.</p></div>
-        <div data-i18n="fr" class="block"><p>La vitamine D aide à absorber le calcium et soutient les muscles et l'humeur. Beaucoup en manquent l'hiver.</p><ul><li>Sources: soleil, poisson gras, lait enrichi</li><li>Un supplément peut aider; demandez la dose</li><li>Une simple prise de sang situe votre niveau</li></ul><p>Nous avons plusieurs dosages; nous vous aidons à choisir.</p></div>
+        
       </div></article>
     </div>
   </div></section>
 
   <section class="page" id="page-story"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Our Story</div><div class="eyebrow" data-i18n="es">Nuestra Historia</div><div class="eyebrow" data-i18n="ht">Istwa Nou</div><div class="eyebrow" data-i18n="fr">Notre Histoire</div>
-      <h2 data-i18n="en">Family-run since 1995</h2><h2 data-i18n="es">Familiar desde 1995</h2><h2 data-i18n="ht">Fanmi depi 1995</h2><h2 data-i18n="fr">Familiale depuis 1995</h2>
-      <p data-i18n="en" class="block">Tap the card to turn the page.</p><p data-i18n="es" class="block">Toque la tarjeta para pasar la página.</p><p data-i18n="ht" class="block">Peze kat la pou vire paj la.</p><p data-i18n="fr" class="block">Touchez la carte pour tourner la page.</p>
+      <div class="eyebrow" data-i18n="en">Our Story</div><div class="eyebrow" data-i18n="es">Nuestra Historia</div><div class="eyebrow" data-i18n="ht">Istwa Nou</div>
+      <h2 data-i18n="en">Family-run since 1995</h2><h2 data-i18n="es">Familiar desde 1995</h2><h2 data-i18n="ht">Fanmi depi 1995</h2>
+      <p data-i18n="en" class="block">Tap the card to turn the page.</p><p data-i18n="es" class="block">Toque la tarjeta para pasar la página.</p><p data-i18n="ht" class="block">Peze kat la pou vire paj la.</p>
     </div>
     <div class="flip-wrap"><div class="flip" id="flip">
       <div class="flip-face flip-front"><div class="yr" id="flipYr">1995</div><div class="cap" id="flipCap"></div></div>
       <div class="flip-face flip-back"><div class="yr" id="flipYrB">1995</div><div class="cap" id="flipCapB"></div></div>
     </div></div>
     <div class="flip-nav">
-      <button id="flipPrev">&larr; <span data-i18n="en">Back</span><span data-i18n="es">Atrás</span><span data-i18n="ht">Retounen</span><span data-i18n="fr">Retour</span></button>
+      <button id="flipPrev">&larr; <span data-i18n="en">Back</span><span data-i18n="es">Atrás</span><span data-i18n="ht">Retounen</span></button>
       <div class="flip-dots" id="flipDots"></div>
-      <button id="flipNext"><span data-i18n="en">Next</span><span data-i18n="es">Siguiente</span><span data-i18n="ht">Pwochen</span><span data-i18n="fr">Suivant</span> &rarr;</button>
+      <button id="flipNext"><span data-i18n="en">Next</span><span data-i18n="es">Siguiente</span><span data-i18n="ht">Pwochen</span> &rarr;</button>
     </div>
     <div class="pharmacist-card">
       <img src="uncle.jpg" alt="Springview pharmacist" onerror="this.style.display='none'">
       <div>
-        <div class="eyebrow" data-i18n="en">Meet your pharmacist</div><div class="eyebrow" data-i18n="es">Su farmacéutico</div><div class="eyebrow" data-i18n="ht">Famasyen ou</div><div class="eyebrow" data-i18n="fr">Votre pharmacien</div>
+        <div class="eyebrow" data-i18n="en">Meet your pharmacist</div><div class="eyebrow" data-i18n="es">Su farmacéutico</div><div class="eyebrow" data-i18n="ht">Famasyen ou</div>
         <h3>Springview Pharmacy <span class="amp" style="font-family:var(--font-script);color:var(--gold)">&amp;</span> Surgical</h3>
         <p data-i18n="en">Three decades of knowing our neighbors by name, in the language they speak at home. When you call, a person who knows this community picks up.</p>
         <p data-i18n="es">Tres décadas conociendo a nuestros vecinos por su nombre, en su idioma. Cuando llama, contesta alguien que conoce esta comunidad.</p>
         <p data-i18n="ht">Twa deseni ap konnen vwazen nou pa non yo, nan lang yo pale lakay. Lè ou rele, yon moun ki konnen kominote a reponn.</p>
-        <p data-i18n="fr">Trois décennies à connaître nos voisins par leur nom, dans leur langue. Quand vous appelez, une personne qui connaît ce quartier répond.</p>
+        
       </div>
     </div>
     <div class="surg-callout">
@@ -1008,69 +836,69 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
       <p data-i18n="en" style="margin-top:6px">The word on our sign is not decoration. We carry durable medical equipment: braces, mobility aids, compression, and home care most chain stores make you order online. Come in and we fit it in person.</p>
       <p data-i18n="es" style="margin-top:6px">La palabra en nuestro letrero no es decoración. Ofrecemos equipo médico: soportes, movilidad, compresión y cuidado en el hogar. Venga y lo ajustamos en persona.</p>
       <p data-i18n="ht" style="margin-top:6px">Mo sou pankat nou an pa dekorasyon. Nou gen ekipman medikal: sipò, mobilite, konpresyon, ak swen lakay. Vin epi nou mezire li an pèsòn.</p>
-      <p data-i18n="fr" style="margin-top:6px">Le mot sur notre enseigne n'est pas décoratif. Nous offrons du matériel médical: attelles, mobilité, compression et soins à domicile. Venez, nous l'ajustons en personne.</p>
+      
     </div>
     <div class="story-band"><img src="storefront.jpg" alt="Inside Springview Pharmacy" onerror="this.parentNode.style.display='none'"></div>
   </div></section>
 
   <section class="page" id="page-savings"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Savings Center</div><div class="eyebrow" data-i18n="es">Centro de Ahorros</div><div class="eyebrow" data-i18n="ht">Sant Ekonomi</div><div class="eyebrow" data-i18n="fr">Économies</div>
-      <h2 data-i18n="en">Pay less at the counter</h2><h2 data-i18n="es">Pague menos</h2><h2 data-i18n="ht">Peye mwens</h2><h2 data-i18n="fr">Payez moins</h2>
+      <div class="eyebrow" data-i18n="en">Savings Center</div><div class="eyebrow" data-i18n="es">Centro de Ahorros</div><div class="eyebrow" data-i18n="ht">Sant Ekonomi</div>
+      <h2 data-i18n="en">Pay less at the counter</h2><h2 data-i18n="es">Pague menos</h2><h2 data-i18n="ht">Peye mwens</h2>
       <p data-i18n="en" class="block">Prescription discount cards can lower your cash price. Honest note: savings vary by drug and cannot combine with insurance on the same fill, and the best price changes. Just show us your card and we run the lowest option we can.</p>
       <p data-i18n="es" class="block">Las tarjetas de descuento pueden bajar el precio en efectivo. Nota honesta: el ahorro varía y no se combina con el seguro en el mismo surtido. Muéstrenos su tarjeta y buscamos el precio más bajo.</p>
       <p data-i18n="ht" class="block">Kat rabè yo ka bese pri kach ou. Nòt onèt: ekonomi an varye epi li pa konbine ak asirans sou menm ranpli a. Montre nou kat ou epi nou chèche pi bon pri a.</p>
-      <p data-i18n="fr" class="block">Les cartes de réduction peuvent baisser votre prix comptant. Note honnête: les économies varient et ne se combinent pas avec l'assurance sur le même renouvellement. Montrez-nous votre carte, nous cherchons le prix le plus bas.</p>
+      
     </div>
     <div class="save-grid">
-      <div class="save-card"><div class="sc-name">GoodRx</div><div class="sc-desc"><span data-i18n="en">Widely accepted coupons for common generics. Free to use.</span><span data-i18n="es">Cupones aceptados para genéricos comunes. Gratis.</span><span data-i18n="ht">Koupon aksepte pou jenerik komen. Gratis.</span><span data-i18n="fr">Coupons acceptés pour génériques courants. Gratuit.</span></div><span class="demo-tag">Accepted here</span></div>
-      <div class="save-card"><div class="sc-name">SingleCare</div><div class="sc-desc"><span data-i18n="en">Another free card; sometimes beats GoodRx on a given drug.</span><span data-i18n="es">Otra tarjeta gratis; a veces mejora a GoodRx.</span><span data-i18n="ht">Yon lòt kat gratis; pafwa li pi bon pase GoodRx.</span><span data-i18n="fr">Autre carte gratuite; parfois meilleure que GoodRx.</span></div><span class="demo-tag">Accepted here</span></div>
-      <div class="save-card"><div class="sc-name">Inside Rx</div><div class="sc-desc"><span data-i18n="en">Discounts on select brand and generic medications.</span><span data-i18n="es">Descuentos en ciertos medicamentos de marca y genéricos.</span><span data-i18n="ht">Rabè sou sèten medikaman mak ak jenerik.</span><span data-i18n="fr">Réductions sur certains médicaments de marque et génériques.</span></div><span class="demo-tag">Accepted here</span></div>
+      <div class="save-card"><div class="sc-name">GoodRx</div><div class="sc-desc"><span data-i18n="en">Widely accepted coupons for common generics. Free to use.</span><span data-i18n="es">Cupones aceptados para genéricos comunes. Gratis.</span><span data-i18n="ht">Koupon aksepte pou jenerik komen. Gratis.</span></div><span class="demo-tag">Accepted here</span></div>
+      <div class="save-card"><div class="sc-name">SingleCare</div><div class="sc-desc"><span data-i18n="en">Another free card; sometimes beats GoodRx on a given drug.</span><span data-i18n="es">Otra tarjeta gratis; a veces mejora a GoodRx.</span><span data-i18n="ht">Yon lòt kat gratis; pafwa li pi bon pase GoodRx.</span></div><span class="demo-tag">Accepted here</span></div>
+      <div class="save-card"><div class="sc-name">Inside Rx</div><div class="sc-desc"><span data-i18n="en">Discounts on select brand and generic medications.</span><span data-i18n="es">Descuentos en ciertos medicamentos de marca y genéricos.</span><span data-i18n="ht">Rabè sou sèten medikaman mak ak jenerik.</span></div><span class="demo-tag">Accepted here</span></div>
     </div>
     <div class="deals-row">
-      <h3><span data-i18n="en">This week at Springview</span><span data-i18n="es">Esta semana en Springview</span><span data-i18n="ht">Semèn sa a nan Springview</span><span data-i18n="fr">Cette semaine chez Springview</span> <span class="demo-tag">Demo</span></h3>
+      <h3><span data-i18n="en">This week at Springview</span><span data-i18n="es">Esta semana en Springview</span><span data-i18n="ht">Semèn sa a nan Springview</span> <span class="demo-tag">Demo</span></h3>
       <div class="deal-track" id="dealTrack"></div>
     </div>
   </div></section>
 
   <section class="page" id="page-book"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Book</div><div class="eyebrow" data-i18n="es">Reservar</div><div class="eyebrow" data-i18n="ht">Rezève</div><div class="eyebrow" data-i18n="fr">Réserver</div>
-      <h2 data-i18n="en">Book an appointment</h2><h2 data-i18n="es">Reservar una cita</h2><h2 data-i18n="ht">Rezève yon randevou</h2><h2 data-i18n="fr">Prendre rendez-vous</h2>
+      <div class="eyebrow" data-i18n="en">Book</div><div class="eyebrow" data-i18n="es">Reservar</div><div class="eyebrow" data-i18n="ht">Rezève</div>
+      <h2 data-i18n="en">Book an appointment</h2><h2 data-i18n="es">Reservar una cita</h2><h2 data-i18n="ht">Rezève yon randevou</h2>
       <p data-i18n="en" class="block">Pick a time for a 15-minute pharmacist consultation. Great for vaccines, medication questions, or transfers. Live scheduling, book right now.</p>
       <p data-i18n="es" class="block">Elija una hora para una consulta de 15 minutos con el farmacéutico. Ideal para vacunas, preguntas sobre medicamentos o transferencias. Reserve ahora.</p>
       <p data-i18n="ht" class="block">Chwazi yon lè pou yon konsiltasyon 15 minit ak famasyen an. Bon pou vaksen, kesyon sou medikaman, oswa transfè. Rezève kounye a.</p>
-      <p data-i18n="fr" class="block">Choisissez un horaire pour une consultation de 15 minutes avec le pharmacien. Idéal pour les vaccins, les questions sur les médicaments ou les transferts. Réservez maintenant.</p>
+      
     </div>
     <div class="book-live-tag">
       <span class="dot-live"></span>
-      <span data-i18n="en">Live scheduling</span><span data-i18n="es">Programación en vivo</span><span data-i18n="ht">Pwogram an dirèk</span><span data-i18n="fr">Réservation en direct</span>
+      <span data-i18n="en">Live scheduling</span><span data-i18n="es">Programación en vivo</span><span data-i18n="ht">Pwogram an dirèk</span>
     </div>
     <div id="calBooking" class="cal-wrap">
       <div class="cal-loading">
-        <span data-i18n="en">Loading live calendar...</span><span data-i18n="es">Cargando calendario...</span><span data-i18n="ht">Chaje kalandriye a...</span><span data-i18n="fr">Chargement du calendrier...</span>
+        <span data-i18n="en">Loading live calendar...</span><span data-i18n="es">Cargando calendario...</span><span data-i18n="ht">Chaje kalandriye a...</span>
       </div>
     </div>
   </div></section>
 
   <section class="page" id="page-contact"><div class="sec">
     <div class="sec-head">
-      <div class="eyebrow" data-i18n="en">Contact</div><div class="eyebrow" data-i18n="es">Contacto</div><div class="eyebrow" data-i18n="ht">Kontak</div><div class="eyebrow" data-i18n="fr">Contact</div>
-      <h2 data-i18n="en">Find us &amp; get in touch</h2><h2 data-i18n="es">Encuéntrenos y contáctenos</h2><h2 data-i18n="ht">Jwenn nou epi kontakte nou</h2><h2 data-i18n="fr">Nous trouver et nous joindre</h2>
+      <div class="eyebrow" data-i18n="en">Contact</div><div class="eyebrow" data-i18n="es">Contacto</div><div class="eyebrow" data-i18n="ht">Kontak</div>
+      <h2 data-i18n="en">Find us &amp; get in touch</h2><h2 data-i18n="es">Encuéntrenos y contáctenos</h2><h2 data-i18n="ht">Jwenn nou epi kontakte nou</h2>
     </div>
     <div class="contact-grid">
       <div class="contact-info">
-        <div class="ci-row"><span class="ic">📍</span><div><div class="lbl" data-i18n="en">Address</div><div class="lbl" data-i18n="es">Dirección</div><div class="lbl" data-i18n="ht">Adrès</div><div class="lbl" data-i18n="fr">Adresse</div><div class="val">4 Elmwood Avenue<br>Irvington, NJ 07111</div></div></div>
-        <div class="ci-row"><span class="ic">📞</span><div><div class="lbl" data-i18n="en">Phone</div><div class="lbl" data-i18n="es">Teléfono</div><div class="lbl" data-i18n="ht">Telefòn</div><div class="lbl" data-i18n="fr">Téléphone</div><div class="val"><a href="tel:+19733721300" style="color:var(--red)">(973) 372-1300</a></div></div></div>
+        <div class="ci-row"><span class="ic">📍</span><div><div class="lbl" data-i18n="en">Address</div><div class="lbl" data-i18n="es">Dirección</div><div class="lbl" data-i18n="ht">Adrès</div><div class="val">4 Elmwood Avenue<br>Irvington, NJ 07111</div></div></div>
+        <div class="ci-row"><span class="ic">📞</span><div><div class="lbl" data-i18n="en">Phone</div><div class="lbl" data-i18n="es">Teléfono</div><div class="lbl" data-i18n="ht">Telefòn</div><div class="val"><a href="tel:+19733721300" style="color:var(--red)">(973) 372-1300</a></div></div></div>
         <div class="ci-row"><span class="ic">📠</span><div><div class="lbl">Fax</div><div class="val">(973) 372-0303</div></div></div>
-        <div class="ci-row"><span class="ic">✉️</span><div><div class="lbl">Email</div><div class="val"><a href="mailto:support@springviewpharmacy.com" style="color:var(--red)">support@springviewpharmacy.com</a> <span class="demo-tag" data-i18n="en">mailbox pending</span><span class="demo-tag" data-i18n="es">buzón pendiente</span><span class="demo-tag" data-i18n="ht">bwat imel annatant</span><span class="demo-tag" data-i18n="fr">boîte à venir</span></div></div></div>
-        <div class="ci-row"><span class="ic">🕑</span><div style="width:100%"><div class="lbl" data-i18n="en">Hours</div><div class="lbl" data-i18n="es">Horario</div><div class="lbl" data-i18n="ht">Lè</div><div class="lbl" data-i18n="fr">Horaires</div>
+        <div class="ci-row"><span class="ic">✉️</span><div><div class="lbl">Email</div><div class="val"><a href="mailto:support@springviewpharmacy.com" style="color:var(--red)">support@springviewpharmacy.com</a> <span class="demo-tag" data-i18n="en">mailbox pending</span><span class="demo-tag" data-i18n="es">buzón pendiente</span><span class="demo-tag" data-i18n="ht">bwat imel annatant</span></div></div></div>
+        <div class="ci-row"><span class="ic">🕑</span><div style="width:100%"><div class="lbl" data-i18n="en">Hours</div><div class="lbl" data-i18n="es">Horario</div><div class="lbl" data-i18n="ht">Lè</div>
           <table class="hours-table">
-            <tr><td data-i18n="en">Mon &ndash; Fri</td><td data-i18n="es">Lun &ndash; Vie</td><td data-i18n="ht">Len &ndash; Van</td><td data-i18n="fr">Lun &ndash; Ven</td><td>9:00 &ndash; 19:00</td></tr>
-            <tr><td data-i18n="en">Saturday</td><td data-i18n="es">Sábado</td><td data-i18n="ht">Samdi</td><td data-i18n="fr">Samedi</td><td>9:00 &ndash; 17:00</td></tr>
-            <tr><td data-i18n="en">Sunday</td><td data-i18n="es">Domingo</td><td data-i18n="ht">Dimanch</td><td data-i18n="fr">Dimanche</td><td data-i18n="en">Closed</td><td data-i18n="es">Cerrado</td><td data-i18n="ht">Fèmen</td><td data-i18n="fr">Fermé</td></tr>
+            <tr><td data-i18n="en">Mon &ndash; Fri</td><td data-i18n="es">Lun &ndash; Vie</td><td data-i18n="ht">Len &ndash; Van</td><td>9:00 &ndash; 19:00</td></tr>
+            <tr><td data-i18n="en">Saturday</td><td data-i18n="es">Sábado</td><td data-i18n="ht">Samdi</td><td>9:00 &ndash; 17:00</td></tr>
+            <tr><td data-i18n="en">Sunday</td><td data-i18n="es">Domingo</td><td data-i18n="ht">Dimanch</td><td data-i18n="en">Closed</td><td data-i18n="es">Cerrado</td><td data-i18n="ht">Fèmen</td></tr>
           </table>
-          <div style="margin-top:8px"><span class="demo-tag" data-i18n="en">Hours pending owner confirmation</span><span class="demo-tag" data-i18n="es">Horario por confirmar</span><span class="demo-tag" data-i18n="ht">Lè annatant konfimasyon</span><span class="demo-tag" data-i18n="fr">Horaires à confirmer</span></div>
+          <div style="margin-top:8px"><span class="demo-tag" data-i18n="en">Hours pending owner confirmation</span><span class="demo-tag" data-i18n="es">Horario por confirmar</span><span class="demo-tag" data-i18n="ht">Lè annatant konfimasyon</span></div>
         </div></div>
       </div>
       <div class="map-embed">
@@ -1083,8 +911,8 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
   <section class="page" id="page-privacy"><div class="sec">
     <div class="sec-head">
       <div class="eyebrow">HIPAA</div>
-      <h2 data-i18n="en">Privacy &amp; HIPAA</h2><h2 data-i18n="es">Privacidad y HIPAA</h2><h2 data-i18n="ht">Konfidansyalite ak HIPAA</h2><h2 data-i18n="fr">Confidentialité et HIPAA</h2>
-      <p><span class="demo-tag" data-i18n="en">Demo text, final legal notice supplied by the pharmacy</span><span class="demo-tag" data-i18n="es">Texto demo; aviso legal final lo provee la farmacia</span><span class="demo-tag" data-i18n="ht">Tèks demo; avi legal final famasi a bay</span><span class="demo-tag" data-i18n="fr">Texte démo; l'avis légal final fourni par la pharmacie</span></p>
+      <h2 data-i18n="en">Privacy &amp; HIPAA</h2><h2 data-i18n="es">Privacidad y HIPAA</h2><h2 data-i18n="ht">Konfidansyalite ak HIPAA</h2>
+      <p><span class="demo-tag" data-i18n="en">Demo text, final legal notice supplied by the pharmacy</span><span class="demo-tag" data-i18n="es">Texto demo; aviso legal final lo provee la farmacia</span><span class="demo-tag" data-i18n="ht">Tèks demo; avi legal final famasi a bay</span></p>
     </div>
     <div class="privacy-body">
       <div data-i18n="en" class="block">
@@ -1105,12 +933,7 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
         <h3>Dwa ou</h3><ul><li>Wè epi jwenn yon kopi dosye ou</li><li>Mande nou korije enfòmasyon ou</li><li>Mande kijan yo pataje enfòmasyon ou</li><li>Jwenn yon kopi papye avi sa a</li></ul>
         <h3>Kesyon</h3><p>Rele (973) 372-1300 epi mande pou ofisye konfidansyalite a.</p>
       </div>
-      <div data-i18n="fr" class="block">
-        <p>Cette page explique, en langage simple, comment Springview Pharmacy &amp; Surgical protège vos renseignements de santé. Ceci est un texte de démonstration. L'avis officiel de pratiques de confidentialité de la pharmacie le remplacera avant le lancement.</p>
-        <h3>Vos renseignements de santé</h3><p>Nous utilisons vos renseignements uniquement pour exécuter les ordonnances, facturer l'assurance et vous soigner. Nous ne les vendons pas.</p>
-        <h3>Vos droits</h3><ul><li>Consulter et obtenir une copie de votre dossier</li><li>Demander de corriger vos renseignements</li><li>Savoir comment ils ont été partagés</li><li>Obtenir une copie papier de cet avis</li></ul>
-        <h3>Questions</h3><p>Appelez le (973) 372-1300 et demandez le responsable de la confidentialité.</p>
-      </div>
+      
     </div>
   </div></section>
 </main>
@@ -1123,7 +946,7 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
       <p data-i18n="en" class="block">Independent, family-run pharmacy serving Irvington and the surrounding community since 1995.</p>
       <p data-i18n="es" class="block">Farmacia familiar independiente al servicio de Irvington desde 1995.</p>
       <p data-i18n="ht" class="block">Famasi endepandan, fanmi, k ap sèvi Irvington depi 1995.</p>
-      <p data-i18n="fr" class="block">Pharmacie familiale indépendante au service d'Irvington depuis 1995.</p>
+      
       <div class="socials">
         <a href="https://www.facebook.com/springviewpharmacy" target="_blank" rel="noopener" title="Facebook" aria-label="Springview on Facebook">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
@@ -1140,139 +963,59 @@ body.cc-open .wa-fab,body.cc-open .wa-tip{opacity:0;pointer-events:none;transiti
       </div>
     </div>
     <div class="foot-col">
-      <h4 data-i18n="en">Services</h4><h4 data-i18n="es">Servicios</h4><h4 data-i18n="ht">Sèvis</h4><h4 data-i18n="fr">Services</h4>
-      <a href="#rx" data-i18n="en">Refill &amp; transfer</a><a href="#rx" data-i18n="es">Resurtir y transferir</a><a href="#rx" data-i18n="ht">Ranpli ak transfere</a><a href="#rx" data-i18n="fr">Renouveler et transférer</a>
-      <a href="#book" data-i18n="en">Vaccines</a><a href="#book" data-i18n="es">Vacunas</a><a href="#book" data-i18n="ht">Vaksen</a><a href="#book" data-i18n="fr">Vaccins</a>
-      <a href="#shop" data-i18n="en">Surgical &amp; DME</a><a href="#shop" data-i18n="es">Equipo médico</a><a href="#shop" data-i18n="ht">Ekipman medikal</a><a href="#shop" data-i18n="fr">Matériel médical</a>
-      <a href="#savings" data-i18n="en">Savings</a><a href="#savings" data-i18n="es">Ahorros</a><a href="#savings" data-i18n="ht">Ekonomi</a><a href="#savings" data-i18n="fr">Économies</a>
+      <h4 data-i18n="en">Services</h4><h4 data-i18n="es">Servicios</h4><h4 data-i18n="ht">Sèvis</h4>
+      <a href="#rx" data-i18n="en">Refill &amp; transfer</a><a href="#rx" data-i18n="es">Resurtir y transferir</a><a href="#rx" data-i18n="ht">Ranpli ak transfere</a>
+      <a href="#book" data-i18n="en">Vaccines</a><a href="#book" data-i18n="es">Vacunas</a><a href="#book" data-i18n="ht">Vaksen</a>
+      <a href="#shop" data-i18n="en">Surgical &amp; DME</a><a href="#shop" data-i18n="es">Equipo médico</a><a href="#shop" data-i18n="ht">Ekipman medikal</a>
+      <a href="#savings" data-i18n="en">Savings</a><a href="#savings" data-i18n="es">Ahorros</a><a href="#savings" data-i18n="ht">Ekonomi</a>
     </div>
     <div class="foot-col">
-      <h4 data-i18n="en">Visit</h4><h4 data-i18n="es">Visítenos</h4><h4 data-i18n="ht">Vizite</h4><h4 data-i18n="fr">Visitez</h4>
+      <h4 data-i18n="en">Visit</h4><h4 data-i18n="es">Visítenos</h4><h4 data-i18n="ht">Vizite</h4>
       <address>4 Elmwood Avenue<br>Irvington, NJ 07111</address>
       <a href="tel:+19733721300">(973) 372-1300</a>
       <a href="#" style="color:var(--ink-soft)">Fax (973) 372-0303</a>
-      <a href="#contact" data-i18n="en">Hours &amp; directions</a><a href="#contact" data-i18n="es">Horario</a><a href="#contact" data-i18n="ht">Lè ak direksyon</a><a href="#contact" data-i18n="fr">Horaires</a>
+      <a href="#contact" data-i18n="en">Hours &amp; directions</a><a href="#contact" data-i18n="es">Horario</a><a href="#contact" data-i18n="ht">Lè ak direksyon</a>
     </div>
     <div class="foot-col">
-      <h4 data-i18n="en">Company</h4><h4 data-i18n="es">Empresa</h4><h4 data-i18n="ht">Konpayi</h4><h4 data-i18n="fr">Entreprise</h4>
-      <a href="#story" data-i18n="en">Our story</a><a href="#story" data-i18n="es">Historia</a><a href="#story" data-i18n="ht">Istwa nou</a><a href="#story" data-i18n="fr">Notre histoire</a>
-      <a href="#health" data-i18n="en">Health Corner</a><a href="#health" data-i18n="es">Salud</a><a href="#health" data-i18n="ht">Sante</a><a href="#health" data-i18n="fr">Santé</a>
-      <a href="#privacy" data-i18n="en">Privacy &amp; HIPAA</a><a href="#privacy" data-i18n="es">Privacidad</a><a href="#privacy" data-i18n="ht">Konfidansyalite</a><a href="#privacy" data-i18n="fr">Confidentialité</a>
+      <h4 data-i18n="en">Company</h4><h4 data-i18n="es">Empresa</h4><h4 data-i18n="ht">Konpayi</h4>
+      <a href="#story" data-i18n="en">Our story</a><a href="#story" data-i18n="es">Historia</a><a href="#story" data-i18n="ht">Istwa nou</a>
+      <a href="#health" data-i18n="en">Health Corner</a><a href="#health" data-i18n="es">Salud</a><a href="#health" data-i18n="ht">Sante</a>
+      <a href="#privacy" data-i18n="en">Privacy &amp; HIPAA</a><a href="#privacy" data-i18n="es">Privacidad</a><a href="#privacy" data-i18n="ht">Konfidansyalite</a>
     </div>
   </div>
   <div class="foot-bar">
     <span>© 2026 Springview Pharmacy &amp; Surgical.
-      <span data-i18n="en">All rights reserved.</span><span data-i18n="es">Todos los derechos reservados.</span><span data-i18n="ht">Tout dwa rezève.</span><span data-i18n="fr">Tous droits réservés.</span>
+      <span data-i18n="en">All rights reserved.</span><span data-i18n="es">Todos los derechos reservados.</span><span data-i18n="ht">Tout dwa rezève.</span>
     </span>
     <span>
       <span data-i18n="en">Demo site for presentation. Some features are simulated.</span>
       <span data-i18n="es">Sitio de demostración. Algunas funciones son simuladas.</span>
       <span data-i18n="ht">Sit demo pou prezantasyon. Kèk fonksyon similye.</span>
-      <span data-i18n="fr">Site de démonstration. Certaines fonctions sont simulées.</span>
+      
     </span>
   </div>
 </footer>
-<!-- ========= CART DRAWER ========= -->
-<div class="cart-overlay" id="cartOverlay"></div>
-<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping cart">
-  <div class="cart-head">
-    <h3><span data-i18n="en">Your cart</span><span data-i18n="es">Su carrito</span><span data-i18n="ht">Panye ou</span><span data-i18n="fr">Votre panier</span></h3>
-    <button class="x" id="cartClose" aria-label="Close">&times;</button>
-  </div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-foot">
-    <div class="cart-sub"><span data-i18n="en">Subtotal</span><span data-i18n="es">Subtotal</span><span data-i18n="ht">Sou-total</span><span data-i18n="fr">Sous-total</span><span id="cartSubtotal">$0.00</span></div>
-    <div class="cart-note"><span data-i18n="en">Reserve for pickup at 4 Elmwood and pay at the counter. Over-the-counter items are pickup only; ask the pharmacy about prescription delivery.</span><span data-i18n="es">Reserve para recoger en 4 Elmwood y pague en el mostrador. Los artículos de venta libre son solo para recoger; pregunte por la entrega de recetas.</span><span data-i18n="ht">Rezève pou ranmase nan 4 Elmwood epi peye nan kontwa a. Atik san preskripsyon se pou ranmase sèlman; mande famasi a sou livrezon preskripsyon.</span><span data-i18n="fr">Réservez pour le retrait au 4 Elmwood et payez au comptoir. Les articles en vente libre sont uniquement à retirer ; renseignez-vous sur la livraison des ordonnances.</span></div>
-    <button class="cart-checkout" id="cartCheckout" disabled><span data-i18n="en">Reserve for pickup</span><span data-i18n="es">Reservar para recoger</span><span data-i18n="ht">Rezève pou ranmase</span><span data-i18n="fr">Réserver pour retrait</span></button>
-    <div class="rsv-panel" id="rsvPanel"></div>
-    <div class="checkout-honesty" id="checkoutHonesty">
-      <span data-i18n="en">Demo: no online payment. Over-the-counter items are reserved for pickup and paid at the counter. Prescription delivery is arranged through the pharmacy.</span>
-      <span data-i18n="es">Demo: sin pago en línea. Los artículos de venta libre se reservan para recoger y se pagan en el mostrador. La entrega de recetas se gestiona con la farmacia.</span>
-      <span data-i18n="ht">Demo: pa gen peman anliy. Atik san preskripsyon yo rezève pou ranmase epi peye nan kontwa a. Livrezon preskripsyon fèt atravè famasi a.</span>
-      <span data-i18n="fr">Démo : pas de paiement en ligne. Les articles en vente libre sont réservés pour le retrait et payés au comptoir. La livraison des ordonnances est organisée avec la pharmacie.</span>
-    </div>
-  </div>
-</aside>
 
 <!-- lightbox for PDP zoom -->
 <div class="lightbox" id="lightbox"><span class="lb-close">&times;</span><img id="lightboxImg" alt=""></div>
 
 <!-- GUIDED TOUR -->
-<button class="tour-launch" id="tourLaunch">✨ <span data-i18n="en">Take a tour</span><span data-i18n="es">Ver guía</span><span data-i18n="ht">Fè yon vizit</span><span data-i18n="fr">Visite guidée</span></button>
+<button class="tour-launch" id="tourLaunch">✨ <span data-i18n="en">Take a tour</span><span data-i18n="es">Ver guía</span><span data-i18n="ht">Fè yon vizit</span></button>
 <div class="tour-overlay" id="tourOverlay">
   <div class="tour-scrim" id="tourScrim"></div>
   <div class="tour-spot" id="tourSpot"></div>
   <div class="tour-card" id="tourCard">
-    <button class="t-skip" id="tourSkip">✕ <span data-i18n="en">Close</span><span data-i18n="es">Cerrar</span><span data-i18n="ht">Fèmen</span><span data-i18n="fr">Fermer</span></button>
+    <button class="t-skip" id="tourSkip">✕ <span data-i18n="en">Close</span><span data-i18n="es">Cerrar</span><span data-i18n="ht">Fèmen</span></button>
     <div class="t-step" id="tourStepLbl"></div>
     <h4 id="tourTitle"></h4>
     <p id="tourText"></p>
     <div class="t-nav">
       <div class="t-dots" id="tourDots"></div>
       <div class="t-btns">
-        <button class="t-back" id="tourBack"><span data-i18n="en">Back</span><span data-i18n="es">Atrás</span><span data-i18n="ht">Retounen</span><span data-i18n="fr">Retour</span></button>
+        <button class="t-back" id="tourBack"><span data-i18n="en">Back</span><span data-i18n="es">Atrás</span><span data-i18n="ht">Retounen</span></button>
         <button class="t-next" id="tourNext"></button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ========= WHATSAPP WIDGET ========= -->
-<a class="wa-fab" id="waFab" href="https://wa.me/19733721300" target="_blank" rel="noopener" aria-label="Chat with Springview on WhatsApp">
-  <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9 1 1-4.7-.3-.4C5.5 18.9 5 17 5 15c0-6.1 5-11 11-11s11 4.9 11 11-4.9 10.8-11 10.8zm6-8.1c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg>
-</a>
-<div class="wa-tip" id="waTip">
-  <span data-i18n="en">Message us on WhatsApp</span><span data-i18n="es">Escríbanos por WhatsApp</span><span data-i18n="ht">Ekri nou sou WhatsApp</span><span data-i18n="fr">Écrivez-nous sur WhatsApp</span>
-</div>
-
-<!-- ========= GALAXY CONCIERGE WIDGET ========= -->
-<button class="cc-fab" id="ccFab" title="Ask Galaxy" aria-label="Open Galaxy assistant chat">
-  <span class="chat-i"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="url(#gxg)"/><path d="M8 16c3-5 13-5 16 0-3 5-13 5-16 0z" stroke="rgba(255,255,255,.55)" stroke-width="1.1" fill="none"/><circle cx="16" cy="16" r="2.4" fill="#fff"/><circle cx="10" cy="11" r="1" fill="#fff"/><circle cx="23" cy="20" r="1.1" fill="#fff"/><circle cx="21" cy="10" r=".7" fill="#fff" opacity=".8"/><circle cx="11" cy="21" r=".7" fill="#fff" opacity=".8"/><defs><radialGradient id="gxg" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#4a2f7a"/><stop offset="1" stop-color="#0d0820"/></radialGradient></defs></svg></span><span class="close-x">✕</span>
-</button>
-<div class="cc-panel" id="ccPanel" role="dialog" aria-label="Galaxy, Springview AI assistant">
-  <div class="cc-head">
-    <div class="av" aria-hidden="true"></div>
-    <div>
-      <div class="t">Galaxy</div>
-      <div class="s"><span class="d"></span>
-        <span data-i18n="en">Online &middot; Springview AI assistant</span><span data-i18n="es">En línea &middot; asistente IA de Springview</span><span data-i18n="ht">An liy &middot; asistan AI Springview</span><span data-i18n="fr">En ligne &middot; assistant IA de Springview</span>
-      </div>
-    </div>
-  </div>
-  <div class="cc-body" id="ccBody"></div>
-  <div class="cc-quick" id="ccQuick">
-    <button data-flow="refill">
-      <span data-i18n="en">I need a refill</span><span data-i18n="es">Necesito un resurtido</span><span data-i18n="ht">Mwen bezwen yon ranpli</span><span data-i18n="fr">J'ai besoin d'un renouvellement</span>
-    </button>
-    <button data-flow="transfer">
-      <span data-i18n="en">Transfer my prescription</span><span data-i18n="es">Transferir mi receta</span><span data-i18n="ht">Transfere preskripsyon mwen</span><span data-i18n="fr">Transférer mon ordonnance</span>
-    </button>
-    <button data-flow="vaccine">
-      <span data-i18n="en">Book a vaccine</span><span data-i18n="es">Reservar vacuna</span><span data-i18n="ht">Rezève yon vaksen</span><span data-i18n="fr">Réserver un vaccin</span>
-    </button>
-    <button data-flow="dme">
-      <span data-i18n="en">Surgical &amp; equipment (DME)</span><span data-i18n="es">Equipo médico (DME)</span><span data-i18n="ht">Ekipman medikal (DME)</span><span data-i18n="fr">Matériel médical (DME)</span>
-    </button>
-    <button data-flow="pharmacist">
-      <span data-i18n="en">Question for the pharmacist</span><span data-i18n="es">Pregunta para el farmacéutico</span><span data-i18n="ht">Kesyon pou famasyen an</span><span data-i18n="fr">Question pour le pharmacien</span>
-    </button>
-    <button data-q-en="What are your hours and address?" data-q-es="¿Cuál es su horario y dirección?" data-q-ht="Ki lè ak adrès nou?" data-q-fr="Quels sont vos horaires et adresse ?">
-      <span data-i18n="en">Office hours</span><span data-i18n="es">Horario</span><span data-i18n="ht">Lè biwo</span><span data-i18n="fr">Horaires</span>
-    </button>
-    <button data-q-en="Tell me about prescription savings and discount cards." data-q-es="Cuénteme sobre ahorros y tarjetas de descuento." data-q-ht="Pale m sou ekonomi ak kat rabè yo." data-q-fr="Parlez-moi des économies et cartes de réduction.">
-      <span data-i18n="en">Savings &amp; discounts</span><span data-i18n="es">Ahorros y descuentos</span><span data-i18n="ht">Ekonomi ak rabè</span><span data-i18n="fr">Économies et réductions</span>
-    </button>
-  </div>
-  <div class="cc-foot">
-    <input type="text" id="ccInput" autocomplete="off"
-      data-ph-en="Type your question..." data-ph-es="Escriba su pregunta..." data-ph-ht="Tape kesyon ou..." data-ph-fr="Posez votre question...">
-    <button id="ccSend" aria-label="Send">➤</button>
-  </div>
-  <div class="cc-disclaimer">
-    <span data-i18n="en">For medical questions, our pharmacist will help: (973) 372-1300.</span>
-    <span data-i18n="es">Para preguntas médicas, el farmacéutico le ayudará: (973) 372-1300.</span>
-    <span data-i18n="ht">Pou kesyon medikal, famasyen an ap ede ou: (973) 372-1300.</span>
-    <span data-i18n="fr">Pour les questions médicales, le pharmacien vous aidera: (973) 372-1300.</span>
   </div>
 </div>
 
@@ -1298,335 +1041,6 @@ function checkCalRoute(){
 window.addEventListener('hashchange', checkCalRoute);
 window.addEventListener('DOMContentLoaded', checkCalRoute);
 
-/* ============ CONCIERGE ============ */
-var CC = { history:[], busy:false, greeted:false };
-var CC_GREET = {
-  en:"Hi, I'm Galaxy, the Springview assistant. I can help with refills, transfers, hours, booking, and finding what you need. For medical questions, I'll point you to our pharmacist. How can I help?",
-  es:"Hola, soy Galaxy, el asistente de Springview. Puedo ayudar con resurtidos, transferencias, horarios, reservas y a encontrar lo que necesita. Para preguntas médicas, le dirijo a nuestro farmacéutico. ¿Cómo puedo ayudar?",
-  ht:"Bonjou, mwen se Galaxy, asistan Springview la. Mwen ka ede ak ranpli, transfè, lè, rezèvasyon, ak jwenn sa ou bezwen. Pou kesyon medikal, m ap voye ou bò kote famasyen an. Kijan m ka ede?",
-  fr:"Bonjour, je suis Galaxy, l'assistant de Springview. Je peux aider pour les renouvellements, transferts, horaires, réservations et trouver ce qu'il vous faut. Pour les questions médicales, je vous oriente vers notre pharmacien. Comment puis-je aider ?"
-};
-function ccLang(){ return SV.lang || 'en'; }
-function ccAddMsg(text, who){
-  var b=document.getElementById('ccBody');
-  var d=document.createElement('div');
-  d.className='cc-msg '+who;
-  d.textContent=text;
-  b.appendChild(d); b.scrollTop=b.scrollHeight;
-  return d;
-}
-function ccTyping(on){
-  var b=document.getElementById('ccBody');
-  var ex=document.getElementById('ccTyping');
-  if(on){ if(ex) return; var d=document.createElement('div'); d.className='cc-typing'; d.id='ccTyping'; d.innerHTML='<span></span><span></span><span></span>'; b.appendChild(d); b.scrollTop=b.scrollHeight; }
-  else if(ex){ ex.remove(); }
-}
-function ccOpen(){
-  document.getElementById('ccPanel').classList.add('open');
-  document.getElementById('ccFab').classList.add('open');
-  document.body.classList.add('cc-open');
-  if(!CC.greeted){ CC.greeted=true; ccAddMsg(CC_GREET[ccLang()], 'bot'); }
-  setTimeout(function(){ document.getElementById('ccInput').focus(); }, 100);
-}
-function ccClose(){
-  document.getElementById('ccPanel').classList.remove('open');
-  document.getElementById('ccFab').classList.remove('open');
-  document.body.classList.remove('cc-open');
-}
-document.getElementById('ccFab').addEventListener('click', function(){
-  var open=document.getElementById('ccPanel').classList.contains('open');
-  if(open) ccClose(); else ccOpen();
-});
-
-async function ccSend(text){
-  if(CC.busy) return;
-  text=(text||'').trim(); if(!text) return;
-  ccAddMsg(text,'user');
-  CC.history.push({role:'user', content:text});
-  document.getElementById('ccInput').value='';
-  CC.busy=true; document.getElementById('ccSend').disabled=true;
-  ccTyping(true);
-  try{
-    var r=await fetch('/api/concierge', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ messages:CC.history, lang:ccLang() })
-    });
-    var data=await r.json();
-    ccTyping(false);
-    if(data.reply){
-      ccAddMsg(data.reply,'bot');
-      CC.history.push({role:'assistant', content:data.reply});
-    } else {
-      ccAddMsg(data.error || 'Sorry, please call (973) 372-1300.', 'bot');
-    }
-  }catch(e){
-    ccTyping(false);
-    ccAddMsg('I could not reach the assistant. Please call (973) 372-1300.', 'bot');
-  }
-  CC.busy=false; document.getElementById('ccSend').disabled=false;
-  document.getElementById('ccInput').focus();
-}
-document.getElementById('ccSend').addEventListener('click', function(){ ccSend(document.getElementById('ccInput').value); });
-document.getElementById('ccInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ ccSend(this.value); } });
-document.getElementById('ccQuick').addEventListener('click', function(e){
-  var btn=e.target.closest('button'); if(!btn) return;
-  var flow=btn.getAttribute('data-flow');
-  if(flow){ ccStartIntake(flow); return; }
-  var q=btn.getAttribute('data-q-'+ccLang()) || btn.getAttribute('data-q-en');
-  ccSend(q);
-});
-
-/* ================= GALAXY GUIDED INTAKE ENGINE =================
-   Deterministic, offline-safe intake so Galaxy can qualify a visitor and
-   prepare a clear handoff brief for the pharmacist. It never gives medical
-   advice: clinical questions are captured verbatim and routed, not answered.
-   It never asks for DOB / SSN / full insurance IDs; the pharmacy verifies
-   identity directly. Real submission is a Phase 2 feature and is labeled. */
-var CC_INTAKE = null; // active session
-
-/* tiny i18n helper for intake strings */
-function ccT(o){ return o[ccLang()] || o.en; }
-
-/* field kinds: 'text', 'tel', 'textarea', 'choice' (options) */
-var CC_FLOWS = {
-  refill: {
-    title:{en:"Prescription refill",es:"Resurtido de receta",ht:"Ranpli preskripsyon",fr:"Renouvellement d'ordonnance"},
-    intro:{en:"Happy to get a refill started. A few quick questions so the pharmacist has what they need. This does not fill it, the team confirms everything with you.",
-           es:"Con gusto inicio el resurtido. Unas preguntas rápidas para que el farmacéutico tenga lo necesario. Esto no lo surte; el equipo confirma todo con usted.",
-           ht:"Avèk plezi m ap kòmanse ranpli a. Kèk kesyon rapid pou famasyen an gen sa li bezwen. Sa pa ranpli l; ekip la ap konfime tout bagay avèk ou.",
-           fr:"Avec plaisir, commençons le renouvellement. Quelques questions pour que le pharmacien ait le nécessaire. Ceci ne le délivre pas; l'équipe confirme tout avec vous."},
-    fields:[
-      {id:"name",kind:"text",q:{en:"What name is the prescription under?",es:"¿A nombre de quién está la receta?",ht:"Sou ki non preskripsyon an ye?",fr:"À quel nom est l'ordonnance ?"}},
-      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
-      {id:"rx",kind:"text",optional:true,q:{en:"Prescription number, if you have it? (Or the medication name.)",es:"¿Número de receta, si lo tiene? (O el nombre del medicamento.)",ht:"Nimewo preskripsyon an, si ou genyen l? (Oswa non medikaman an.)",fr:"Numéro d'ordonnance, si vous l'avez ? (Ou le nom du médicament.)"}},
-      {id:"fulfil",kind:"choice",q:{en:"Pickup or delivery?",es:"¿Recoger o entrega?",ht:"Ranmase oswa livrezon?",fr:"Retrait ou livraison ?"},
-        options:[{v:"Pickup",l:{en:"Pickup",es:"Recoger",ht:"Ranmase",fr:"Retrait"}},{v:"Delivery",l:{en:"Delivery",es:"Entrega",ht:"Livrezon",fr:"Livraison"}}]},
-      {id:"when",kind:"choice",optional:true,q:{en:"Best time for the team to reach you?",es:"¿Mejor hora para contactarle?",ht:"Ki pi bon lè pou ekip la rele ou?",fr:"Meilleur moment pour vous joindre ?"},
-        options:[{v:"Morning",l:{en:"Morning",es:"Mañana",ht:"Maten",fr:"Matin"}},{v:"Afternoon",l:{en:"Afternoon",es:"Tarde",ht:"Apremidi",fr:"Après-midi"}},{v:"Evening",l:{en:"Evening",es:"Noche",ht:"Aswè",fr:"Soir"}},{v:"Any time",l:{en:"Any time",es:"Cualquiera",ht:"Nenpòt lè",fr:"N'importe quand"}}]},
-      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else the pharmacist should know? (No medical advice given here.)",es:"¿Algo más que deba saber el farmacéutico? (Aquí no se da consejo médico.)",ht:"Gen lòt bagay famasyen an ta dwe konnen? (Pa gen konsèy medikal isit la.)",fr:"Autre chose à savoir pour le pharmacien ? (Aucun conseil médical ici.)"}}
-    ]
-  },
-  transfer: {
-    title:{en:"Prescription transfer",es:"Transferencia de receta",ht:"Transfè preskripsyon",fr:"Transfert d'ordonnance"},
-    intro:{en:"We can bring your prescription over from another pharmacy. A few details for the team.",
-           es:"Podemos traer su receta desde otra farmacia. Unos datos para el equipo.",
-           ht:"Nou ka pote preskripsyon ou soti nan yon lòt famasi. Kèk detay pou ekip la.",
-           fr:"Nous pouvons transférer votre ordonnance depuis une autre pharmacie. Quelques détails pour l'équipe."},
-    fields:[
-      {id:"name",kind:"text",q:{en:"Your full name?",es:"¿Su nombre completo?",ht:"Non konplè ou?",fr:"Votre nom complet ?"}},
-      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
-      {id:"frompharm",kind:"text",q:{en:"Which pharmacy is it coming from? (Name, and town or phone.)",es:"¿De qué farmacia viene? (Nombre, y ciudad o teléfono.)",ht:"Nan ki famasi l ap soti? (Non, ak vil oswa telefòn.)",fr:"De quelle pharmacie provient-elle ? (Nom, et ville ou téléphone.)"}},
-      {id:"meds",kind:"text",q:{en:"Which medication(s) should we transfer?",es:"¿Qué medicamento(s) transferimos?",ht:"Ki medikaman pou nou transfere?",fr:"Quel(s) médicament(s) transférer ?"}},
-      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else for the team?",es:"¿Algo más para el equipo?",ht:"Gen lòt bagay pou ekip la?",fr:"Autre chose pour l'équipe ?"}}
-    ]
-  },
-  vaccine: {
-    title:{en:"Vaccine appointment",es:"Cita de vacuna",ht:"Randevou vaksen",fr:"Rendez-vous vaccin"},
-    intro:{en:"Great. I can note your interest and point you to live booking. A few details first.",
-           es:"Perfecto. Anoto su interés y le muestro la reserva en vivo. Primero unos datos.",
-           ht:"Bon. M ap note enterè ou epi montre ou rezèvasyon an dirèk. Kèk detay anvan.",
-           fr:"Parfait. Je note votre intérêt et vous montre la réservation en direct. Quelques détails d'abord."},
-    fields:[
-      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
-      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
-      {id:"vtype",kind:"choice",q:{en:"Which vaccine are you interested in?",es:"¿Qué vacuna le interesa?",ht:"Ki vaksen ou enterese?",fr:"Quel vaccin vous intéresse ?"},
-        options:[{v:"Flu",l:{en:"Flu",es:"Gripe",ht:"Grip",fr:"Grippe"}},{v:"COVID-19",l:{en:"COVID-19",es:"COVID-19",ht:"COVID-19",fr:"COVID-19"}},{v:"Shingles",l:{en:"Shingles",es:"Herpes zóster",ht:"Zona",fr:"Zona"}},{v:"Pneumonia",l:{en:"Pneumonia",es:"Neumonía",ht:"Nemoni",fr:"Pneumonie"}},{v:"Not sure",l:{en:"Not sure yet",es:"Aún no sé",ht:"Poko sèten",fr:"Pas encore sûr"}}]},
-      {id:"notes",kind:"textarea",optional:true,q:{en:"Any scheduling notes? (The pharmacist reviews eligibility, this is not medical advice.)",es:"¿Notas de horario? (El farmacéutico revisa elegibilidad, esto no es consejo médico.)",ht:"Nòt sou orè? (Famasyen an tcheke kalifikasyon, sa se pa konsèy medikal.)",fr:"Notes d'horaire ? (Le pharmacien vérifie l'éligibilité, ceci n'est pas un avis médical.)"}}
-    ]
-  },
-  dme: {
-    title:{en:"Surgical & medical equipment",es:"Equipo médico",ht:"Ekipman medikal",fr:"Matériel médical"},
-    intro:{en:"The \"& Surgical\" side is our specialty. Tell me what you need and the team will help fit it right.",
-           es:"El lado \"& Surgical\" es nuestra especialidad. Dígame qué necesita y el equipo le ayudará.",
-           ht:"Bò \"& Surgical\" la se espesyalite nou. Di m sa ou bezwen epi ekip la ap ede ou.",
-           fr:"Le côté \"& Surgical\" est notre spécialité. Dites-moi ce qu'il vous faut et l'équipe vous aidera."},
-    fields:[
-      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
-      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
-      {id:"item",kind:"text",q:{en:"What item or need? (e.g. knee brace, walker, compression, wound care)",es:"¿Qué artículo o necesidad? (rodillera, andador, compresión, cuidado de heridas)",ht:"Ki atik oswa bezwen? (jenouyè, machwa, konpresyon, swen blesi)",fr:"Quel article ou besoin ? (genouillère, déambulateur, compression, soin des plaies)"}},
-      {id:"insurance",kind:"choice",optional:true,q:{en:"Might insurance or Medicare be involved?",es:"¿Podría intervenir seguro o Medicare?",ht:"Èske asirans oswa Medicare ka enplike?",fr:"Assurance ou Medicare concernés ?"},
-        options:[{v:"Yes",l:{en:"Yes",es:"Sí",ht:"Wi",fr:"Oui"}},{v:"No",l:{en:"No / paying out of pocket",es:"No / pago propio",ht:"Non / peye tèt mwen",fr:"Non / paiement direct"}},{v:"Not sure",l:{en:"Not sure",es:"No estoy seguro",ht:"Pa sèten",fr:"Pas sûr"}}]},
-      {id:"notes",kind:"textarea",optional:true,q:{en:"Anything else? (Do not include a diagnosis; the pharmacist will discuss specifics.)",es:"¿Algo más? (Sin diagnóstico; el farmacéutico verá los detalles.)",ht:"Lòt bagay? (Pa mete yon dyagnostik; famasyen an ap wè detay yo.)",fr:"Autre chose ? (Sans diagnostic; le pharmacien verra les détails.)"}}
-    ]
-  },
-  pharmacist: {
-    title:{en:"Question for the pharmacist",es:"Pregunta para el farmacéutico",ht:"Kesyon pou famasyen an",fr:"Question pour le pharmacien"},
-    intro:{en:"I am not a pharmacist, so I will not answer clinical questions, but I will capture yours exactly and make sure a pharmacist calls you prepared. For anything urgent, call (973) 372-1300.",
-           es:"No soy farmacéutico, así que no responderé preguntas clínicas, pero anotaré la suya tal cual y un farmacéutico le llamará preparado. Si es urgente, llame al (973) 372-1300.",
-           ht:"Mwen se pa yon famasyen, donk mwen p ap reponn kesyon klinik, men m ap kenbe pa ou a jan l ye epi yon famasyen ap rele ou pare. Pou ijans, rele (973) 372-1300.",
-           fr:"Je ne suis pas pharmacien, je ne répondrai donc pas aux questions cliniques, mais je noterai la vôtre telle quelle et un pharmacien vous rappellera préparé. En cas d'urgence, appelez le (973) 372-1300."},
-    fields:[
-      {id:"name",kind:"text",q:{en:"Your name?",es:"¿Su nombre?",ht:"Non ou?",fr:"Votre nom ?"}},
-      {id:"phone",kind:"tel",q:{en:"Best callback number?",es:"¿Mejor número para llamarle?",ht:"Ki pi bon nimewo pou rele ou?",fr:"Meilleur numéro pour vous rappeler ?"}},
-      {id:"lang",kind:"choice",optional:true,q:{en:"Preferred language for the callback?",es:"¿Idioma preferido para la llamada?",ht:"Ki lang ou pi renmen pou apèl la?",fr:"Langue préférée pour le rappel ?"},
-        options:[{v:"English",l:{en:"English",es:"Inglés",ht:"Angle",fr:"Anglais"}},{v:"Spanish",l:{en:"Spanish",es:"Español",ht:"Panyòl",fr:"Espagnol"}},{v:"Haitian Creole",l:{en:"Haitian Creole",es:"Criollo haitiano",ht:"Kreyòl",fr:"Créole haïtien"}},{v:"French",l:{en:"French",es:"Francés",ht:"Franse",fr:"Français"}}]},
-      {id:"question",kind:"textarea",q:{en:"What is your question? I will pass it word for word to the pharmacist.",es:"¿Cuál es su pregunta? La paso palabra por palabra al farmacéutico.",ht:"Ki kesyon ou? M ap pase l mo pa mo bay famasyen an.",fr:"Quelle est votre question ? Je la transmets mot pour mot au pharmacien."}}
-    ]
-  }
-};
-
-var CC_UI = {
-  optional:{en:"Optional",es:"Opcional",ht:"Opsyonèl",fr:"Facultatif"},
-  skip:{en:"Skip",es:"Omitir",ht:"Sote",fr:"Passer"},
-  next:{en:"Next",es:"Siguiente",ht:"Kontinye",fr:"Suivant"},
-  send:{en:"Send to pharmacy",es:"Enviar a la farmacia",ht:"Voye bay famasi a",fr:"Envoyer à la pharmacie"},
-  cancel:{en:"Cancel",es:"Cancelar",ht:"Anile",fr:"Annuler"},
-  step:{en:"Step",es:"Paso",ht:"Etap",fr:"Étape"},
-  of:{en:"of",es:"de",ht:"nan",fr:"sur"},
-  summaryHead:{en:"For the pharmacy team",es:"Para el equipo de la farmacia",ht:"Pou ekip famasi a",fr:"Pour l'équipe de la pharmacie"},
-  notProvided:{en:"not provided",es:"no indicado",ht:"pa bay",fr:"non fourni"},
-  reqIntro:{en:"Request",es:"Solicitud",ht:"Demann",fr:"Demande"},
-  demoNote:{en:"Demo: this prepares the handoff but does not transmit yet. Live secure submission is a Phase 2 feature. For anything time sensitive, call (973) 372-1300.",
-            es:"Demo: prepara el traspaso pero aún no lo transmite. El envío seguro en vivo es una función de Fase 2. Si es urgente, llame al (973) 372-1300.",
-            ht:"Demo: sa prepare transfè a men li poko voye l. Voye an sekirite an dirèk se yon fonksyon Faz 2. Pou ijans, rele (973) 372-1300.",
-            fr:"Démo: ceci prépare le transfert mais ne l'envoie pas encore. L'envoi sécurisé en direct est une fonction de Phase 2. En cas d'urgence, appelez le (973) 372-1300."},
-  sentMsg:{en:"Thank you. Your details are ready for the pharmacy team, and a pharmacist will follow up. Anything else I can help with?",
-           es:"Gracias. Sus datos están listos para el equipo, y un farmacéutico le contactará. ¿Algo más en que pueda ayudar?",
-           ht:"Mèsi. Detay ou yo pare pou ekip la, epi yon famasyen ap swiv. Gen lòt bagay m ka ede?",
-           fr:"Merci. Vos informations sont prêtes pour l'équipe, et un pharmacien vous recontactera. Puis-je aider avec autre chose ?"},
-  fieldLabels:{name:{en:"Name",es:"Nombre",ht:"Non",fr:"Nom"},phone:{en:"Callback",es:"Teléfono",ht:"Telefòn",fr:"Rappel"},
-    rx:{en:"Rx # / medication",es:"Receta / medicamento",ht:"Rx / medikaman",fr:"Ordonnance / médicament"},
-    fulfil:{en:"Pickup / delivery",es:"Recoger / entrega",ht:"Ranmase / livrezon",fr:"Retrait / livraison"},
-    when:{en:"Best time",es:"Mejor hora",ht:"Pi bon lè",fr:"Meilleur moment"},
-    frompharm:{en:"Transfer from",es:"Transferir de",ht:"Transfere soti",fr:"Transfert depuis"},
-    meds:{en:"Medication(s)",es:"Medicamento(s)",ht:"Medikaman",fr:"Médicament(s)"},
-    vtype:{en:"Vaccine",es:"Vacuna",ht:"Vaksen",fr:"Vaccin"},
-    item:{en:"Item / need",es:"Artículo / necesidad",ht:"Atik / bezwen",fr:"Article / besoin"},
-    insurance:{en:"Insurance",es:"Seguro",ht:"Asirans",fr:"Assurance"},
-    lang:{en:"Callback language",es:"Idioma de llamada",ht:"Lang apèl",fr:"Langue du rappel"},
-    question:{en:"Question",es:"Pregunta",ht:"Kesyon",fr:"Question"},
-    notes:{en:"Notes",es:"Notas",ht:"Nòt",fr:"Notes"}}
-};
-
-function ccStartIntake(flowKey){
-  var flow=CC_FLOWS[flowKey]; if(!flow) return;
-  if(!CC.greeted){ CC.greeted=true; ccAddMsg(CC_GREET[ccLang()],'bot'); }
-  CC_INTAKE={key:flowKey,flow:flow,step:0,data:{}};
-  document.getElementById('ccQuick').classList.add('hide'); // hide chips during a flow
-  ccAddMsg(ccT(flow.title),'user');
-  ccAddMsg(ccT(flow.intro),'bot');
-  ccRenderStep();
-}
-
-function ccRenderStep(){
-  var s=CC_INTAKE, f=s.flow.fields[s.step];
-  if(!f){ ccRenderSummary(); return; }
-  var body=document.getElementById('ccBody');
-  var wrap=document.createElement('div'); wrap.className='cc-form'; wrap.id='ccForm';
-  var total=s.flow.fields.length;
-  var prog='<div class="cc-progress">'+ccT(CC_UI.step)+' '+(s.step+1)+' '+ccT(CC_UI.of)+' '+total+(f.optional?' \u00b7 '+ccT(CC_UI.optional):'')+'</div>';
-  var qhtml='<div class="q">'+ccT(f.q)+'</div>';
-  var control='';
-  if(f.kind==='choice'){
-    control='<div class="cc-opts" id="ccOpts">'+f.options.map(function(o){return '<button type="button" class="cc-opt" data-v="'+o.v.replace(/"/g,'&quot;')+'">'+ccT(o.l)+'</button>';}).join('')+'</div>';
-  } else if(f.kind==='textarea'){
-    control='<textarea class="cc-fi" id="ccFi" rows="2"></textarea>';
-  } else {
-    control='<input class="cc-fi" id="ccFi" type="'+(f.kind==='tel'?'tel':'text')+'" autocomplete="'+(f.kind==='tel'?'tel':(f.id==='name'?'name':'off'))+'">';
-  }
-  var actions='<div class="cc-form-actions">'+
-    (f.optional?'<button type="button" class="cc-fbtn ghost" id="ccSkip">'+ccT(CC_UI.skip)+'</button>':'')+
-    (f.kind!=='choice'?'<button type="button" class="cc-fbtn primary" id="ccNext">'+ccT(CC_UI.next)+'</button>':'')+
-    '</div>';
-  wrap.innerHTML=prog+qhtml+control+actions;
-  body.appendChild(wrap); body.scrollTop=body.scrollHeight;
-
-  var fi=document.getElementById('ccFi');
-  if(fi) setTimeout(function(){ fi.focus(); },60);
-  function advance(val){
-    s.data[f.id]=(val==null?'':val);
-    wrap.remove();
-    // echo the answer as a user bubble for a natural transcript (skip empty optional)
-    if(val!=null && String(val).trim()!=='') ccAddMsg(String(val),'user');
-    s.step++;
-    ccRenderStep();
-  }
-  var nextBtn=document.getElementById('ccNext');
-  if(nextBtn) nextBtn.addEventListener('click',function(){ var v=fi?fi.value.trim():''; if(!v && !f.optional){ fi.focus(); fi.style.borderColor='var(--red)'; return; } advance(v); });
-  var skipBtn=document.getElementById('ccSkip');
-  if(skipBtn) skipBtn.addEventListener('click',function(){ advance(''); });
-  if(fi) fi.addEventListener('keydown',function(e){ if(e.key==='Enter' && f.kind!=='textarea'){ e.preventDefault(); if(nextBtn) nextBtn.click(); } });
-  var opts=document.getElementById('ccOpts');
-  if(opts) opts.addEventListener('click',function(e){ var b=e.target.closest('.cc-opt'); if(!b) return; advance(b.getAttribute('data-v')); });
-}
-
-function ccRenderSummary(){
-  var s=CC_INTAKE, body=document.getElementById('ccBody');
-  var card=document.createElement('div'); card.className='cc-summary';
-  var lines='';
-  s.flow.fields.forEach(function(f){
-    var lbl=ccT(CC_UI.fieldLabels[f.id]||{en:f.id});
-    var val=s.data[f.id]; if(val==null||String(val).trim()==='') val='('+ccT(CC_UI.notProvided)+')';
-    lines+='<div class="cc-sline"><span class="k">'+lbl+'</span><span class="v">'+String(val).replace(/</g,'&lt;')+'</span></div>';
-  });
-  var reqLine='<div class="cc-sline"><span class="k">'+ccT(CC_UI.reqIntro)+'</span><span class="v">'+ccT(s.flow.title)+'</span></div>';
-  card.innerHTML=
-    '<div class="sh">\u2605 '+ccT(CC_UI.summaryHead)+'</div>'+
-    '<div class="sb">'+reqLine+lines+'</div>'+
-    '<div class="sf">'+
-      '<button type="button" class="cc-fbtn primary" id="ccIntakeSend">'+ccT(CC_UI.send)+'</button>'+
-      (s.key==='vaccine'?'<a href="#book" class="cc-fbtn ghost" id="ccGoBook">'+({en:"Open live booking",es:"Abrir reserva",ht:"Ouvri rezèvasyon",fr:"Ouvrir la réservation"}[ccLang()]||"Open live booking")+'</a>':'')+
-    '</div>'+
-    '<div class="sf"><div class="cc-demo-tag">'+ccT(CC_UI.demoNote)+'</div></div>';
-  body.appendChild(card); body.scrollTop=body.scrollHeight;
-
-  document.getElementById('ccIntakeSend').addEventListener('click',function(){
-    this.disabled=true; this.textContent='\u2713';
-    // Demo only: build the brief and store it locally. No transmission happens.
-    // Phase 2 wires this to a real backend (Google Sheet or pharmacy email).
-    var brief=ccBuildBrief(s);
-    try{ console.log('[Springview intake demo, not transmitted]\n'+brief); }catch(e){}
-    // Persist a structured record to a shared local list the admin console can read.
-    // localStorage (not sessionStorage) so the staff console, in another tab on the
-    // same browser, can display it during a demo. This is a local demo mirror only,
-    // never a real or HIPAA-safe store.
-    try{
-      var rec={ id:'in_'+Date.now(), ts:Date.now(), type:s.key, title:ccT(s.flow.title),
-                lang:ccLang(), fields:[] };
-      s.flow.fields.forEach(function(f){
-        var lbl=ccEnLabel(f.id);
-        var val=s.data[f.id]; if(val==null||String(val).trim()==='') val='(not provided)';
-        rec.fields.push({ k:lbl, v:String(val) });
-      });
-      var list=[]; try{ list=JSON.parse(localStorage.getItem('sv-intakes')||'[]'); }catch(e){ list=[]; }
-      list.unshift(rec); if(list.length>50) list=list.slice(0,50);
-      localStorage.setItem('sv-intakes', JSON.stringify(list));
-      sessionStorage.setItem('sv-last-intake', brief);
-    }catch(e){}
-    ccAddMsg(ccT(CC_UI.sentMsg),'bot');
-    document.getElementById('ccQuick').classList.remove('hide');
-    CC_INTAKE=null;
-  });
-  var book=document.getElementById('ccGoBook');
-  if(book) book.addEventListener('click',function(){ ccClose(); });
-}
-
-/* English (staff-facing) field label for the admin console, independent of site language */
-function ccEnLabel(id){ var o=CC_UI.fieldLabels[id]; return o? o.en : id; }
-
-function ccBuildBrief(s){
-  var out='SPRINGVIEW INTAKE, '+ccT(s.flow.title)+'\n';
-  out+='Site language: '+ccLang().toUpperCase()+'\n';
-  out+=new Date().toLocaleString()+'\n---\n';
-  s.flow.fields.forEach(function(f){
-    var lbl=ccT(CC_UI.fieldLabels[f.id]||{en:f.id});
-    var val=s.data[f.id]; if(val==null||String(val).trim()==='') val=ccT(CC_UI.notProvided);
-    out+=lbl+': '+val+'\n';
-  });
-  return out;
-}
-
-
-
-/* localized placeholder for concierge input */
-function ccSyncLang(){
-  var inp=document.getElementById('ccInput');
-  if(inp){ inp.placeholder = inp.getAttribute('data-ph-'+ccLang()) || inp.getAttribute('data-ph-en'); }
-}
-/* keep concierge placeholder in sync when language cycles: observe the data-lang attribute */
-var _langObserver = new MutationObserver(function(){ ccSyncLang(); });
-_langObserver.observe(document.documentElement, { attributes:true, attributeFilter:['data-lang'] });
-window.addEventListener('DOMContentLoaded', ccSyncLang);
 </script>
 
 </div><!-- /site -->
@@ -1637,7 +1051,7 @@ var SV = {
   lang: document.documentElement.getAttribute('data-lang') || null,
   theme: document.documentElement.getAttribute('data-theme') || 'light'
 };
-var LANG_LABEL = {en:'EN',es:'ES',ht:'HT',fr:'FR'};
+var LANG_LABEL = {en:'EN',es:'ES',ht:'HT'};
 
 /* ============ LANGUAGE ============ */
 function setLang(l){
@@ -1655,7 +1069,7 @@ document.querySelectorAll('[data-set-lang]').forEach(function(b){
 });
 /* cycle language from header */
 document.getElementById('langMini').addEventListener('click', function(){
-  var order=['en','es','ht','fr']; var i=order.indexOf(SV.lang); setLang(order[(i+1)%4]);
+  var order=['en','es','ht']; var i=order.indexOf(SV.lang); setLang(order[(i+1)%3]);
 });
 
 /* ============ GATE + INTRO ============ */
